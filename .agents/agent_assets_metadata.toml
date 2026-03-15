@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "x3Pe9W0sD7y3FwxzCGZc_"
+uri = "file://spring-ui-deep-research.md"
+type = "text"
+title = "Spring UI Deep Research & Migration Guide"
+
+[[outputs]]
+id = "Gmq0lrK-i4ZYOhYAXc0Jl"
+uri = "file://spring-ui-installation-guide.md"
+type = "text"
+title = "Spring UI Installation Guide"
