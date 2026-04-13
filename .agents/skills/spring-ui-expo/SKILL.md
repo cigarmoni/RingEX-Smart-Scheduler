@@ -412,3 +412,18 @@ Before writing code, identify whether any reference below applies to the task. I
 - mobile-ui skill's `references/keyboard.md` - Use this reference when implementing any keyboard handling — forms with multiple inputs, chat/messaging UIs, FlatList with inputs, or keyboard utilities (dismiss, detect visibility).
 - mobile-ui skill's `references/sheets.md` - Use this reference when implementing modals, sheets, formSheet presentations, auth flows (login/register), wizards, or overlay UI.
 - mobile-ui skill's `references/tabs.md` - Use this reference when implementing tab bars — covers NativeTabs with liquid glass support (SDK 54+) and classic Tabs fallback with detailed code examples.
+
+## Content Rules (MANDATORY for all UI text)
+All visible text in any mobile screen MUST follow the RingCentral Content Companion rules (`.agents/skills/rc-content-companion/SKILL.md`). This applies to every label, button, heading, description, error message, empty state, tooltip, and placeholder.
+### Quick Reference
+- **Be brief**: "To share your screen, ask the host" — cut "in order to", "due to the fact that"
+- **Plain language**: "Turn on" not "Enable", "Sign in" not "Log in", "Go to" not "Navigate", "Use" not "Utilize"
+- **Contractions always**: "don't", "can't", "won't", "it's", "you'll", "doesn't"
+- **Be positive**: "Free up some space to save this" not "You don't have enough space"
+- **Active voice**: "The host muted you" not "You have been muted by the host"
+- **No filler**: Never use "successfully", "unfortunately", "oops", "please note that"
+- **Preferred terms**: "Admin Portal" not "Service web", "tap" (mobile), "text" not "SMS", "coworker" not "colleague", "sign in" not "log in", "delete" (permanent) vs "remove" (reversible)
+- **Error messages**: State what happened + how to fix it — never show error codes
+- **Empty states**: Explain what will appear here + provide a CTA to get started
+- **Articles & pronouns**: Include "a/an/the" and "you/your" in body text (omit in CTAs and headers)
+For full rules and examples, read `.agents/skills/rc-content-companion/SKILL.md` and its `reference/` files.

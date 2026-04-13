@@ -1,5 +1,5 @@
 ---
-name: spring-ui-react-vite
+name: spring-ui-react
 description: >
   *REQUIRED READING!* READ THIS INSTEAD OF THE react-vite SKILL. THAT SKILL IS NOW *DEPRECATED*.
   This is the RingCentral Spring UI React+Vite skill. It replaces shadcn + Tailwind v4 with
@@ -112,3 +112,19 @@ The references/ directory contains detailed documentation organized as follows:
 - [Tooltip](references/components/tooltip.md)
 - [Tray](references/components/tray.md)
 - [VirtualizedList](references/components/virtualized-list.md)
+
+
+## Content Rules (MANDATORY for all UI text)
+All visible text in any design frame, mockup, or component MUST follow the RingCentral Content Companion rules (`.agents/skills/rc-content-companion/SKILL.md`). This applies to every label, button, heading, description, error message, empty state, tooltip, and placeholder.
+### Quick Reference
+- **Be brief**: "To share your screen, ask the host" — cut "in order to", "due to the fact that"
+- **Plain language**: "Turn on" not "Enable", "Sign in" not "Log in", "Go to" not "Navigate", "Use" not "Utilize"
+- **Contractions always**: "don't", "can't", "won't", "it's", "you'll", "doesn't"
+- **Be positive**: "Free up some space to save this" not "You don't have enough space"
+- **Active voice**: "The host muted you" not "You have been muted by the host"
+- **No filler**: Never use "successfully", "unfortunately", "oops", "please note that"
+- **Preferred terms**: "Admin Portal" not "Service web", "click" (desktop) / "tap" (mobile), "text" not "SMS", "coworker" not "colleague", "dropdown" (one word), "WiFi" not "Wi-Fi", "sign in" not "log in", "delete" (permanent) vs "remove" (reversible)
+- **Error messages**: State what happened + how to fix it — never show error codes
+- **Empty states**: Explain what will appear here + provide a CTA to get started
+- **Articles & pronouns**: Include "a/an/the" and "you/your" in body text (omit in CTAs and headers)
+For full rules and examples, read `.agents/skills/rc-content-companion/SKILL.md` and its `reference/` files.

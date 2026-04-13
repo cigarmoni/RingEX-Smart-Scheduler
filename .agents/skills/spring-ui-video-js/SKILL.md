@@ -761,3 +761,15 @@ After building a new video from scratch, delegate to a subagent to verify frame 
 
 After the subagent completes, restart the workflow so the user sees the final result.
 </completing_your_run>
+
+## Content Rules (MANDATORY for all on-screen text)
+All visible text in any video frame MUST follow the RingCentral Content Companion rules (`.agents/skills/rc-content-companion/SKILL.md`). This applies to every title, subtitle, caption, label, callout, and on-screen text element.
+### Quick Reference
+- **Be brief**: Cut "in order to", "due to the fact that", and other wordy phrases
+- **Plain language**: "Turn on" not "Enable", "Sign in" not "Log in", "Go to" not "Navigate", "Use" not "Utilize"
+- **Contractions always**: "don't", "can't", "won't", "it's", "you'll", "doesn't"
+- **Be positive**: Focus on the path forward, not the problem
+- **Active voice**: "The host muted you" not "You have been muted by the host"
+- **No filler**: Never use "successfully", "unfortunately", "oops", "please note that"
+- **Preferred terms**: "Admin Portal" not "Service web", "text" not "SMS", "coworker" not "colleague", "dropdown" (one word), "WiFi" not "Wi-Fi", "sign in" not "log in"
+For full rules and examples, read `.agents/skills/rc-content-companion/SKILL.md` and its `reference/` files.

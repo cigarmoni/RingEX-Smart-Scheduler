@@ -300,3 +300,16 @@ These constraints are non-negotiable. Every slide must comply. Content must be s
 - When generating images with the `media-generation` skill, always use `removeBackground: true` for images overlaid on colored backgrounds, and include "no text, no words, no letters" in the prompt
 
 </constraints>
+
+## Content Rules (MANDATORY for all slide text)
+All visible text in any slide MUST follow the RingCentral Content Companion rules (`.agents/skills/rc-content-companion/SKILL.md`). This applies to every heading, subheading, bullet point, caption, label, and call-to-action.
+### Quick Reference
+- **Be brief**: "To share your screen, ask the host" — cut "in order to", "due to the fact that"
+- **Plain language**: "Turn on" not "Enable", "Sign in" not "Log in", "Go to" not "Navigate", "Use" not "Utilize"
+- **Contractions always**: "don't", "can't", "won't", "it's", "you'll", "doesn't"
+- **Be positive**: "Free up some space to save this" not "You don't have enough space"
+- **Active voice**: "The host muted you" not "You have been muted by the host"
+- **No filler**: Never use "successfully", "unfortunately", "oops", "please note that"
+- **Preferred terms**: "Admin Portal" not "Service web", "click" (desktop) / "tap" (mobile), "text" not "SMS", "coworker" not "colleague", "dropdown" (one word), "WiFi" not "Wi-Fi", "sign in" not "log in", "delete" (permanent) vs "remove" (reversible)
+- **Articles & pronouns**: Include "a/an/the" and "you/your" in body text (omit in CTAs and headers)
+For full rules and examples, read `.agents/skills/rc-content-companion/SKILL.md` and its `reference/` files.

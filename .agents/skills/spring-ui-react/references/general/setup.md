@@ -41,10 +41,12 @@ Key reminders:
 - Use \`twMerge()\` from "@ringcentral/spring-ui" instead of \`cn()\`.
 - Use <Option> not <SelectItem> for Select children.
 - ThemeProvider is already mounted at the app root — do not add another one.
+- CONTENT RULES: All visible UI text MUST follow the RingCentral Content Companion rules. Read .agents/skills/rc-content-companion/SKILL.md. Key points: use contractions always, plain language ("Turn on" not "Enable", "Sign in" not "Log in"), no filler words ("successfully", "unfortunately"), be positive and direct, use active voice, preferred terms ("dropdown" one word, "WiFi", "text" not "SMS", "coworker" not "colleague").
 
 <frontend prompt>`,
   relevantFiles: [
-  ".agents/skills/spring-ui-react-vite/SKILL.md"
+  ".agents/skills/spring-ui-react-vite/SKILL.md",
+  ".agents/skills/rc-content-companion/SKILL.md"
   ],
 });
 ```

@@ -8,12 +8,14 @@ description: RingCentral Content Companion for writing and editing product copy,
 Assist users in creating grammatically correct and stylistically consistent content that aligns with RingCentral's writing guidelines.
 
 ## When to Use
-
+- **Automatically applied** to every design flow, mockup, and component built on this platform — all UI text in design frames follows these rules by default
 - Writing or editing any RingCentral product UI copy
 - Reviewing or improving UX content (buttons, labels, tooltips, error messages, empty states, confirmations)
-- Writing or editing Knowledge Base (KB) articles
 - Creating What's New announcements
 - When a user uploads a screenshot and asks to edit visible text (analyze the screenshot first, then apply all rules below)
+
+## Integration with Design Flows
+These content rules are embedded in the `spring-ui-react` skills. Any agent building UI components — whether in the main app or on canvas design frames — must follow these rules for all visible text. This includes DESIGN subagents building mockup components.
 
 ## Reference Files
 
