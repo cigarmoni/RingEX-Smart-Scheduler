@@ -1,0 +1,346 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:var(--display-2-font-weight),var(--subtitle-font-weight),var(--title-font-weight),var(--headline-font-weight),var(--main-text-font-weight),var(--detail-bold-font-weight),var(--subtitle-mini-font-weight)");
+
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .all-\[unset\] {
+    all: unset;
+  }
+}
+
+:root {
+  /* Spring UI (RingCentral Juno) color tokens — sourced from Figma variables */
+  --sui-colors-neutral-base: #ffffff;
+  --sui-colors-neutral-w0: #ffffff;
+  --sui-colors-neutral-b0: #000000;
+  --sui-colors-neutral-b1: #323439;
+  --sui-colors-neutral-b2: #72757a;
+  --sui-colors-neutral-b3: #9e9fa4;
+  --sui-colors-neutral-b4: #dddfe5;
+  --sui-colors-neutral-b5: #f5f6f9;
+  --sui-colors-neutral-b0-t10: #0000001a;
+  --sui-colors-neutral-b0-t20: #00000033;
+  --sui-colors-neutral-b4-t50: #dddfe580;
+  --sui-colors-neutral-w0-t10: #ffffff1a;
+  --sui-colors-neutral-w0-t80: #ffffffcc;
+  --sui-colors-primary-b: #0040dd;
+  --sui-colors-primary-f: #0040dd;
+  --sui-colors-cobranding: #0040dd;
+  --sui-colors-cobranding-f: #0040dd;
+  --sui-colors-cobranding-t20: #0040dd33;
+  --sui-colors-cobranding-on-default: #ffffff;
+  --sui-colors-success: #16a937;
+  --sui-colors-success-f: #12872c;
+  --sui-colors-danger-f: #bb1515;
+  --sui-colors-danger-b: #e22216;
+  --sui-colors-ai: #fe8624;
+  --sui-colors-ai-accent-2: #ff7a00;
+  /* Spring UI spacing tokens (px) */
+  --sui-spacing-1: 4px;
+  --sui-spacing-2: 8px;
+  --sui-spacing-3: 12px;
+  --sui-spacing-4: 16px;
+  --sui-spacing-5: 20px;
+  --sui-spacing-6: 24px;
+  --sui-spacing-9: 36px;
+  /* Spring UI radii */
+  --sui-radius-xs: 4px;
+  --sui-radius-sm: 10px;
+  --sui-radius-circle: 9999px;
+  /* Spring UI elevation */
+  --sui-shadow-md: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+
+  --aiaccent-2: rgba(255, 122, 0, 1);
+  --boxshadow-md: 0px 10px 20px -10px rgba(0, 0, 0, 0.2);
+  --caption2-UPPER-font-family: "Lato", Helvetica;
+  --caption2-UPPER-font-size: 12px;
+  --caption2-UPPER-font-style: normal;
+  --caption2-UPPER-font-weight: 700;
+  --caption2-UPPER-letter-spacing: 0px;
+  --caption2-UPPER-line-height: 15px;
+  --descriptor-font-family: "Inter", Helvetica;
+  --descriptor-font-size: 12px;
+  --descriptor-font-style: normal;
+  --descriptor-font-weight: 400;
+  --descriptor-letter-spacing: 0px;
+  --descriptor-line-height: 18px;
+  --descriptor-mini-font-family: "Inter", Helvetica;
+  --descriptor-mini-font-size: 12px;
+  --descriptor-mini-font-style: normal;
+  --descriptor-mini-font-weight: 500;
+  --descriptor-mini-letter-spacing: 0px;
+  --descriptor-mini-line-height: 17px;
+  --detail-bold-font-family: "Inter", Helvetica;
+  --detail-bold-font-size: 10px;
+  --detail-bold-font-style: normal;
+  --detail-bold-font-weight: 700;
+  --detail-bold-letter-spacing: 0px;
+  --detail-bold-line-height: 10px;
+  --display-2-font-family: "Inter", Helvetica;
+  --display-2-font-size: 24px;
+  --display-2-font-style: normal;
+  --display-2-font-weight: 500;
+  --display-2-letter-spacing: -0.20000000298023224px;
+  --display-2-line-height: 32px;
+  --headline-font-family: "Inter", Helvetica;
+  --headline-font-size: 28px;
+  --headline-font-style: normal;
+  --headline-font-weight: 700;
+  --headline-letter-spacing: 0px;
+  --headline-line-height: 36px;
+  --main-text-font-family: "Inter", Helvetica;
+  --main-text-font-size: 14px;
+  --main-text-font-style: normal;
+  --main-text-font-weight: 400;
+  --main-text-letter-spacing: 0px;
+  --main-text-line-height: 20px;
+  --mobile-detailbold-font-family: "Inter", Helvetica;
+  --mobile-detailbold-font-size: 11px;
+  --mobile-detailbold-font-style: normal;
+  --mobile-detailbold-font-weight: 700;
+  --mobile-detailbold-letter-spacing: 0px;
+  --mobile-detailbold-line-height: 13px;
+  --subtitle-font-family: "Inter", Helvetica;
+  --subtitle-font-size: 14px;
+  --subtitle-font-style: normal;
+  --subtitle-font-weight: 500;
+  --subtitle-letter-spacing: 0px;
+  --subtitle-line-height: 20px;
+  --subtitle-mini-font-family: "Inter", Helvetica;
+  --subtitle-mini-font-size: 14px;
+  --subtitle-mini-font-style: normal;
+  --subtitle-mini-font-weight: 500;
+  --subtitle-mini-letter-spacing: 0px;
+  --subtitle-mini-line-height: 20px;
+  --title-2-font-family: "Lato", Helvetica;
+  --title-2-font-size: 20px;
+  --title-2-font-style: normal;
+  --title-2-font-weight: 700;
+  --title-2-letter-spacing: 0px;
+  --title-2-line-height: 28px;
+  --title-font-family: "Inter", Helvetica;
+  --title-font-size: 17px;
+  --title-font-style: normal;
+  --title-font-weight: 500;
+  --title-letter-spacing: -0.20000000298023224px;
+  --title-line-height: 25px;
+
+  /* Spring UI color tokens (mirrored from Figma sui-colors) */
+  --sui-colors-cobranding: #0040dd;
+  --sui-colors-cobranding-f: #0040dd;
+  --sui-colors-cobranding-t10: #0040dd1a;
+  --sui-colors-cobranding-t20: #0040dd33;
+  --sui-colors-cobranding-on-default: #ffffff;
+  --sui-colors-primary-b: #0040dd;
+  --sui-colors-primary-f: #0040dd;
+  --sui-colors-neutral-base: #ffffff;
+  --sui-colors-neutral-w0: #ffffff;
+  --sui-colors-neutral-w0-t10: #ffffff1a;
+  --sui-colors-neutral-static-w0: #ffffff;
+  --sui-colors-neutral-b0: #000000;
+  --sui-colors-neutral-b0-t10: #0000001a;
+  --sui-colors-neutral-b0-t20: #00000033;
+  --sui-colors-neutral-b1: #323439;
+  --sui-colors-neutral-b2: #72757a;
+  --sui-colors-neutral-b3: #56585e;
+  --sui-colors-neutral-b4: #dddfe5;
+  --sui-colors-neutral-b4-t50: #dddfe580;
+  --sui-colors-neutral-b5: #f5f6f9;
+  --sui-colors-success: #16a937;
+  --sui-colors-danger: #e22216;
+  --sui-colors-warning: #fe8624;
+  --sui-colors-ai-accent-2: #ff7a00;
+}
+
+:root {
+  --animate-spin: spin 1s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s var(--animation-delay, 0s) ease forwards;
+}
+
+.animate-fade-up {
+  animation: fade-up 1s var(--animation-delay, 0s) ease forwards;
+}
+
+.animate-marquee {
+  animation: marquee var(--duration) infinite linear;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration) linear infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 8s infinite;
+}
+
+.animate-spin {
+  animation: var(--animate-spin);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes image-glow {
+  0% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.74, 0.25, 0.76, 1);
+  }
+
+  10% {
+    opacity: 0.7;
+    animation-timing-function: cubic-bezier(0.12, 0.01, 0.08, 0.99);
+  }
+
+  to {
+    opacity: 0.4;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  90%,
+  to {
+    background-position: calc(-100% - var(--shimmer-width)) 0;
+  }
+
+  30%,
+  60% {
+    background-position: calc(100% + var(--shimmer-width)) 0;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate(0);
+  }
+
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  0% {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --card: transparent;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+
+    --card: transparent;
+    --card-foreground: 213 31% 91%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 216 34% 17%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}

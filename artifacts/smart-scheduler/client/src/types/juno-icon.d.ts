@@ -1,0 +1,34 @@
+declare module "@ringcentral/juno-icon" {
+  import type { ComponentType, SVGProps } from "react";
+  export type JunoIcon = ComponentType<SVGProps<SVGSVGElement>>;
+  const _default: { [key: string]: JunoIcon };
+  export default _default;
+  export const Mic: JunoIcon;
+  export const MicOff: JunoIcon;
+  export const Keypad: JunoIcon;
+  export const Audio: JunoIcon;
+  export const Add: JunoIcon;
+  export const Hold: JunoIcon;
+  export const TransferCall: JunoIcon;
+  export const Record: JunoIcon;
+  export const StopRecord: JunoIcon;
+  export const Videocam: JunoIcon;
+  export const CcSp: JunoIcon;
+  export const HangUpSp: JunoIcon;
+  export const MoreHoriz: JunoIcon;
+  export const AiSparkle: JunoIcon;
+  export const Search: JunoIcon;
+  export const Filter: JunoIcon;
+  export const Phone: JunoIcon;
+  export const Missedcall: JunoIcon;
+  export const Sms: JunoIcon;
+  export const Copy: JunoIcon;
+  export const Pause: JunoIcon;
+  export const Globe: JunoIcon;
+  export const Screenshare: JunoIcon;
+  export const Hd: JunoIcon;
+  export const Signal3: JunoIcon;
+  export const Delete: JunoIcon;
+  export const Close: JunoIcon;
+  export const ArrowDown2: JunoIcon;
+}
