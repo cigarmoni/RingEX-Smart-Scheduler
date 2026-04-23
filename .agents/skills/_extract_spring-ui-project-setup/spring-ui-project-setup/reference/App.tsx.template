@@ -1,0 +1,40 @@
+import { useState } from 'react'
+import { Button, ThemeProvider, suiLight } from '@ringcentral/spring-ui'
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <ThemeProvider theme={suiLight}>
+      <div className="flex min-h-screen bg-neutral-base flex-col items-center justify-center gap-8 p-8">
+        <h1 className="typography-headline text-neutral-b0">Spring UI Demo</h1>
+
+        <div className="flex flex-col items-center gap-4">
+          <p className="typography-mainText text-neutral-b2">
+            Click the button to increment the counter
+          </p>
+
+          <Button
+            variant="contained"
+            onClick={() => setCount((currentCount) => currentCount + 1)}
+          >
+            Count is {count}
+          </Button>
+
+          <div className="mt-4 flex gap-4">
+            <Button variant="contained">Contained</Button>
+            <Button variant="outlined">Outlined</Button>
+            <Button variant="text">Text</Button>
+          </div>
+        </div>
+
+        <p className="mt-8 typography-descriptor text-neutral-b2">
+          Edit <code className="rounded-xs bg-neutral-b5 px-2 py-1">src/App.tsx</code>{' '}
+          and save to test HMR
+        </p>
+      </div>
+    </ThemeProvider>
+  )
+}
+
+export default App
