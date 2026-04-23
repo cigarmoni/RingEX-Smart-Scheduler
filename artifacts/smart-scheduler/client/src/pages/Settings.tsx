@@ -25,6 +25,7 @@ import {
 } from "@/components/BrandIcons";
 import { AppShell } from "@/components/AppShell";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
+import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -72,6 +73,7 @@ const categories: { key: CategoryKey; label: string; Icon: typeof SettingsIcon }
 export const Settings = (): JSX.Element => {
   const [active, setActive] = useState<CategoryKey>("calendars");
   const [showPromo, setShowPromo] = useState(true);
+  const [featureIntroOpen, setFeatureIntroOpen] = useState(false);
   const [defaultContact, setDefaultContact] = useState("ringcentral");
   const flow = useFlowParam();
 
@@ -141,6 +143,7 @@ export const Settings = (): JSX.Element => {
                     description="Let customers book time with you based on your availability. Create booking types, share your link, and manage appointments in one place."
                     action={{
                       label: "Find out more",
+                      onClick: () => setFeatureIntroOpen(true),
                       testId: "link-find-out-more",
                     }}
                     onDismiss={() => setShowPromo(false)}
@@ -273,6 +276,10 @@ export const Settings = (): JSX.Element => {
           </div>
         </section>
       </div>
+      <AvaUpsellDialog
+        open={featureIntroOpen}
+        onOpenChange={setFeatureIntroOpen}
+      />
     </AppShell>
   );
 };
