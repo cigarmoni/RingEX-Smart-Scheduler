@@ -30,7 +30,12 @@ import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useFlowParam } from "@/lib/flows";
 
 type CallDirection = "incoming" | "outgoing" | "missed";
 
@@ -177,6 +182,8 @@ const Avatar = ({
 
 export const PostCall = (): JSX.Element => {
   const { toast } = useToast();
+  const flow = useFlowParam();
+  const sharePopoverVariant = flow === "after-post-call-share-link";
   const [activeTab, setActiveTab] = useState("CALLS");
   const [filter, setFilter] = useState<"ALL" | "MISSED">("ALL");
   const [activeId, setActiveId] = useState<string>("christina");
@@ -511,7 +518,7 @@ export const PostCall = (): JSX.Element => {
                         <li>
                           Sarah tried to find out the common time slot.
                           <div className="mt-1 pl-1">
-                            <BookingLinkAction contactName={active.name} />
+                            <BookingLinkAction contactName={active.name} variant={sharePopoverVariant ? "share" : "intro"} />
                           </div>
                         </li>
                       </ul>
@@ -630,12 +637,41 @@ const IconBtn = ({
   </button>
 );
 
-const BookingLinkAction = ({ contactName }: { contactName: string }) => {
+const BookingLinkAction = ({
+  contactName,
+  variant = "intro",
+}: {
+  contactName: string;
+  variant?: "intro" | "share";
+}) => {
   const [open, setOpen] = useState(false);
   const [upsellOpen, setUpsellOpen] = useState(false);
+  const { toast } = useToast();
+  const [bookingType, setBookingType] = useState("therapy-session-natalie");
+  const [sendVia, setSendVia] = useState("email");
+  const [recipient, setRecipient] = useState("");
+  const [message, setMessage] = useState("");
+
+  const resetShareForm = () => {
+    setBookingType("therapy-session-natalie");
+    setSendVia("email");
+    setRecipient("");
+    setMessage("");
+  };
+
+  const handleOpenChange = (next: boolean) => {
+    if (next && variant === "share") resetShareForm();
+    setOpen(next);
+  };
+
+  const handleSend = () => {
+    setOpen(false);
+    toast({ description: "Booking link sent" });
+  };
+
   return (
     <>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
           <button
             type="button"
@@ -646,27 +682,140 @@ const BookingLinkAction = ({ contactName }: { contactName: string }) => {
             Share booking link
           </button>
         </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          align="start"
-          className="w-80 border-0 bg-transparent p-0 shadow-none"
-          data-testid="popover-booking-link-intro"
-        >
-          <FeatureIntroBanner
-            title="Send a booking link"
-            description={`Share a link via message, SMS, or email so ${contactName} can book a time based on your availability — no back-and-forth required.`}
-            action={{
-              label: "Find out more",
-              onClick: () => {
-                setOpen(false);
-                setUpsellOpen(true);
-              },
-              testId: "button-booking-link-find-out-more",
-            }}
-            onDismiss={() => setOpen(false)}
-            dismissTestId="button-booking-link-dismiss"
-          />
-        </PopoverContent>
+        {variant === "share" ? (
+          <PopoverContent
+            side="top"
+            align="start"
+            className="w-[360px] rounded-xl border border-sui-neutral-b4 bg-white p-4 shadow-lg"
+            data-testid="popover-share-booking-link"
+          >
+            <div className="flex flex-col gap-3">
+              <div
+                className="font-headline text-[16px] font-semibold text-black"
+                data-testid="text-share-popover-title"
+              >
+                Share booking link
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="post-call-share-type"
+                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                >
+                  Booking type
+                </Label>
+                <Select value={bookingType} onValueChange={setBookingType}>
+                  <SelectTrigger
+                    id="post-call-share-type"
+                    className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="select-share-popover-type"
+                  >
+                    <SelectValue placeholder="Select a booking type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="therapy-session-natalie">Therapy session with Natalie</SelectItem>
+                    <SelectItem value="initial-consultation">Initial consultation</SelectItem>
+                    <SelectItem value="follow-up-15">15 min follow-up</SelectItem>
+                    <SelectItem value="discovery-call-30">30 min discovery call</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="post-call-share-via"
+                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                >
+                  Send via
+                </Label>
+                <Select value={sendVia} onValueChange={setSendVia}>
+                  <SelectTrigger
+                    id="post-call-share-via"
+                    className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="select-share-popover-via"
+                  >
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="email">Email</SelectItem>
+                    <SelectItem value="text">Text</SelectItem>
+                    <SelectItem value="chat">Chat</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="post-call-share-recipient"
+                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                >
+                  {sendVia === "email" ? "Email" : sendVia === "text" ? "Phone number" : "Recipient"}
+                </Label>
+                <Input
+                  id="post-call-share-recipient"
+                  value={recipient}
+                  onChange={(e) => setRecipient(e.target.value)}
+                  placeholder={`Send to ${contactName}`}
+                  className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                  data-testid="input-share-popover-recipient"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label
+                  htmlFor="post-call-share-message"
+                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                >
+                  Additional message
+                </Label>
+                <Textarea
+                  id="post-call-share-message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Enter additional message"
+                  className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                  data-testid="textarea-share-popover-message"
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-1">
+                <Button
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                  className="h-8 rounded-[10px] border border-sui-neutral-b4 bg-white px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black hover:bg-sui-neutral-b5"
+                  data-testid="button-share-popover-cancel"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSend}
+                  disabled={recipient.trim().length === 0}
+                  className="h-8 rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-white hover:bg-sui-cobranding disabled:bg-sui-neutral-b4 disabled:text-white"
+                  data-testid="button-share-popover-send"
+                >
+                  Send
+                </Button>
+              </div>
+            </div>
+          </PopoverContent>
+        ) : (
+          <PopoverContent
+            side="top"
+            align="start"
+            className="w-80 border-0 bg-transparent p-0 shadow-none"
+            data-testid="popover-booking-link-intro"
+          >
+            <FeatureIntroBanner
+              title="Send a booking link"
+              description={`Share a link via message, SMS, or email so ${contactName} can book a time based on your availability — no back-and-forth required.`}
+              action={{
+                label: "Find out more",
+                onClick: () => {
+                  setOpen(false);
+                  setUpsellOpen(true);
+                },
+                testId: "button-booking-link-find-out-more",
+              }}
+              onDismiss={() => setOpen(false)}
+              dismissTestId="button-booking-link-dismiss"
+            />
+          </PopoverContent>
+        )}
       </Popover>
       <BookingFeatureDialog open={upsellOpen} onOpenChange={setUpsellOpen} />
     </>
