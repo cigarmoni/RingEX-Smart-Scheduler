@@ -334,6 +334,7 @@ export const MeetingContent = ({
   const [shareMessage, setShareMessage] = useState("");
   const [shareSendVia, setShareSendVia] = useState("email");
   const [shareRecipient, setShareRecipient] = useState("");
+  const [shareFrom, setShareFrom] = useState("");
   const [meetingWindowOpen, setMeetingWindowOpen] = useState(false);
   const { toast } = useToast();
   const flow = useFlowParam();
@@ -922,32 +923,109 @@ export const MeetingContent = ({
                                             </SelectContent>
                                           </Select>
                                         </div>
-                                        <div className="flex flex-col gap-1.5">
-                                          <Label htmlFor="share-popover-recipient" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
-                                            {shareSendVia === "email" ? "Email" : shareSendVia === "text" ? "Phone number" : "Recipient"}
-                                          </Label>
-                                          <Input
-                                            id="share-popover-recipient"
-                                            value={shareRecipient}
-                                            onChange={(e) => setShareRecipient(e.target.value)}
-                                            placeholder="Enter name or email"
-                                            className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                                            data-testid="input-share-popover-recipient"
-                                          />
-                                        </div>
-                                        <div className="flex flex-col gap-1.5">
-                                          <Label htmlFor="share-popover-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
-                                            Additional message
-                                          </Label>
-                                          <Textarea
-                                            id="share-popover-message"
-                                            value={shareMessage}
-                                            onChange={(e) => setShareMessage(e.target.value)}
-                                            placeholder="Enter additional message"
-                                            className="min-h-[64px] rounded-md border border-[#dddfe5] bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                                            data-testid="textarea-share-popover-message"
-                                          />
-                                        </div>
+                                        {shareSendVia === "text" && (
+                                          <>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                Text message
+                                              </Label>
+                                              <Textarea
+                                                id="share-popover-message"
+                                                value={shareMessage}
+                                                onChange={(e) => setShareMessage(e.target.value)}
+                                                placeholder="Enter text message"
+                                                className="min-h-[64px] rounded-md border border-[#dddfe5] bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="textarea-share-popover-message"
+                                              />
+                                            </div>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-to" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                To
+                                              </Label>
+                                              <Input
+                                                id="share-popover-to"
+                                                value={shareRecipient}
+                                                onChange={(e) => setShareRecipient(e.target.value)}
+                                                placeholder="(555) 555-5555"
+                                                className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="input-share-popover-to"
+                                              />
+                                            </div>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-from" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                From
+                                              </Label>
+                                              <Input
+                                                id="share-popover-from"
+                                                value={shareFrom}
+                                                onChange={(e) => setShareFrom(e.target.value)}
+                                                placeholder="(555) 555-5555"
+                                                className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="input-share-popover-from"
+                                              />
+                                            </div>
+                                          </>
+                                        )}
+                                        {shareSendVia === "chat" && (
+                                          <>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-conversation" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                Conversation
+                                              </Label>
+                                              <Input
+                                                id="share-popover-conversation"
+                                                value={shareRecipient}
+                                                onChange={(e) => setShareRecipient(e.target.value)}
+                                                placeholder="Select conversation"
+                                                className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="input-share-popover-conversation"
+                                              />
+                                            </div>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                Message
+                                              </Label>
+                                              <Textarea
+                                                id="share-popover-message"
+                                                value={shareMessage}
+                                                onChange={(e) => setShareMessage(e.target.value)}
+                                                placeholder="Enter message"
+                                                className="min-h-[64px] rounded-md border border-[#dddfe5] bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="textarea-share-popover-message"
+                                              />
+                                            </div>
+                                          </>
+                                        )}
+                                        {shareSendVia === "email" && (
+                                          <>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-email" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                Email
+                                              </Label>
+                                              <Input
+                                                id="share-popover-email"
+                                                value={shareRecipient}
+                                                onChange={(e) => setShareRecipient(e.target.value)}
+                                                placeholder="name@example.com"
+                                                className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="input-share-popover-email"
+                                              />
+                                            </div>
+                                            <div className="flex flex-col gap-1.5">
+                                              <Label htmlFor="share-popover-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                                Message
+                                              </Label>
+                                              <Textarea
+                                                id="share-popover-message"
+                                                value={shareMessage}
+                                                onChange={(e) => setShareMessage(e.target.value)}
+                                                placeholder="Enter message"
+                                                className="min-h-[64px] rounded-md border border-[#dddfe5] bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                                data-testid="textarea-share-popover-message"
+                                              />
+                                            </div>
+                                          </>
+                                        )}
                                         <div className="flex justify-end gap-2 pt-1">
                                           <Button
                                             variant="outline"
@@ -1179,23 +1257,6 @@ export const MeetingContent = ({
 
             <div className="flex flex-col gap-2">
               <Label
-                htmlFor="share-message"
-                className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black"
-              >
-                Additional message
-              </Label>
-              <Textarea
-                id="share-message"
-                value={shareMessage}
-                onChange={(e) => setShareMessage(e.target.value)}
-                placeholder="Enter additional message"
-                className="min-h-[88px] rounded-md border border-[#dddfe5] bg-white p-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                data-testid="textarea-share-message"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label
                 htmlFor="share-send-via"
                 className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black"
               >
@@ -1217,26 +1278,109 @@ export const MeetingContent = ({
               </Select>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="share-recipient"
-                className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black"
-              >
-                {shareSendVia === "email"
-                  ? "Email"
-                  : shareSendVia === "text"
-                    ? "Phone number"
-                    : "Recipient"}
-              </Label>
-              <Input
-                id="share-recipient"
-                value={shareRecipient}
-                onChange={(e) => setShareRecipient(e.target.value)}
-                placeholder="Enter name or email"
-                className="h-10 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                data-testid="input-share-recipient"
-              />
-            </div>
+            {shareSendVia === "text" && (
+              <>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-message" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    Text message
+                  </Label>
+                  <Textarea
+                    id="share-message"
+                    value={shareMessage}
+                    onChange={(e) => setShareMessage(e.target.value)}
+                    placeholder="Enter text message"
+                    className="min-h-[88px] rounded-md border border-[#dddfe5] bg-white p-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="textarea-share-message"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-to" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    To
+                  </Label>
+                  <Input
+                    id="share-to"
+                    value={shareRecipient}
+                    onChange={(e) => setShareRecipient(e.target.value)}
+                    placeholder="(555) 555-5555"
+                    className="h-10 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="input-share-to"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-from" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    From
+                  </Label>
+                  <Input
+                    id="share-from"
+                    value={shareFrom}
+                    onChange={(e) => setShareFrom(e.target.value)}
+                    placeholder="(555) 555-5555"
+                    className="h-10 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="input-share-from"
+                  />
+                </div>
+              </>
+            )}
+            {shareSendVia === "chat" && (
+              <>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-conversation" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    Conversation
+                  </Label>
+                  <Input
+                    id="share-conversation"
+                    value={shareRecipient}
+                    onChange={(e) => setShareRecipient(e.target.value)}
+                    placeholder="Select conversation"
+                    className="h-10 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="input-share-conversation"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-message" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    Message
+                  </Label>
+                  <Textarea
+                    id="share-message"
+                    value={shareMessage}
+                    onChange={(e) => setShareMessage(e.target.value)}
+                    placeholder="Enter message"
+                    className="min-h-[88px] rounded-md border border-[#dddfe5] bg-white p-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="textarea-share-message"
+                  />
+                </div>
+              </>
+            )}
+            {shareSendVia === "email" && (
+              <>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-email" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    Email
+                  </Label>
+                  <Input
+                    id="share-email"
+                    value={shareRecipient}
+                    onChange={(e) => setShareRecipient(e.target.value)}
+                    placeholder="name@example.com"
+                    className="h-10 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="input-share-email"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="share-message" className="font-subtitle text-[length:var(--subtitle-font-size)] font-semibold text-black">
+                    Message
+                  </Label>
+                  <Textarea
+                    id="share-message"
+                    value={shareMessage}
+                    onChange={(e) => setShareMessage(e.target.value)}
+                    placeholder="Enter message"
+                    className="min-h-[88px] rounded-md border border-[#dddfe5] bg-white p-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                    data-testid="textarea-share-message"
+                  />
+                </div>
+              </>
+            )}
           </div>
 
           <DialogFooter className="gap-2 sm:justify-end">

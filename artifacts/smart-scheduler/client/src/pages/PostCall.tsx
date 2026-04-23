@@ -650,12 +650,14 @@ const BookingLinkAction = ({
   const [bookingType, setBookingType] = useState("therapy-session-natalie");
   const [sendVia, setSendVia] = useState("email");
   const [recipient, setRecipient] = useState("");
+  const [from, setFrom] = useState("");
   const [message, setMessage] = useState("");
 
   const resetShareForm = () => {
     setBookingType("therapy-session-natalie");
     setSendVia("email");
     setRecipient("");
+    setFrom("");
     setMessage("");
   };
 
@@ -741,38 +743,130 @@ const BookingLinkAction = ({
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="post-call-share-recipient"
-                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                >
-                  {sendVia === "email" ? "Email" : sendVia === "text" ? "Phone number" : "Recipient"}
-                </Label>
-                <Input
-                  id="post-call-share-recipient"
-                  value={recipient}
-                  onChange={(e) => setRecipient(e.target.value)}
-                  placeholder={`Send to ${contactName}`}
-                  className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                  data-testid="input-share-popover-recipient"
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="post-call-share-message"
-                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                >
-                  Additional message
-                </Label>
-                <Textarea
-                  id="post-call-share-message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Enter additional message"
-                  className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                  data-testid="textarea-share-popover-message"
-                />
-              </div>
+              {sendVia === "text" && (
+                <>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-message"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      Text message
+                    </Label>
+                    <Textarea
+                      id="post-call-share-message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Enter text message"
+                      className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="textarea-share-popover-message"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-to"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      To
+                    </Label>
+                    <Input
+                      id="post-call-share-to"
+                      value={recipient}
+                      onChange={(e) => setRecipient(e.target.value)}
+                      placeholder={`Send to ${contactName}`}
+                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="input-share-popover-to"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-from"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      From
+                    </Label>
+                    <Input
+                      id="post-call-share-from"
+                      value={from}
+                      onChange={(e) => setFrom(e.target.value)}
+                      placeholder="(555) 555-5555"
+                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="input-share-popover-from"
+                    />
+                  </div>
+                </>
+              )}
+              {sendVia === "chat" && (
+                <>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-conversation"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      Conversation
+                    </Label>
+                    <Input
+                      id="post-call-share-conversation"
+                      value={recipient}
+                      onChange={(e) => setRecipient(e.target.value)}
+                      placeholder="Select conversation"
+                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="input-share-popover-conversation"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-message"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      Message
+                    </Label>
+                    <Textarea
+                      id="post-call-share-message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Enter message"
+                      className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="textarea-share-popover-message"
+                    />
+                  </div>
+                </>
+              )}
+              {sendVia === "email" && (
+                <>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-email"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      Email
+                    </Label>
+                    <Input
+                      id="post-call-share-email"
+                      value={recipient}
+                      onChange={(e) => setRecipient(e.target.value)}
+                      placeholder={`Send to ${contactName}`}
+                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="input-share-popover-email"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="post-call-share-message"
+                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
+                    >
+                      Message
+                    </Label>
+                    <Textarea
+                      id="post-call-share-message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Enter message"
+                      className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                      data-testid="textarea-share-popover-message"
+                    />
+                  </div>
+                </>
+              )}
               <div className="flex justify-end gap-2 pt-1">
                 <Button
                   variant="outline"

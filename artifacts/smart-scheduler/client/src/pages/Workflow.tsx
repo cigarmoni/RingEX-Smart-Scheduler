@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { useFlowParam } from "@/lib/flows";
+import { useFlowParam, useIsBookingPurchased } from "@/lib/flows";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   ArrowLeft,
   Play,
@@ -17,8 +19,7 @@ import {
   Video,
   ArrowDown,
   User,
-  Phone,
-  Hash,
+  Plus,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
@@ -79,7 +80,6 @@ const ringCentralSteps: StepRow[] = [
     description: "Send booking link via text, chat, or email",
     icon: <Calendar className="h-4 w-4 text-[#16a937]" />,
     iconBg: "bg-[#16a9371a]",
-    hasIndicator: true,
   },
   {
     id: "create-meeting",
@@ -120,32 +120,27 @@ const StepItem = ({
   </button>
 );
 
-const FieldRow = ({
-  icon,
-  label,
-  testId,
-}: {
-  icon: JSX.Element;
-  label: string;
-  testId: string;
-}) => (
-  <div
-    className="flex items-center gap-2 rounded-md border border-[#dddfe5] bg-white px-2.5 py-1.5"
-    data-testid={testId}
-  >
-    {icon}
-    <span className="text-sm text-black">{label}</span>
-  </div>
-);
-
 export const Workflow = (): JSX.Element => {
   const [panelOpen, setPanelOpen] = useState(true);
   const [ringCentralOpen, setRingCentralOpen] = useState(true);
   const [filter, setFilter] = useState("all");
   const [bookingIntroOpen, setBookingIntroOpen] = useState(false);
+  const isPurchased = useIsBookingPurchased();
+  const [sendBookingStepAdded, setSendBookingStepAdded] = useState(false);
+  const [configPanelOpen, setConfigPanelOpen] = useState(false);
+  const [cfgBookingType, setCfgBookingType] = useState("therapy-session-natalie");
+  const [cfgSendVia, setCfgSendVia] = useState("text");
+  const [cfgRecipient, setCfgRecipient] = useState("");
+  const [cfgFrom, setCfgFrom] = useState("");
+  const [cfgMessage, setCfgMessage] = useState("");
 
   const handleStepClick = (stepId: string) => {
-    if (stepId === "send-booking") {
+    if (stepId !== "send-booking") return;
+    if (isPurchased) {
+      setSendBookingStepAdded(true);
+      setConfigPanelOpen(true);
+      setPanelOpen(false);
+    } else {
       setBookingIntroOpen(true);
     }
   };
@@ -154,9 +149,14 @@ export const Workflow = (): JSX.Element => {
 
   useEffect(() => {
     if (flow === "after-workflow-send-link") {
-      setBookingIntroOpen(true);
+      setBookingIntroOpen(false);
       setPanelOpen(true);
       setRingCentralOpen(true);
+      setConfigPanelOpen(false);
+      setSendBookingStepAdded(false);
+    } else {
+      setConfigPanelOpen(false);
+      setSendBookingStepAdded(false);
     }
   }, [flow]);
 
@@ -316,7 +316,7 @@ export const Workflow = (): JSX.Element => {
 
           {/* Canvas */}
           <div
-            className="relative flex min-h-0 flex-1 overflow-auto bg-[#fafbfc] lg:pl-[344px]"
+            className={`relative flex min-h-0 flex-1 overflow-auto bg-[#fafbfc] ${panelOpen ? "lg:pl-[344px]" : ""} ${configPanelOpen && sendBookingStepAdded ? "lg:pr-[344px]" : ""}`}
             style={{
               backgroundImage:
                 "radial-gradient(circle, #00000026 1px, transparent 1px)",
@@ -330,21 +330,13 @@ export const Workflow = (): JSX.Element => {
 
               {/* Start node */}
               <div
-                className="mt-2 flex w-full max-w-[360px] items-center gap-2 rounded-lg border border-[#fe8624] bg-[#fff4eb] px-3 py-2.5 shadow-sm"
+                className="mt-2 flex w-full max-w-[240px] items-center gap-2 rounded-lg border border-[#fe8624] bg-[#fff4eb] px-3 py-2.5 shadow-sm"
                 data-testid="node-start"
               >
                 <Play className="h-4 w-4 shrink-0 fill-[#fe8624] text-[#fe8624]" />
                 <span className="flex-1 text-sm font-semibold text-black">
                   Start
                 </span>
-                <button
-                  type="button"
-                  className="rounded p-0.5 text-[#56585e] hover:bg-white/60"
-                  aria-label="Toggle start"
-                  data-testid="button-start-toggle"
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </button>
                 <button
                   type="button"
                   className="rounded p-0.5 text-[#56585e] hover:bg-white/60"
@@ -356,105 +348,220 @@ export const Workflow = (): JSX.Element => {
               </div>
 
               {/* Connector */}
-              <div className="my-1 h-6 w-px bg-[#c2c4ca]" />
+              <div className="h-12 w-px bg-[#0000004d]" />
 
-              {/* HubSpot node */}
-              <div
-                className="flex w-full max-w-[360px] flex-col rounded-lg border border-[#dddfe5] bg-white shadow-sm"
-                data-testid="node-hubspot"
-              >
-                <div className="flex items-center gap-2 border-b border-[#dddfe5] px-3 py-2.5">
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[#ff7a59] text-[10px] font-bold text-white">
-                    H
+              {sendBookingStepAdded ? (
+                <button
+                  type="button"
+                  onClick={() => setConfigPanelOpen(true)}
+                  className={`flex w-full max-w-[240px] items-center gap-2 rounded-[10px] border bg-white px-3 py-2.5 text-left shadow-[0_2px_4px_rgba(0,0,0,0.2)] ${
+                    configPanelOpen ? "border-[#0040dd] ring-2 ring-[#0040dd33]" : "border-[#dddfe5]"
+                  }`}
+                  data-testid="node-send-booking"
+                >
+                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#16a9371a]">
+                    <Calendar className="h-3.5 w-3.5 text-[#16a937]" />
                   </div>
-                  <span className="flex-1 truncate text-sm font-semibold text-black">
-                    HubSpot: Get Contact
+                  <span className="flex-1 text-sm font-semibold text-black">
+                    Send booking link
                   </span>
-                  <button
-                    type="button"
-                    className="rounded p-0.5 text-[#56585e] hover:bg-[#f5f6f9]"
-                    aria-label="Toggle node"
-                    data-testid="button-hubspot-toggle"
-                  >
-                    <ChevronUp className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded p-0.5 text-[#56585e] hover:bg-[#f5f6f9]"
-                    aria-label="Node options"
-                    data-testid="button-hubspot-more"
-                  >
-                    <MoreVertical className="h-4 w-4" />
-                  </button>
-                </div>
-                <div className="flex flex-col gap-2 px-3 py-2.5">
-                  <span className="text-xs font-semibold text-[#56585e]">
-                    Input
-                  </span>
-                  <FieldRow
-                    icon={<User className="h-4 w-4 text-[#56585e]" />}
-                    label="Name"
-                    testId="field-input-name"
-                  />
-                  <FieldRow
-                    icon={<Phone className="h-4 w-4 text-[#56585e]" />}
-                    label="Number"
-                    testId="field-input-number"
-                  />
-                  <span className="mt-1 text-xs font-semibold text-[#56585e]">
-                    Output
-                  </span>
-                  <FieldRow
-                    icon={<Hash className="h-4 w-4 text-[#56585e]" />}
-                    label="Contact ID"
-                    testId="field-output-contact-id"
-                  />
-                </div>
-              </div>
-
-              {/* Connector */}
-              <div className="my-1 h-6 w-px bg-[#c2c4ca]" />
-
-              {/* Branching node */}
-              <div
-                className="flex w-full max-w-[360px] items-center gap-2 rounded-lg border border-[#dddfe5] bg-white px-3 py-2.5 shadow-sm"
-                data-testid="node-branch"
-              >
-                <div className="h-4 w-4 shrink-0 rotate-45 border border-[#56585e]" />
-                <span className="flex-1 text-sm font-semibold text-black">
-                  Condition
-                </span>
+                  <MoreVertical className="h-4 w-4 text-[#56585e]" />
+                </button>
+              ) : (
                 <button
                   type="button"
-                  className="rounded p-0.5 text-[#56585e] hover:bg-[#f5f6f9]"
-                  aria-label="Toggle branch"
-                  data-testid="button-branch-toggle"
+                  className="flex w-full max-w-[240px] items-center justify-center gap-1.5 rounded-[10px] border border-dashed border-[#0040dd] bg-[#0040dd26]/15 px-3 py-2.5 text-sm font-semibold text-[#0040dd]"
+                  style={{ backgroundColor: "rgba(0, 111, 172, 0.15)" }}
+                  data-testid="node-add-step"
+                  aria-label="Add step"
                 >
-                  <ChevronDown className="h-4 w-4" />
+                  <Plus className="h-4 w-4" />
+                  Add step
                 </button>
-                <button
-                  type="button"
-                  className="rounded p-0.5 text-[#56585e] hover:bg-[#f5f6f9]"
-                  aria-label="Branch options"
-                  data-testid="button-branch-more"
-                >
-                  <MoreVertical className="h-4 w-4" />
-                </button>
-              </div>
-
-              {/* Else branch */}
-              <div className="relative mt-1 flex w-full max-w-[360px] flex-col items-end">
-                <div className="h-6 w-px bg-[#c2c4ca]" />
-                <div
-                  className="rounded-full border border-[#dddfe5] bg-white px-3 py-1 text-xs font-semibold text-[#56585e] shadow-sm"
-                  data-testid="label-else-branch"
-                >
-                  Else
-                </div>
-              </div>
+              )}
 
             </div>
           </div>
+
+          {configPanelOpen && sendBookingStepAdded && (
+            <aside
+              className="z-20 mx-3 mt-3 flex w-80 shrink-0 flex-col rounded-xl border border-[#dddfe5] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.08)] md:absolute md:right-4 md:top-4 md:mx-0 md:mt-0 md:h-[calc(100%-32px)]"
+              data-testid="panel-step-config"
+            >
+              <div className="flex items-center justify-between border-b border-[#dddfe5] px-4 py-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#16a9371a]">
+                    <Calendar className="h-4 w-4 text-[#16a937]" />
+                  </div>
+                  <h3 className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+                    Send booking link
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setConfigPanelOpen(false)}
+                  className="rounded-full p-1 text-[#56585e] hover:bg-[#f5f6f9]"
+                  aria-label="Close configuration"
+                  data-testid="button-close-config-panel"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="wf-cfg-type" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                    Booking type
+                  </Label>
+                  <Select value={cfgBookingType} onValueChange={setCfgBookingType}>
+                    <SelectTrigger id="wf-cfg-type" className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 text-sm text-black" data-testid="select-cfg-booking-type">
+                      <SelectValue placeholder="Select a booking type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="therapy-session-natalie">Therapy session with Natalie</SelectItem>
+                      <SelectItem value="initial-consultation">Initial consultation</SelectItem>
+                      <SelectItem value="follow-up-15">15 min follow-up</SelectItem>
+                      <SelectItem value="discovery-call-30">30 min discovery call</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="wf-cfg-via" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                    Send via
+                  </Label>
+                  <Select value={cfgSendVia} onValueChange={setCfgSendVia}>
+                    <SelectTrigger id="wf-cfg-via" className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 text-sm text-black" data-testid="select-cfg-send-via">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="email">Email</SelectItem>
+                      <SelectItem value="text">Text</SelectItem>
+                      <SelectItem value="chat">Chat</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                {cfgSendVia === "text" && (
+                  <>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        Text message
+                      </Label>
+                      <Textarea
+                        id="wf-cfg-message"
+                        value={cfgMessage}
+                        onChange={(e) => setCfgMessage(e.target.value)}
+                        placeholder="Enter text message"
+                        className="min-h-[80px] rounded-md border border-[#dddfe5] bg-white p-2 text-sm text-black"
+                        data-testid="textarea-cfg-message"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-to" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        To
+                      </Label>
+                      <Input
+                        id="wf-cfg-to"
+                        value={cfgRecipient}
+                        onChange={(e) => setCfgRecipient(e.target.value)}
+                        placeholder="(555) 555-5555"
+                        className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 text-sm text-black"
+                        data-testid="input-cfg-to"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-from" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        From
+                      </Label>
+                      <Input
+                        id="wf-cfg-from"
+                        value={cfgFrom}
+                        onChange={(e) => setCfgFrom(e.target.value)}
+                        placeholder="(555) 555-5555"
+                        className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 text-sm text-black"
+                        data-testid="input-cfg-from"
+                      />
+                    </div>
+                  </>
+                )}
+                {cfgSendVia === "chat" && (
+                  <>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-conversation" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        Conversation
+                      </Label>
+                      <Input
+                        id="wf-cfg-conversation"
+                        value={cfgRecipient}
+                        onChange={(e) => setCfgRecipient(e.target.value)}
+                        placeholder="Select conversation"
+                        className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 text-sm text-black"
+                        data-testid="input-cfg-conversation"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        Message
+                      </Label>
+                      <Textarea
+                        id="wf-cfg-message"
+                        value={cfgMessage}
+                        onChange={(e) => setCfgMessage(e.target.value)}
+                        placeholder="Enter message"
+                        className="min-h-[80px] rounded-md border border-[#dddfe5] bg-white p-2 text-sm text-black"
+                        data-testid="textarea-cfg-message"
+                      />
+                    </div>
+                  </>
+                )}
+                {cfgSendVia === "email" && (
+                  <>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-email" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        Email
+                      </Label>
+                      <Input
+                        id="wf-cfg-email"
+                        value={cfgRecipient}
+                        onChange={(e) => setCfgRecipient(e.target.value)}
+                        placeholder="name@example.com"
+                        className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 text-sm text-black"
+                        data-testid="input-cfg-email"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="wf-cfg-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                        Message
+                      </Label>
+                      <Textarea
+                        id="wf-cfg-message"
+                        value={cfgMessage}
+                        onChange={(e) => setCfgMessage(e.target.value)}
+                        placeholder="Enter message"
+                        className="min-h-[80px] rounded-md border border-[#dddfe5] bg-white p-2 text-sm text-black"
+                        data-testid="textarea-cfg-message"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="flex justify-end gap-2 border-t border-[#dddfe5] px-4 py-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setConfigPanelOpen(false)}
+                  className="h-8 rounded-[10px] border border-[#dddfe5] bg-white px-3 text-sm text-black hover:bg-[#f5f6f9]"
+                  data-testid="button-cfg-cancel"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => setConfigPanelOpen(false)}
+                  className="h-8 rounded-[10px] bg-[#0040dd] px-3 text-sm text-white hover:bg-[#0037be]"
+                  data-testid="button-cfg-save"
+                >
+                  Save
+                </Button>
+              </div>
+            </aside>
+          )}
         </div>
       </div>
 
