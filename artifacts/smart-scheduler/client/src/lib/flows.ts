@@ -20,14 +20,12 @@ export const FLOWS: FlowEntry[] = [
   { id: "in-meeting", label: "In meeting", group: "before", route: "/", flow: "in-meeting" },
   { id: "post-meeting", label: "Post meeting", group: "before", route: "/", flow: "post-meeting" },
   { id: "in-call", label: "In call", group: "before", route: "/phone", flow: "in-call" },
-  { id: "post-call", label: "Post call", group: "before", route: "/phone" },
+  { id: "post-call", label: "Post call", group: "before", route: "/phone/post-call" },
   { id: "text", label: "Text", group: "before", route: "/text" },
   { id: "workflow", label: "Workflow", group: "before", route: "/workflows" },
   { id: "ava", label: "AVA", group: "before", route: "/", flow: "ava" },
   { id: "settings-calendar", label: "Settings / Calendar", group: "before", route: "/settings", flow: "settings-calendars" },
   { id: "widget", label: "Widget", group: "before", route: "/", flow: "widget", comingSoon: true },
-
-  { id: "before-meeting-share-link", label: "Share booking link in / after meeting", group: "before", route: "/meeting-window", flow: "share-booking", setPurchased: false },
 
   { id: "after-booking-initial-setup", label: "Initial setup in booking tab", group: "after", route: "/", flow: "after-booking-initial-setup" },
   { id: "after-chat-booking-link", label: "Post booking link in chat", group: "after", route: "/chat", flow: "after-chat-booking-link" },
@@ -80,7 +78,8 @@ function flattenFlows(entries: FlowEntry[]): FlowEntry[] {
 const ROUTE_PHASE_FLOW: Record<string, Partial<Record<FlowGroup, string>>> = {
   "/": { before: "booking-tab", after: "after-booking-initial-setup" },
   "/chat": { before: "chat", after: "after-chat-booking-link" },
-  "/phone": { before: "post-call", after: "after-call-share-link" },
+  "/phone": { before: "in-call", after: "after-call-share-link" },
+  "/phone/post-call": { before: "post-call" },
   "/text": { before: "text", after: "after-text-booking-link" },
   "/workflows": { before: "workflow", after: "after-workflow-send-link" },
   "/settings": { before: "settings-calendar", after: "settings-calendar" },
