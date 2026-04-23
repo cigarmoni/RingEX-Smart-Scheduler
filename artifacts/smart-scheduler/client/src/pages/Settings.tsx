@@ -24,6 +24,7 @@ import {
   RingCentralIcon,
 } from "@/components/BrandIcons";
 import { AppShell } from "@/components/AppShell";
+import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -134,40 +135,17 @@ export const Settings = (): JSX.Element => {
             {active === "calendars" ? (
               <div className="mx-auto flex max-w-3xl flex-col gap-6">
                 {showPromo && (
-                  <Card
-                    className="relative flex gap-4 rounded-xl border border-[#dddfe5] bg-white p-5 shadow-none"
+                  <FeatureIntroBanner
                     data-testid="card-promo"
-                  >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0040dd1a]">
-                      <Calendar className="h-5 w-5 text-[#0040dd]" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tracking-[var(--subtitle-letter-spacing)] text-black [font-style:var(--subtitle-font-style)]">
-                        Add online booking to your business
-                      </h3>
-                      <p className="mt-1 font-main-text text-[length:var(--main-text-font-size)] font-[number:var(--main-text-font-weight)] leading-[var(--main-text-line-height)] tracking-[var(--main-text-letter-spacing)] text-[#323439] [font-style:var(--main-text-font-style)]">
-                        Let customers book time with you based on your availability.
-                        Create booking types, share your link, and manage appointments
-                        in one place.
-                      </p>
-                      <button
-                        type="button"
-                        className="mt-2 font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] text-[#0040dd] hover:underline"
-                        data-testid="link-find-out-more"
-                      >
-                        Find out more
-                      </button>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowPromo(false)}
-                      className="absolute right-3 top-3 rounded-full p-1 text-[#56585e] hover:bg-[#f5f6f9]"
-                      aria-label="Dismiss"
-                      data-testid="button-dismiss-promo"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </Card>
+                    title="Add online booking to your business"
+                    description="Let customers book time with you based on your availability. Create booking types, share your link, and manage appointments in one place."
+                    action={{
+                      label: "Find out more",
+                      testId: "link-find-out-more",
+                    }}
+                    onDismiss={() => setShowPromo(false)}
+                    dismissTestId="button-dismiss-promo"
+                  />
                 )}
 
                 <Section title="Microsoft">
