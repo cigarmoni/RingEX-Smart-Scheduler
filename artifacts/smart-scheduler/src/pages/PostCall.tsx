@@ -8,6 +8,7 @@ import {
   SettingsMd,
   SearchMd,
   ArrowDownMd,
+  CallMd,
   PhoneSettingsMd,
   PhoneWarningMd,
   MessageMd,
@@ -136,11 +137,11 @@ const phoneTabs = [
 const directionIcon = (d: CallDirection) => {
   switch (d) {
     case "incoming":
-      return <PhoneSettingsMd className="h-3.5 w-3.5 text-sui-success-b04" />;
+      return <PhoneSettingsMd className="h-3.5 w-3.5 text-success-f" />;
     case "outgoing":
-      return <PhoneSettingsMd className="h-3.5 w-3.5 text-sui-success-b04" />;
+      return <PhoneSettingsMd className="h-3.5 w-3.5 text-success-f" />;
     case "missed":
-      return <PhoneWarningMd className="h-3.5 w-3.5 text-sui-danger-b04" />;
+      return <PhoneWarningMd className="h-3.5 w-3.5 text-danger-f" />;
   }
 };
 
@@ -164,7 +165,7 @@ const Avatar = ({
       >
         {initials}
       </div>
-      <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-sui-success-b04" />
+      <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-success" />
     </div>
   );
 };
@@ -186,10 +187,10 @@ export const PostCall = (): JSX.Element => {
     <AppShell activeNav="Phone">
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">
         {/* Left rail */}
-        <div className="flex w-full shrink-0 flex-col border-b border-sui-neutral-line md:w-[400px] md:border-b-0 md:border-r">
+        <div className="flex w-full shrink-0 flex-col border-b border-neutral-b0-t20 md:w-[400px] md:border-b-0 md:border-r">
           {/* Header */}
-          <div className="flex h-[60px] items-center justify-between px-sui-4">
-            <h2 className="text-title text-sui-neutral-f03">
+          <div className="flex h-[60px] items-center justify-between px-4">
+            <h2 className="text-title text-neutral-b2">
               Phone
             </h2>
             <IconButton
@@ -203,7 +204,7 @@ export const PostCall = (): JSX.Element => {
           </div>
 
           {/* Tabs */}
-          <nav className="flex items-center gap-sui-4 border-b border-sui-neutral-line px-sui-4">
+          <nav className="flex items-center gap-4 border-b border-neutral-b0-t20 px-4">
             {phoneTabs.map((tab) => {
               const isActive = activeTab === tab.label;
               const Icon = tab.icon;
@@ -212,15 +213,15 @@ export const PostCall = (): JSX.Element => {
                   key={tab.label}
                   type="button"
                   onClick={() => setActiveTab(tab.label)}
-                  className={`relative flex items-center gap-sui-1 px-1 pb-2.5 pt-2 text-caption2-UPPER ${
-                    isActive ? "text-sui-cobranding-b01" : "text-sui-neutral-f02"
+                  className={`relative flex items-center gap-1 px-1 pb-2.5 pt-2 text-caption2-UPPER ${
+                    isActive ? "text-cobranding-f" : "text-neutral-b1"
                   }`}
                   data-testid={`tab-phone-${tab.label.toLowerCase()}`}
                 >
                   {Icon && <Icon className="h-3.5 w-3.5" />}
                   {tab.label}
                   {isActive && (
-                    <span className="absolute inset-x-0 -bottom-px h-0.5 bg-sui-cobranding-b01" />
+                    <span className="absolute inset-x-0 -bottom-px h-0.5 bg-cobranding-b" />
                   )}
                 </button>
               );
@@ -228,17 +229,17 @@ export const PostCall = (): JSX.Element => {
           </nav>
 
           {/* Search + filter */}
-          <div className="flex h-[52px] items-center gap-sui-2 px-sui-3">
+          <div className="flex h-[52px] items-center gap-2 px-3">
             <TextField
               placeholder="Search all"
               className="flex-1"
               data-testid="input-search-calls"
             />
-            <div className="flex items-center gap-sui-2 px-1 text-caption2-UPPER">
+            <div className="flex items-center gap-2 px-1 text-caption2-UPPER">
               <button
                 type="button"
                 onClick={() => setFilter("ALL")}
-                className={filter === "ALL" ? "text-sui-cobranding-b01" : "text-sui-neutral-f02 hover:text-sui-neutral-f03"}
+                className={filter === "ALL" ? "text-cobranding-f" : "text-neutral-b1 hover:text-neutral-b2"}
                 data-testid="filter-all"
               >
                 ALL
@@ -246,16 +247,16 @@ export const PostCall = (): JSX.Element => {
               <button
                 type="button"
                 onClick={() => setFilter("MISSED")}
-                className={filter === "MISSED" ? "text-sui-cobranding-b01" : "text-sui-neutral-f02 hover:text-sui-neutral-f03"}
+                className={filter === "MISSED" ? "text-cobranding-f" : "text-neutral-b1 hover:text-neutral-b2"}
                 data-testid="filter-missed"
               >
                 MISSED
               </button>
-              <ArrowDownMd className="h-3 w-3 text-sui-neutral-f02" />
+              <ArrowDownMd className="h-3 w-3 text-neutral-b1" />
             </div>
             <button
               type="button"
-              className="px-1 text-subtitle-mini text-sui-cobranding-b01 hover:underline"
+              className="px-1 text-subtitle-mini text-cobranding-f hover:underline"
               data-testid="button-edit-calls"
             >
               Edit
@@ -269,44 +270,44 @@ export const PostCall = (): JSX.Element => {
               return (
                 <div
                   key={call.id}
-                  className={`group relative flex h-[54px] items-center gap-sui-3 px-sui-4 ${
-                    isActive ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"
+                  className={`group relative flex h-[54px] items-center gap-3 px-4 ${
+                    isActive ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"
                   }`}
                   data-testid={`row-call-${call.id}`}
                 >
                   <button
                     type="button"
                     onClick={() => setActiveId(call.id)}
-                    className="flex min-w-0 flex-1 items-center gap-sui-3 text-left"
+                    className="flex min-w-0 flex-1 items-center gap-3 text-left"
                     data-testid={`button-select-call-${call.id}`}
                   >
                     <Avatar initials={call.initials} color={call.color} size="sm" />
                     <div className="flex min-w-0 flex-1 flex-col">
                       <span
                         className={`truncate text-subtitle ${
-                          call.direction === "missed" ? "text-sui-danger-b04" : isActive ? "text-sui-cobranding-b01" : "text-sui-neutral-f03"
+                          call.direction === "missed" ? "text-danger-f" : isActive ? "text-cobranding-f" : "text-neutral-b2"
                         }`}
                         data-testid={`text-call-name-${call.id}`}
                       >
                         {call.name}
                       </span>
-                      <span className="flex items-center gap-sui-1 truncate text-descriptor text-sui-neutral-f02">
+                      <span className="flex items-center gap-1 truncate text-descriptor text-neutral-b1">
                         {directionIcon(call.direction)}
                         {call.durationLabel}
                       </span>
                     </div>
                   </button>
                   {/* End slot meta (date) */}
-                  <div className="flex shrink-0 items-center gap-sui-1 text-descriptor text-sui-neutral-f02 group-hover:hidden">
+                  <div className="flex shrink-0 items-center gap-1 text-descriptor text-neutral-b1 group-hover:hidden">
                     {call.voicemail && <VoicemailMd className="h-3.5 w-3.5" />}
                     <span data-testid={`text-call-date-${call.id}`}>{call.shortDate}</span>
                   </div>
                   {/* Hover quick actions */}
-                  <div className="hidden shrink-0 items-center gap-sui-1 group-hover:flex">
+                  <div className="hidden shrink-0 items-center gap-1 group-hover:flex">
                     <button
                       type="button"
                       onClick={() => notify(`Calling ${call.name}`)}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-sui-neutral-line bg-white text-sui-cobranding-b01 hover:bg-sui-neutral-b02"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-b0-t20 bg-white text-cobranding-f hover:bg-neutral-b2"
                       aria-label={`Call back ${call.name}`}
                       data-testid={`button-callback-${call.id}`}
                     >
@@ -315,7 +316,7 @@ export const PostCall = (): JSX.Element => {
                     <button
                       type="button"
                       onClick={() => notify(`Messaging ${call.name}`)}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-sui-neutral-line bg-white text-sui-cobranding-b01 hover:bg-sui-neutral-b02"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-b0-t20 bg-white text-cobranding-f hover:bg-neutral-b2"
                       aria-label={`Message ${call.name}`}
                       data-testid={`button-message-${call.id}`}
                     >
@@ -324,7 +325,7 @@ export const PostCall = (): JSX.Element => {
                     <button
                       type="button"
                       onClick={() => notify("More actions")}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-sui-neutral-line bg-white text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-b0-t20 bg-white text-neutral-b1 hover:bg-neutral-b2"
                       aria-label="More actions"
                       data-testid={`button-more-${call.id}`}
                     >
@@ -335,7 +336,7 @@ export const PostCall = (): JSX.Element => {
               );
             })}
             {visibleCalls.length === 0 && (
-              <div className="flex h-32 items-center justify-center text-main-text text-sui-neutral-f02">
+              <div className="flex h-32 items-center justify-center text-main-text text-neutral-b1">
                 No calls to show
               </div>
             )}
@@ -345,7 +346,7 @@ export const PostCall = (): JSX.Element => {
         {/* Center detail pane */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Header (just close/delete in top right) */}
-          <div className="flex h-[60px] items-center justify-end gap-sui-1 px-sui-4 text-sui-neutral-f02">
+          <div className="flex h-[60px] items-center justify-end gap-1 px-4 text-neutral-b1">
             <IconButton
               symbol={TrashMd as any}
               variant="icon"
@@ -366,17 +367,17 @@ export const PostCall = (): JSX.Element => {
             />
           </div>
 
-          <div className="flex-1 overflow-y-auto px-sui-6 pb-sui-6">
+          <div className="flex-1 overflow-y-auto px-6 pb-6">
             {/* Avatar + name + number */}
-            <div className="flex flex-col items-center gap-sui-2">
+            <div className="flex flex-col items-center gap-2">
               <Avatar initials={active.initials} color={active.color} size="lg" />
               <h3
-                className="mt-2 text-display-2 text-sui-neutral-f03"
+                className="mt-2 text-display-2 text-neutral-b2"
                 data-testid="text-detail-name"
               >
                 {active.name}
               </h3>
-              <div className="flex items-center gap-sui-1 text-main-text text-sui-neutral-f02">
+              <div className="flex items-center gap-1 text-main-text text-neutral-b1">
                 <span data-testid="text-detail-phone">{active.phone}</span>
                 <IconButton
                   symbol={CopyMd as any}
@@ -394,7 +395,7 @@ export const PostCall = (): JSX.Element => {
             </div>
 
             {/* Action row: call, split-button, message, more */}
-            <div className="mt-4 flex items-center justify-center gap-sui-3">
+            <div className="mt-4 flex items-center justify-center gap-3">
               <ActionButton
                 icon={<PhoneSettingsMd className="h-4 w-4" />}
                 label="Call"
@@ -420,7 +421,7 @@ export const PostCall = (): JSX.Element => {
             </div>
 
             {/* Detail list */}
-            <div className="mx-auto mt-6 flex max-w-[400px] flex-col gap-sui-2">
+            <div className="mx-auto mt-6 flex max-w-[400px] flex-col gap-2">
               <DetailCard
                 label="From"
                 primary={`${active.phone} (me)`}
@@ -431,7 +432,7 @@ export const PostCall = (): JSX.Element => {
                 primary={
                   <span
                     className={
-                      active.direction === "missed" ? "text-sui-danger-b04" : "text-sui-success-b04"
+                      active.direction === "missed" ? "text-danger-f" : "text-success-f"
                     }
                   >
                     {active.direction === "missed"
@@ -443,25 +444,25 @@ export const PostCall = (): JSX.Element => {
                 }
                 icon={
                   active.direction === "missed" ? (
-                    <PhoneWarningMd className="h-4 w-4 text-sui-danger-b04" />
+                    <PhoneWarningMd className="h-4 w-4 text-danger-f" />
                   ) : (
-                    <PhoneCall className="h-4 w-4 text-sui-success-b04" />
+                    <CallMd className="h-4 w-4 text-success-f" />
                   )
                 }
                 data-testid="card-direction"
               />
 
               {/* Notes / Transcript */}
-              <div className="mt-2 rounded-lg border border-sui-neutral-line bg-white">
-                <div className="flex items-center justify-between gap-sui-2 border-b border-sui-neutral-line px-sui-3 py-sui-2">
-                  <div className="flex items-center gap-sui-1 rounded-full bg-sui-neutral-b02 p-0.5">
+              <div className="mt-2 rounded-lg border border-neutral-b0-t20 bg-white">
+                <div className="flex items-center justify-between gap-2 border-b border-neutral-b0-t20 px-3 py-2">
+                  <div className="flex items-center gap-1 rounded-full bg-neutral-b2 p-0.5">
                     {(["NOTES", "TRANSCRIPT"] as const).map((t) => (
                       <button
                         key={t}
                         type="button"
                         onClick={() => setDetailTab(t)}
                         className={`rounded-full px-3 py-1 text-subtitle-mini ${
-                          detailTab === t ? "bg-white text-sui-neutral-f03 shadow-sui-sm" : "text-sui-neutral-f02"
+                          detailTab === t ? "bg-white text-neutral-b2 shadow-sm" : "text-neutral-b1"
                         }`}
                         data-testid={`tab-detail-${t.toLowerCase()}`}
                       >
@@ -469,7 +470,7 @@ export const PostCall = (): JSX.Element => {
                       </button>
                     ))}
                   </div>
-                  <div className="flex items-center gap-0.5 text-sui-neutral-f02">
+                  <div className="flex items-center gap-0.5 text-neutral-b1">
                     <IconBtn label="Report" onClick={() => notify("Report")} testid="button-detail-report">
                       <AlertMd className="h-4 w-4" />
                     </IconBtn>
@@ -477,7 +478,7 @@ export const PostCall = (): JSX.Element => {
                       <EditMd className="h-4 w-4" />
                     </IconBtn>
                     <IconBtn label="Copy" onClick={() => notify("Copied to clipboard")} testid="button-detail-copy">
-                      <ClipboardCopy className="h-4 w-4" />
+                      <CopyMd className="h-4 w-4" />
                     </IconBtn>
                     <IconBtn label="Share" onClick={() => notify("Shared")} testid="button-detail-share">
                       <ShareMd className="h-4 w-4" />
@@ -485,17 +486,17 @@ export const PostCall = (): JSX.Element => {
                   </div>
                 </div>
 
-                <div className="p-sui-3">
+                <div className="p-3">
                   {detailTab === "NOTES" ? (
-                    <div className="text-main-text text-sui-neutral-f03">
+                    <div className="text-main-text text-neutral-b2">
                       <p>{active.name} asks for a dental treatment on Friday.</p>
-                      <h5 className="mt-3 text-descriptor-mini font-semibold text-sui-neutral-f03">
+                      <h5 className="mt-3 text-descriptor-mini font-semibold text-neutral-b2">
                         Recap
                       </h5>
                       <ul className="mt-1 list-disc space-y-1 pl-5">
                         <li>{active.name} is only available on Friday.</li>
                       </ul>
-                      <h5 className="mt-3 text-descriptor-mini font-semibold text-sui-neutral-f03">
+                      <h5 className="mt-3 text-descriptor-mini font-semibold text-neutral-b2">
                         Tasks
                       </h5>
                       <ul className="mt-1 list-disc space-y-1 pl-5">
@@ -508,7 +509,7 @@ export const PostCall = (): JSX.Element => {
                       </ul>
                     </div>
                   ) : (
-                    <div className="space-y-3 text-main-text text-sui-neutral-f03">
+                    <div className="space-y-3 text-main-text text-neutral-b2">
                       <p>
                         <span className="font-semibold">{active.name}:</span> Hi! Thanks for getting back to me about
                         the demo.
@@ -544,7 +545,7 @@ const ActionButton = ({
   <button
     type="button"
     onClick={onClick}
-    className="flex h-9 w-9 items-center justify-center rounded-full border border-sui-neutral-line bg-white text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+    className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-b0-t20 bg-white text-neutral-b1 hover:bg-neutral-b2"
     aria-label={label}
     data-testid={testid}
   >
@@ -553,21 +554,21 @@ const ActionButton = ({
 );
 
 const SplitButton = ({ onCall, onMore }: { onCall: () => void; onMore: () => void }) => (
-  <div className="flex h-9 items-stretch overflow-hidden rounded-full border border-sui-neutral-line bg-white text-sui-neutral-f02">
+  <div className="flex h-9 items-stretch overflow-hidden rounded-full border border-neutral-b0-t20 bg-white text-neutral-b1">
     <button
       type="button"
       onClick={onCall}
-      className="flex items-center justify-center px-sui-3 hover:bg-sui-neutral-b02"
+      className="flex items-center justify-center px-3 hover:bg-neutral-b2"
       aria-label="Video call"
       data-testid="button-action-video"
     >
       <VideoMd className="h-4 w-4" />
     </button>
-    <div className="my-1.5 w-[1px] bg-sui-neutral-line" />
+    <div className="my-1.5 w-[1px] bg-neutral-b0-t10" />
     <button
       type="button"
       onClick={onMore}
-      className="flex items-center justify-center px-sui-2 hover:bg-sui-neutral-b02"
+      className="flex items-center justify-center px-2 hover:bg-neutral-b2"
       aria-label="More call options"
       data-testid="button-action-video-more"
     >
@@ -588,14 +589,14 @@ const DetailCard = ({
   [key: string]: unknown;
 }) => (
   <div
-    className="flex items-center justify-between gap-sui-4 rounded-lg border border-sui-neutral-line bg-white p-sui-3"
+    className="flex items-center justify-between gap-4 rounded-lg border border-neutral-b0-t20 bg-white p-3"
     {...rest}
   >
-    <div className="flex min-w-0 flex-1 items-center gap-sui-3">
+    <div className="flex min-w-0 flex-1 items-center gap-3">
       {icon && <div className="shrink-0">{icon}</div>}
       <div className="flex min-w-0 flex-1 flex-col">
-        <span className="text-descriptor text-sui-neutral-f02">{label}</span>
-        <span className="text-subtitle text-sui-neutral-f03 truncate">{primary}</span>
+        <span className="text-descriptor text-neutral-b1">{label}</span>
+        <span className="text-subtitle text-neutral-b2 truncate">{primary}</span>
       </div>
     </div>
   </div>
@@ -615,7 +616,7 @@ const IconBtn = ({
   <button
     type="button"
     onClick={onClick}
-    className="rounded p-1 hover:bg-sui-neutral-b02"
+    className="rounded p-1 hover:bg-neutral-b2"
     aria-label={label}
     data-testid={testid}
   >
@@ -627,9 +628,9 @@ const BookingLinkAction = ({ contactName }: { contactName: string }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="mt-1 flex items-center gap-sui-2 rounded border border-sui-neutral-line bg-sui-neutral-b02 p-sui-2">
-        <HelpMd className="h-4 w-4 text-sui-warning-b04 shrink-0" />
-        <span className="text-main-text text-sui-neutral-f03 flex-1">
+      <div className="mt-1 flex items-center gap-2 rounded border border-neutral-b0-t20 bg-neutral-b2 p-2">
+        <HelpMd className="h-4 w-4 text-warning-f shrink-0" />
+        <span className="text-main-text text-neutral-b2 flex-1">
           Share your booking link to help {contactName} find a time.
         </span>
         <Button

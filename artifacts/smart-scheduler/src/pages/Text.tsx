@@ -151,7 +151,7 @@ export const Text = (): JSX.Element => {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
-    const html = `${prefix}Here's my booking link so you can choose a time that works for you: <a href="#" class="text-sui-cobranding-b01 underline" contenteditable="false" data-testid="link-text-booking-${booking.id}">${safeTitle}</a>.`;
+    const html = `${prefix}Here's my booking link so you can choose a time that works for you: <a href="#" class="text-cobranding-f underline" contenteditable="false" data-testid="link-text-booking-${booking.id}">${safeTitle}</a>.`;
     if (!existing) {
       el.innerHTML = html;
     } else {
@@ -174,10 +174,10 @@ export const Text = (): JSX.Element => {
     <AppShell activeNav="Text">
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">
         {/* Left rail */}
-        <div className="flex w-full shrink-0 flex-col border-b border-sui-neutral-line md:w-[400px] md:border-b-0 md:border-r">
+        <div className="flex w-full shrink-0 flex-col border-b border-neutral-b0-t20 md:w-[400px] md:border-b-0 md:border-r">
           {/* Page header */}
-          <div className="flex items-center justify-between px-sui-4 pt-sui-4 pb-sui-2">
-            <h2 className="text-title text-sui-neutral-f03">
+          <div className="flex items-center justify-between px-4 pt-4 pb-2">
+            <h2 className="text-title text-neutral-b2">
               Text
             </h2>
             <IconButton
@@ -191,7 +191,7 @@ export const Text = (): JSX.Element => {
           </div>
 
           {/* Search row */}
-          <div className="flex items-center gap-sui-2 px-sui-4 py-sui-3">
+          <div className="flex items-center gap-2 px-4 py-3">
             <TextField
               placeholder="Search texts"
               className="flex-1 h-8 text-sm"
@@ -199,10 +199,10 @@ export const Text = (): JSX.Element => {
             />
             <button
               type="button"
-              className="flex items-center gap-sui-1 text-xs font-bold text-sui-neutral-f02 hover:text-sui-neutral-f03"
+              className="flex items-center gap-1 text-xs font-bold text-neutral-b1 hover:text-neutral-b2"
               data-testid="button-text-filter"
             >
-              <span className="text-sui-cobranding-b01">ALL</span>
+              <span className="text-cobranding-f">ALL</span>
               <span>UNREAD</span>
               <ArrowDownMd className="h-3 w-3" />
             </button>
@@ -211,13 +211,13 @@ export const Text = (): JSX.Element => {
               variant="icon"
               color="primary"
               size="small"
-              className="text-sui-cobranding-b01 hover:bg-sui-neutral-b02 rounded-full"
+              className="text-cobranding-f hover:bg-neutral-b2 rounded-full"
               aria-label="New message"
               data-testid="button-text-new-message"
             />
             <button
               type="button"
-              className="text-sm font-semibold text-sui-cobranding-b01 hover:underline"
+              className="text-sm font-semibold text-cobranding-f hover:underline"
               data-testid="button-text-edit"
             >
               Edit
@@ -233,13 +233,13 @@ export const Text = (): JSX.Element => {
                   key={convo.id}
                   type="button"
                   onClick={() => setActiveConvoId(convo.id)}
-                  className={`relative flex w-full items-start gap-sui-3 px-sui-3 py-sui-3 text-left ${
-                    isActive ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"
+                  className={`relative flex w-full items-start gap-3 px-3 py-3 text-left ${
+                    isActive ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"
                   }`}
                   data-testid={`row-text-conversation-${convo.id}`}
                 >
                   {convo.hasIndicator && (
-                    <span className="absolute left-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-sui-cobranding-b01" />
+                    <span className="absolute left-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cobranding-b" />
                   )}
                   <Avatar
                     initials={convo.initials}
@@ -247,19 +247,19 @@ export const Text = (): JSX.Element => {
                     online={convo.online}
                   />
                   <div className="flex min-w-0 flex-1 flex-col">
-                    <div className="flex items-baseline justify-between gap-sui-2">
-                      <span className="truncate text-sm font-semibold text-sui-neutral-f03">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="truncate text-sm font-semibold text-neutral-b2">
                         {convo.name}
                       </span>
-                      <span className="shrink-0 text-xs text-sui-neutral-f02">{convo.date}</span>
+                      <span className="shrink-0 text-xs text-neutral-b1">{convo.date}</span>
                     </div>
-                    <div className="flex items-center justify-between gap-sui-2">
-                      <span className="flex min-w-0 items-center gap-sui-1 truncate text-xs text-sui-neutral-f02">
-                        <AiStarsMd className="h-3 w-3 shrink-0 text-sui-neutral-f02" />
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex min-w-0 items-center gap-1 truncate text-xs text-neutral-b1">
+                        <AiStarsMd className="h-3 w-3 shrink-0 text-neutral-b1" />
                         <span className="truncate">{convo.snippet}</span>
                       </span>
                       {convo.unread && (
-                        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-sui-neutral-f02 px-1 text-[10px] font-bold text-white">
+                        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-neutral-b5 px-1 text-[10px] font-bold text-white">
                           {convo.unread}
                         </span>
                       )}
@@ -274,9 +274,9 @@ export const Text = (): JSX.Element => {
         {/* Center pane */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* App bar */}
-          <div className="flex items-center justify-between border-b border-sui-neutral-line px-sui-4 py-sui-3">
-            <div className="flex min-w-0 items-center gap-sui-2">
-              <h3 className="truncate text-title text-sui-neutral-f03">
+          <div className="flex items-center justify-between border-b border-neutral-b0-t20 px-4 py-3">
+            <div className="flex min-w-0 items-center gap-2">
+              <h3 className="truncate text-title text-neutral-b2">
                 {activeConvo?.name ?? "Conversation"}
               </h3>
               <IconButton
@@ -289,7 +289,7 @@ export const Text = (): JSX.Element => {
                 data-testid="button-text-favorite"
               />
             </div>
-            <div className="flex items-center gap-sui-1 text-sui-neutral-f02">
+            <div className="flex items-center gap-1 text-neutral-b1">
               <IconButton
                 symbol={OverflowMd as any}
                 variant="icon"
@@ -310,7 +310,7 @@ export const Text = (): JSX.Element => {
           </div>
 
           {/* SMS feed */}
-          <div className="flex-1 space-y-6 overflow-y-auto px-sui-4 py-sui-4 sm:px-sui-6">
+          <div className="flex-1 space-y-6 overflow-y-auto px-4 py-4 sm:px-6">
             {/* Day 1 — earlier image from recipient */}
             <div className="flex justify-end">
               <div className="overflow-hidden rounded-2xl">
@@ -357,8 +357,8 @@ export const Text = (): JSX.Element => {
           </div>
 
           {/* Composer */}
-          <div className="border-t border-sui-neutral-line bg-white px-sui-4 py-sui-3 sm:px-sui-6">
-            <div className="rounded-lg border border-sui-neutral-line p-2">
+          <div className="border-t border-neutral-b0-t20 bg-white px-4 py-3 sm:px-6">
+            <div className="rounded-lg border border-neutral-b0-t20 p-2">
               <div
                 ref={composerRef}
                 contentEditable
@@ -366,7 +366,7 @@ export const Text = (): JSX.Element => {
                 aria-label="Text from (650) 432-4678"
                 onInput={(e) => setComposer((e.currentTarget.textContent ?? ""))}
                 data-placeholder="Text from (650) 432-4678"
-                className="block w-full whitespace-pre-wrap break-words border-0 bg-transparent p-2 text-sm leading-5 outline-none focus:outline-none empty:before:text-sui-neutral-f02 empty:before:content-[attr(data-placeholder)]"
+                className="block w-full whitespace-pre-wrap break-words border-0 bg-transparent p-2 text-sm leading-5 outline-none focus:outline-none empty:before:text-neutral-b1 empty:before:content-[attr(data-placeholder)]"
                 data-testid="input-text-composer"
                 suppressContentEditableWarning
               />
@@ -443,8 +443,8 @@ export const Text = (): JSX.Element => {
                     anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
                     transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                   >
-                    <div className="w-72 rounded-lg p-2 shadow-sui-md bg-white">
-                      <div className="px-2 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-sui-neutral-f02">
+                    <div className="w-72 rounded-lg p-2 shadow-md bg-white">
+                      <div className="px-2 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-neutral-b1">
                         Share booking link
                       </div>
                       <div className="flex flex-col">
@@ -453,15 +453,15 @@ export const Text = (): JSX.Element => {
                             key={bt.id}
                             type="button"
                             onClick={() => handleInsertBookingLink(bt)}
-                            className="flex items-start gap-sui-2 rounded-md px-2 py-2 text-left hover:bg-sui-neutral-b02"
+                            className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-neutral-b2"
                             data-testid={`text-booking-type-${bt.id}`}
                           >
-                            <CalendarMd className="mt-0.5 h-4 w-4 shrink-0 text-sui-cobranding-b01" />
+                            <CalendarMd className="mt-0.5 h-4 w-4 shrink-0 text-cobranding-f" />
                             <div className="min-w-0 flex-1">
-                              <div className="truncate text-sm font-semibold text-sui-neutral-f03">
+                              <div className="truncate text-sm font-semibold text-neutral-b2">
                                 {bt.title}
                               </div>
-                              <div className="truncate text-xs text-sui-neutral-f02">
+                              <div className="truncate text-xs text-neutral-b1">
                                 {bt.duration}
                               </div>
                             </div>
@@ -493,7 +493,7 @@ export const Text = (): JSX.Element => {
 };
 
 const DaySeparator = ({ label }: { label: string }) => (
-  <div className="text-center text-xs text-sui-neutral-f02">{label}</div>
+  <div className="text-center text-xs text-neutral-b1">{label}</div>
 );
 
 const TextBubble = ({
@@ -504,10 +504,10 @@ const TextBubble = ({
   variant: "sender" | "recipient";
 }) => (
   <div
-    className={`max-w-xs rounded-2xl px-sui-3 py-sui-2 text-sm ${
+    className={`max-w-xs rounded-2xl px-3 py-2 text-sm ${
       variant === "sender"
-        ? "bg-sui-cobranding-b01 text-white"
-        : "bg-sui-neutral-b02 text-sui-neutral-f03"
+        ? "bg-cobranding-b text-white"
+        : "bg-neutral-b2 text-neutral-b2"
     }`}
   >
     {children}
@@ -521,15 +521,15 @@ const ImageBubble = ({ src, alt }: { src: string; alt: string }) => (
 );
 
 const FileBubble = ({ filename, size }: { filename: string; size: string }) => (
-  <div className="flex max-w-xs items-center gap-sui-2 rounded-2xl bg-sui-neutral-b02 px-sui-3 py-sui-2">
+  <div className="flex max-w-xs items-center gap-2 rounded-2xl bg-neutral-b2 px-3 py-2">
     <div className="flex h-8 w-8 items-center justify-center rounded bg-[#1f6feb] text-white">
       <NotesMd className="h-4 w-4" />
     </div>
     <div className="min-w-0 flex-1">
-      <div className="truncate text-sm font-semibold text-sui-neutral-f03">{filename}</div>
-      <div className="text-xs text-sui-neutral-f02">{size}</div>
+      <div className="truncate text-sm font-semibold text-neutral-b2">{filename}</div>
+      <div className="text-xs text-neutral-b1">{size}</div>
     </div>
-    <DownloadMd className="h-4 w-4 text-sui-neutral-f02" />
+    <DownloadMd className="h-4 w-4 text-neutral-b1" />
   </div>
 );
 
@@ -544,18 +544,18 @@ const RecipientGroup = ({
   time: string;
   bubbles: React.ReactNode[];
 }) => (
-  <div className="flex items-end gap-sui-2">
+  <div className="flex items-end gap-2">
     <Avatar initials={name.charAt(0)} color="bg-[#ffc000]" size="sm" />
-    <div className="flex min-w-0 flex-1 flex-col gap-sui-2">
-      <div className="text-xs text-sui-neutral-f02">
-        <span className="font-semibold text-sui-neutral-f03">{name}</span>
+    <div className="flex min-w-0 flex-1 flex-col gap-2">
+      <div className="text-xs text-neutral-b1">
+        <span className="font-semibold text-neutral-b2">{name}</span>
         <span> · {phone}</span>
       </div>
-      <div className="flex flex-col items-start gap-sui-2">
+      <div className="flex flex-col items-start gap-2">
         {bubbles.map((b, i) => (
-          <div key={i} className="flex items-end gap-sui-2">
+          <div key={i} className="flex items-end gap-2">
             {b}
-            {i === 0 && <span className="text-xs text-sui-neutral-f02">{time}</span>}
+            {i === 0 && <span className="text-xs text-neutral-b1">{time}</span>}
           </div>
         ))}
       </div>
@@ -572,14 +572,14 @@ const SenderGroup = ({
   phone: string;
   items: { time: string; node: React.ReactNode }[];
 }) => (
-  <div className="flex flex-col items-end gap-sui-2">
-    <div className="text-xs text-sui-neutral-f02">
-      <span className="font-semibold text-sui-neutral-f03">{name}</span>
+  <div className="flex flex-col items-end gap-2">
+    <div className="text-xs text-neutral-b1">
+      <span className="font-semibold text-neutral-b2">{name}</span>
       <span> · {phone}</span>
     </div>
     {items.map((item, i) => (
-      <div key={i} className="flex items-center gap-sui-2">
-        <span className="text-xs text-sui-neutral-f02">{item.time}</span>
+      <div key={i} className="flex items-center gap-2">
+        <span className="text-xs text-neutral-b1">{item.time}</span>
         {item.node}
       </div>
     ))}

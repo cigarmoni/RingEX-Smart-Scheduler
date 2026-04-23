@@ -278,7 +278,7 @@ const AvatarStack = ({
       ))}
       {overflow > 0 && (
         <div
-          className={`${dim} flex items-center justify-center rounded-full border-2 border-white bg-[#dddfe5] font-semibold text-sui-neutral-f02`}
+          className={`${dim} flex items-center justify-center rounded-full border-2 border-white bg-[#dddfe5] font-semibold text-neutral-b1`}
           data-testid="avatar-overflow"
         >
           +{overflow}
@@ -341,35 +341,35 @@ export const MeetingContent = ({
         key={m.id}
         type="button"
         onClick={() => setSelectedPastId(m.id)}
-        className={`flex w-full items-start gap-sui-3 px-sui-4 py-sui-3 text-left transition-colors ${
-          isSelected ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"
+        className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors ${
+          isSelected ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"
         }`}
         data-testid={`row-past-meeting-${m.id}`}
       >
         <ParticipantAvatar participant={m.participants[0]} size="md" />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <div className="flex items-center gap-sui-2">
+          <div className="flex items-center gap-2">
             <span
-              className="truncate font-subtitle text-sui-neutral-f01"
+              className="truncate typography-subtitle text-neutral-b0"
               data-testid={`text-past-meeting-title-${m.id}`}
             >
               {m.title}
             </span>
             {m.hasNotes && (
               <span
-                className="rounded-full bg-sui-neutral-b02 px-2 py-0.5 font-detail-bold text-[10px] font-bold uppercase tracking-wide text-sui-neutral-f02"
+                className="rounded-full bg-neutral-b2 px-2 py-0.5 typography-subtitleBold text-[10px] font-bold uppercase tracking-wide text-neutral-b1"
                 data-testid={`chip-notes-${m.id}`}
               >
                 Notes
               </span>
             )}
           </div>
-          <span className="truncate font-descriptor text-sui-neutral-f02">
+          <span className="truncate typography-descriptor text-neutral-b1">
             {m.preview}
           </span>
         </div>
         <span
-          className="shrink-0 font-descriptor text-sui-neutral-f02"
+          className="shrink-0 typography-descriptor text-neutral-b1"
           data-testid={`text-past-date-${m.id}`}
         >
           {m.shortDate}
@@ -382,7 +382,7 @@ export const MeetingContent = ({
     const isSelected = m.id === selectedId;
     const accent =
       m.status === "now"
-        ? "bg-sui-success"
+        ? "bg-success"
         : m.status === "soon"
           ? "bg-[#fe8624]"
           : "";
@@ -397,8 +397,8 @@ export const MeetingContent = ({
         key={m.id}
         type="button"
         onClick={() => setSelectedId(m.id)}
-        className={`relative flex w-full items-start gap-sui-3 px-sui-4 py-sui-3 text-left transition-colors ${
-          isSelected ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"
+        className={`relative flex w-full items-start gap-3 px-4 py-3 text-left transition-colors ${
+          isSelected ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"
         }`}
         data-testid={`row-meeting-${m.id}`}
       >
@@ -411,23 +411,23 @@ export const MeetingContent = ({
         <div
           className={`flex w-[72px] shrink-0 flex-col items-start rounded-md px-2 py-1 ${accentBg}`}
         >
-          <span className="font-detail-bold text-[11px] font-semibold leading-tight text-sui-neutral-f02">
+          <span className="typography-subtitleBold text-[11px] font-semibold leading-tight text-neutral-b1">
             {m.timeLabel}
           </span>
           {m.timeSubLabel && (
-            <span className="font-detail-bold text-[11px] font-semibold leading-tight text-sui-neutral-f02">
+            <span className="typography-subtitleBold text-[11px] font-semibold leading-tight text-neutral-b1">
               {m.timeSubLabel}
             </span>
           )}
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <span
-            className="truncate font-subtitle text-sui-neutral-f01"
+            className="truncate typography-subtitle text-neutral-b0"
             data-testid={`text-meeting-title-${m.id}`}
           >
             {m.title}
           </span>
-          <span className="truncate font-descriptor text-sui-cobranding-b01">
+          <span className="truncate typography-descriptor text-cobranding-f">
             {m.url}
           </span>
           <div className="pt-1">
@@ -453,19 +453,19 @@ export const MeetingContent = ({
     )}
     <section className="flex min-h-0 flex-1 flex-col md:flex-row">
         {/* LEFT PANE */}
-        <div className="flex w-full shrink-0 flex-col border-b border-sui-neutral-line bg-white md:w-[400px] md:border-b-0 md:border-r">
-          <header className="flex items-center justify-between px-sui-4 pt-sui-4 pb-sui-3">
+        <div className="flex w-full shrink-0 flex-col border-b border-neutral-b0-t20 bg-white md:w-[400px] md:border-b-0 md:border-r">
+          <header className="flex items-center justify-between px-4 pt-4 pb-3">
             <h2
-              className="font-title text-sui-neutral-f01"
+              className="typography-title text-neutral-b0"
               data-testid="text-meetings-title"
             >
               Meetings
             </h2>
-            <div className="flex items-center gap-sui-1">
+            <div className="flex items-center gap-1">
               <Button
                 variant="text"
                 onClick={() => setMeetingWindowOpen(true)}
-                className="h-8 gap-sui-1 rounded-md px-2 font-subtitle-mini text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                className="h-8 gap-1 rounded-md px-2 typography-subtitleMini text-neutral-b1 hover:bg-neutral-b2"
                 data-testid="button-join"
               >
                 <ProfileMd className="h-4 w-4" />
@@ -473,26 +473,26 @@ export const MeetingContent = ({
               </Button>
               <Button
                 variant="text"
-                className="h-8 w-8 rounded-md p-0 hover:bg-sui-neutral-b02 min-w-0"
+                className="h-8 w-8 rounded-md p-0 hover:bg-neutral-b2 min-w-0"
                 aria-label="Edit"
                 data-testid="button-edit-meetings"
               >
-                <EditMd className="h-4 w-4 text-sui-neutral-f02" />
+                <EditMd className="h-4 w-4 text-neutral-b1" />
               </Button>
               <Button
                 variant="text"
-                className="h-8 w-8 rounded-md p-0 hover:bg-sui-neutral-b02 min-w-0"
+                className="h-8 w-8 rounded-md p-0 hover:bg-neutral-b2 min-w-0"
                 aria-label="Settings"
                 data-testid="button-meeting-settings"
               >
-                <SettingsMd className="h-4 w-4 text-sui-neutral-f02" />
+                <SettingsMd className="h-4 w-4 text-neutral-b1" />
               </Button>
             </div>
           </header>
 
           {/* Tabs */}
           <nav
-            className="flex items-center gap-sui-1 border-b border-sui-neutral-line px-sui-2"
+            className="flex items-center gap-1 border-b border-neutral-b0-t20 px-2"
             role="tablist"
           >
             {tabs.map((tab) => {
@@ -504,15 +504,15 @@ export const MeetingContent = ({
                   aria-selected={isActive}
                   type="button"
                   onClick={() => setActiveTab(tab)}
-                  className={`relative flex items-center gap-1 px-3 py-3 font-detail-bold text-[11px] font-bold tracking-wider ${
-                    isActive ? "text-sui-cobranding-b01" : "text-sui-neutral-f02"
+                  className={`relative flex items-center gap-1 px-3 py-3 typography-subtitleBold text-[11px] font-bold tracking-wider ${
+                    isActive ? "text-cobranding-f" : "text-neutral-b1"
                   }`}
                   data-testid={`tab-${tab.toLowerCase()}`}
                 >
                   {tab === "NOTES" && <AiStarsMd className="h-3 w-3" />}
                   {tab}
                   {isActive && (
-                    <span className="absolute inset-x-2 -bottom-px h-[2px] bg-sui-cobranding-b01" />
+                    <span className="absolute inset-x-2 -bottom-px h-[2px] bg-cobranding-b" />
                   )}
                 </button>
               );
@@ -524,7 +524,7 @@ export const MeetingContent = ({
               <>
                 {/* Promo banner */}
                 {!bannerDismissed && (
-                  <div className="px-sui-4 pt-sui-4">
+                  <div className="px-4 pt-4">
                     <FeatureIntroBanner
                       data-testid="banner-promo"
                       title="Add online booking to your business"
@@ -542,16 +542,16 @@ export const MeetingContent = ({
                 )}
 
                 {/* Action buttons */}
-                <div className="flex items-start justify-around gap-sui-3 px-sui-4 pt-sui-4 pb-sui-2">
+                <div className="flex items-start justify-around gap-3 px-4 pt-4 pb-2">
                   <div className="flex flex-col items-center gap-1.5">
                     <button
                       type="button"
-                      className="flex h-14 w-14 items-center justify-center rounded-xl bg-sui-cobranding-b01 text-white shadow-sui-sm hover:bg-[#0037be]"
+                      className="flex h-14 w-14 items-center justify-center rounded-xl bg-cobranding-b text-white shadow-sm hover:bg-[#0037be]"
                       data-testid="button-start-meeting"
                     >
                       <StartVideoMd className="h-6 w-6" />
                     </button>
-                    <span className="flex items-center gap-0.5 font-subtitle-mini text-sui-neutral-f01">
+                    <span className="flex items-center gap-0.5 typography-subtitleMini text-neutral-b0">
                       Start
                       <ArrowDownMd className="h-3 w-3" />
                     </span>
@@ -559,33 +559,33 @@ export const MeetingContent = ({
                   <div className="flex flex-col items-center gap-1.5">
                     <button
                       type="button"
-                      className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-sui-neutral-line bg-white text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                      className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-neutral-b0-t20 bg-white text-neutral-b1 hover:bg-neutral-b2"
                       data-testid="button-schedule-meeting"
                     >
                       <CalendarMd className="h-6 w-6" />
                     </button>
-                    <span className="font-subtitle-mini text-sui-neutral-f01">
+                    <span className="typography-subtitleMini text-neutral-b0">
                       Schedule
                     </span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
                     <button
                       type="button"
-                      className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-sui-neutral-line bg-white text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                      className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-neutral-b0-t20 bg-white text-neutral-b1 hover:bg-neutral-b2"
                       data-testid="button-share-in-room"
                     >
                       <UploadMd className="h-6 w-6" />
                     </button>
-                    <span className="font-subtitle-mini text-sui-neutral-f01">
+                    <span className="typography-subtitleMini text-neutral-b0">
                       Share in room
                     </span>
                   </div>
                 </div>
 
                 {/* Today section */}
-                <div className="px-sui-4 pt-sui-4 pb-sui-2">
+                <div className="px-4 pt-4 pb-2">
                   <h3
-                    className="font-subtitle text-sui-neutral-f01"
+                    className="typography-subtitle text-neutral-b0"
                     data-testid="text-today-header"
                   >
                     Today
@@ -594,7 +594,7 @@ export const MeetingContent = ({
                 <div className="flex flex-col">
                   {meetings.map((m, idx) => (
                     <div key={m.id}>
-                      {idx > 0 && <div className="h-px w-full bg-sui-neutral-line" />}
+                      {idx > 0 && <div className="h-px w-full bg-neutral-b0-t10" />}
                       {renderMeetingRow(m)}
                     </div>
                   ))}
@@ -602,30 +602,30 @@ export const MeetingContent = ({
               </>
             ) : activeTab === "PAST" ? (
               <>
-                <div className="px-sui-4 pt-sui-3 pb-sui-2">
-                  <div className="flex h-9 items-center gap-sui-2 rounded-md bg-sui-neutral-b02 px-sui-3">
-                    <SearchMd className="h-4 w-4 text-sui-neutral-f02" />
+                <div className="px-4 pt-3 pb-2">
+                  <div className="flex h-9 items-center gap-2 rounded-md bg-neutral-b2 px-3">
+                    <SearchMd className="h-4 w-4 text-neutral-b1" />
                     <input
                       value={pastSearch}
                       onChange={(e) => setPastSearch(e.target.value)}
                       placeholder="Search past meetings"
-                      className="flex-1 bg-transparent font-main-text text-sui-neutral-f01 placeholder:text-sui-neutral-f04 outline-none"
+                      className="flex-1 bg-transparent typography-mainText text-neutral-b0 placeholder:text-neutral-b3 outline-none"
                       data-testid="input-search-past"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col">
                   {filteredPastMeetings.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center gap-sui-2 p-8 text-center">
-                      <CalendarMd className="h-10 w-10 text-sui-neutral-line" />
-                      <p className="font-subtitle text-sui-neutral-f02">
+                    <div className="flex flex-col items-center justify-center gap-2 p-8 text-center">
+                      <CalendarMd className="h-10 w-10 text-neutral-b0-t20" />
+                      <p className="typography-subtitle text-neutral-b1">
                         No past meetings match
                       </p>
                     </div>
                   ) : (
                     filteredPastMeetings.map((m, idx) => (
                       <div key={m.id}>
-                        {idx > 0 && <div className="h-px w-full bg-sui-neutral-line" />}
+                        {idx > 0 && <div className="h-px w-full bg-neutral-b0-t10" />}
                         {renderPastRow(m)}
                       </div>
                     ))
@@ -634,11 +634,11 @@ export const MeetingContent = ({
               </>
             ) : (
               <div
-                className="flex flex-1 flex-col items-center justify-center gap-sui-2 p-8 text-center"
+                className="flex flex-1 flex-col items-center justify-center gap-2 p-8 text-center"
                 data-testid={`empty-state-${activeTab.toLowerCase()}`}
               >
-                <CalendarMd className="h-10 w-10 text-sui-neutral-line" />
-                <p className="font-subtitle text-sui-neutral-f02">
+                <CalendarMd className="h-10 w-10 text-neutral-b0-t20" />
+                <p className="typography-subtitle text-neutral-b1">
                   Nothing in {activeTab.toLowerCase()} yet
                 </p>
               </div>
@@ -649,64 +649,64 @@ export const MeetingContent = ({
         {/* RIGHT PANE */}
         {activeTab === "PAST" && !selectedPast ? null : (
         <div className="flex min-w-0 flex-1 flex-col bg-white" data-testid="pane-detail-right">
-          <header className="flex items-center justify-end gap-sui-1 px-sui-4 pt-sui-4">
+          <header className="flex items-center justify-end gap-1 px-4 pt-4">
             {activeTab !== "PAST" && (
               <>
                 <Button
                   variant="text"
-                  className="h-8 w-8 rounded-md p-0 hover:bg-sui-neutral-b02 min-w-0"
+                  className="h-8 w-8 rounded-md p-0 hover:bg-neutral-b2 min-w-0"
                   aria-label="Report"
                   data-testid="button-report"
                 >
-                  <BookmarkMd className="h-4 w-4 text-sui-neutral-f02" />
+                  <BookmarkMd className="h-4 w-4 text-neutral-b1" />
                 </Button>
                 <Button
                   variant="text"
-                  className="h-8 w-8 rounded-md p-0 hover:bg-sui-neutral-b02 min-w-0"
+                  className="h-8 w-8 rounded-md p-0 hover:bg-neutral-b2 min-w-0"
                   aria-label="Edit"
                   data-testid="button-edit-details"
                 >
-                  <EditMd className="h-4 w-4 text-sui-neutral-f02" />
+                  <EditMd className="h-4 w-4 text-neutral-b1" />
                 </Button>
               </>
             )}
             <Button
               variant="text"
-              className="h-8 w-8 rounded-md p-0 hover:bg-sui-neutral-b02 min-w-0"
+              className="h-8 w-8 rounded-md p-0 hover:bg-neutral-b2 min-w-0"
               aria-label="Close"
               data-testid="button-close-details"
               onClick={() => {
                 if (activeTab === "PAST") setSelectedPastId(null);
               }}
             >
-              <Xmd className="h-4 w-4 text-sui-neutral-f02" />
+              <Xmd className="h-4 w-4 text-neutral-b1" />
             </Button>
           </header>
 
           {selectedPast ? (
             <div
-              className="relative flex min-h-0 flex-1 flex-col gap-sui-4 overflow-y-auto px-6 pt-2 pb-6"
+              className="relative flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 pt-2 pb-6"
               data-testid="pane-post-meeting-detail"
             >
               <h2
-                className="font-headline text-[24px] leading-[32px] text-sui-neutral-f01"
+                className="typography-headline text-[24px] leading-[32px] text-neutral-b0"
                 data-testid="text-past-detail-title"
               >
                 {selectedPast.title}
               </h2>
 
               <div
-                className="flex flex-wrap items-center gap-x-2 gap-y-1 font-subtitle-mini text-sui-neutral-f02"
+                className="flex flex-wrap items-center gap-x-2 gap-y-1 typography-subtitleMini text-neutral-b1"
                 data-testid="text-past-detail-meta"
               >
                 <span>{selectedPast.date}</span>
-                <span className="text-sui-neutral-line">·</span>
+                <span className="text-neutral-b0-t20">·</span>
                 <span>ID {selectedPast.meetingId}</span>
-                <span className="text-sui-neutral-line">·</span>
+                <span className="text-neutral-b0-t20">·</span>
                 <span>{selectedPast.duration}</span>
               </div>
 
-              <div className="flex items-center gap-sui-2">
+              <div className="flex items-center gap-2">
                 <AvatarStack
                   participants={selectedPast.participants}
                   total={selectedPast.participantCount}
@@ -714,16 +714,16 @@ export const MeetingContent = ({
                 />
                 <button
                   type="button"
-                  className="flex h-6 w-6 items-center justify-center rounded-md hover:bg-sui-neutral-b02"
+                  className="flex h-6 w-6 items-center justify-center rounded-md hover:bg-neutral-b2"
                   aria-label="Show participants"
                   data-testid="button-past-participants-caret"
                 >
-                  <ArrowDownMd className="h-4 w-4 text-sui-neutral-f02" />
+                  <ArrowDownMd className="h-4 w-4 text-neutral-b1" />
                 </button>
               </div>
 
               <nav
-                className="flex items-center gap-sui-1 border-b border-sui-neutral-line"
+                className="flex items-center gap-1 border-b border-neutral-b0-t20"
                 role="tablist"
               >
                 {postMeetingSubTabs.map((t) => {
@@ -735,16 +735,16 @@ export const MeetingContent = ({
                       role="tab"
                       aria-selected={isActive}
                       onClick={() => setPostMeetingTab(t)}
-                      className={`relative px-3 py-2 font-subtitle-mini ${
+                      className={`relative px-3 py-2 typography-subtitleMini ${
                         isActive
-                          ? "font-semibold text-sui-cobranding-b01"
-                          : "text-sui-neutral-f02"
+                          ? "font-semibold text-cobranding-f"
+                          : "text-neutral-b1"
                       }`}
                       data-testid={`tab-post-meeting-${t.toLowerCase()}`}
                     >
                       {t}
                       {isActive && (
-                        <span className="absolute inset-x-2 -bottom-px h-[2px] bg-sui-cobranding-b01" />
+                        <span className="absolute inset-x-2 -bottom-px h-[2px] bg-cobranding-b" />
                       )}
                     </button>
                   );
@@ -752,10 +752,10 @@ export const MeetingContent = ({
               </nav>
 
               {postMeetingTab === "Notes" ? (
-                <div className="relative flex flex-col gap-sui-5">
-                  <div className="flex items-center gap-sui-2">
+                <div className="relative flex flex-col gap-5">
+                  <div className="flex items-center gap-2">
                     <span
-                      className="inline-flex items-center gap-sui-1 rounded-full bg-sui-neutral-b02 px-2 py-0.5 font-detail-bold text-[10px] font-bold uppercase tracking-wide text-sui-neutral-f02"
+                      className="inline-flex items-center gap-1 rounded-full bg-neutral-b2 px-2 py-0.5 typography-subtitleBold text-[10px] font-bold uppercase tracking-wide text-neutral-b1"
                       data-testid="pill-generated-by-ai"
                     >
                       <AiStarsMd className="h-3 w-3" />
@@ -763,17 +763,17 @@ export const MeetingContent = ({
                     </span>
                   </div>
 
-                  <section className="flex flex-col gap-sui-2">
-                    <h3 className="font-subtitle text-sui-neutral-f01">
+                  <section className="flex flex-col gap-2">
+                    <h3 className="typography-subtitle text-neutral-b0">
                       Summary
                     </h3>
                     <p
-                      className="font-main-text text-sui-neutral-f02"
+                      className="typography-mainText text-neutral-b1"
                       data-testid="text-summary-paragraph"
                     >
                       {selectedPast.summary.paragraph}
                     </p>
-                    <ul className="ml-5 flex list-disc flex-col gap-1 font-main-text text-sui-neutral-f02">
+                    <ul className="ml-5 flex list-disc flex-col gap-1 typography-mainText text-neutral-b1">
                       {selectedPast.summary.bullets.map((b, i) => (
                         <li key={i} data-testid={`text-summary-bullet-${i}`}>
                           {b}
@@ -782,24 +782,24 @@ export const MeetingContent = ({
                     </ul>
                   </section>
 
-                  <section className="flex flex-col gap-sui-2">
-                    <h3 className="font-subtitle text-sui-neutral-f01">
+                  <section className="flex flex-col gap-2">
+                    <h3 className="typography-subtitle text-neutral-b0">
                       Action items
                     </h3>
-                    <ul className="flex flex-col gap-sui-2">
+                    <ul className="flex flex-col gap-2">
                       {selectedPast.actionItems.map((item, i) => (
                         <li
                           key={i}
-                          className="flex items-start gap-sui-2 font-main-text text-sui-neutral-f02"
+                          className="flex items-start gap-2 typography-mainText text-neutral-b1"
                           data-testid={`item-action-${i}`}
                         >
                           <span
                             aria-hidden="true"
-                            className="mt-[0.55em] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sui-neutral-f02"
+                            className="mt-[0.55em] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-b5"
                           />
                           <div className="flex min-w-0 flex-1 flex-col gap-1">
                             <span>
-                              <span className="font-semibold text-sui-cobranding-b01">
+                              <span className="font-semibold text-cobranding-f">
                                 {item.assignee}
                               </span>{" "}
                               {item.text}
@@ -809,7 +809,7 @@ export const MeetingContent = ({
                                 <button
                                   type="button"
                                   onClick={(e) => console.log('share link')}
-                                  className="inline-flex items-center gap-1 self-start font-subtitle-mini text-sui-cobranding-b01 hover:underline"
+                                  className="inline-flex items-center gap-1 self-start typography-subtitleMini text-cobranding-f hover:underline"
                                   data-testid={`button-share-booking-link-${i}`}
                                 >
                                   <AiStarsMd className="h-3.5 w-3.5" />
@@ -819,7 +819,7 @@ export const MeetingContent = ({
                                 <button
                                   type="button"
                                   onClick={(e) => setIntroPopoverAnchor(e.currentTarget)}
-                                  className="inline-flex items-center gap-1 self-start font-subtitle-mini text-sui-cobranding-b01 hover:underline"
+                                  className="inline-flex items-center gap-1 self-start typography-subtitleMini text-cobranding-f hover:underline"
                                   data-testid={`button-share-booking-link-${i}`}
                                 >
                                   <AiStarsMd className="h-3.5 w-3.5" />
@@ -860,7 +860,7 @@ export const MeetingContent = ({
                 </div>
               ) : (
                 <div
-                  className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-sui-neutral-line p-8 text-center font-main-text text-sui-neutral-f02"
+                  className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-neutral-b0-t20 p-8 text-center typography-mainText text-neutral-b1"
                   data-testid={`placeholder-post-meeting-${postMeetingTab.toLowerCase()}`}
                 >
                   {postMeetingTab} coming soon.
@@ -868,31 +868,31 @@ export const MeetingContent = ({
               )}
             </div>
           ) : (
-          <div className="flex min-h-0 flex-1 flex-col gap-sui-4 overflow-y-auto px-6 pt-2 pb-6">
+          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 pt-2 pb-6">
             <h2
-              className="font-headline text-[24px] leading-[32px] text-sui-neutral-f01"
+              className="typography-headline text-[24px] leading-[32px] text-neutral-b0"
               data-testid="text-detail-title"
             >
               {selected.title}
             </h2>
 
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center gap-sui-2 font-subtitle-mini text-sui-neutral-f02">
-                <CalendarMd className="h-4 w-4 text-sui-neutral-f02" />
+              <div className="flex items-center gap-2 typography-subtitleMini text-neutral-b1">
+                <CalendarMd className="h-4 w-4 text-neutral-b1" />
                 <span data-testid="text-detail-date">{selected.date}</span>
               </div>
-              <div className="flex items-center gap-sui-2 font-subtitle-mini text-sui-neutral-f02">
-                <MapPinMd className="h-4 w-4 text-sui-neutral-f02" />
+              <div className="flex items-center gap-2 typography-subtitleMini text-neutral-b1">
+                <MapPinMd className="h-4 w-4 text-neutral-b1" />
                 <span data-testid="text-detail-location">
                   {selected.location}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-sui-2">
+            <div className="flex items-center gap-2">
               <Button
                 onClick={() => setMeetingWindowOpen(true)}
-                className="h-9 gap-sui-2 rounded-[10px] bg-sui-cobranding-b01 px-4 font-subtitle text-white hover:bg-[#0037be]"
+                className="h-9 gap-2 rounded-[10px] bg-cobranding-b px-4 typography-subtitle text-white hover:bg-[#0037be]"
                 data-testid="button-detail-join"
               >
                 <ProfileMd className="h-4 w-4" />
@@ -900,7 +900,7 @@ export const MeetingContent = ({
               </Button>
               <Button
                 variant="outlined"
-                className="h-9 gap-sui-2 rounded-[10px] bg-white px-4 font-subtitle"
+                className="h-9 gap-2 rounded-[10px] bg-white px-4 typography-subtitle"
                 data-testid="button-detail-join-from-room"
               >
                 <StartVideoMd className="h-4 w-4" />
@@ -908,22 +908,22 @@ export const MeetingContent = ({
               </Button>
             </div>
 
-            <div className="rounded-xl border border-solid border-sui-neutral-line bg-white shadow-none p-sui-4 flex flex-col gap-sui-2">
-                <div className="flex items-center gap-sui-1 font-subtitle text-sui-neutral-f01">
+            <div className="rounded-xl border border-solid border-neutral-b0-t20 bg-white shadow-none p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-1 typography-subtitle text-neutral-b0">
                   <ArrowDownMd className="h-4 w-4 -rotate-90" />
                   <span data-testid="text-participant-count">
                     Participants ({selected.participantCount})
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-descriptor text-sui-neutral-f02">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 typography-descriptor text-neutral-b1">
                   <span data-testid="text-accepted">
                     Accepted ({selected.accepted})
                   </span>
-                  <span className="text-sui-neutral-line">|</span>
+                  <span className="text-neutral-b0-t20">|</span>
                   <span data-testid="text-declined">
                     Declined ({selected.declined})
                   </span>
-                  <span className="text-sui-neutral-line">|</span>
+                  <span className="text-neutral-b0-t20">|</span>
                   <span data-testid="text-no-response">
                     Didn't respond ({selected.noResponse})
                   </span>
@@ -941,7 +941,7 @@ export const MeetingContent = ({
             </div>
 
             <div
-              className="whitespace-pre-wrap font-main-text text-sui-neutral-f02"
+              className="whitespace-pre-wrap typography-mainText text-neutral-b1"
               data-testid="text-detail-description"
             >
               {selected.description}

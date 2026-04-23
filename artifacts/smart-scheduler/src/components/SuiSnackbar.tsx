@@ -37,11 +37,11 @@ export const SuiSnackbar = ({
     >
       <div
         role="status"
-        className="pointer-events-auto flex min-w-[280px] max-w-[560px] items-center gap-sui-3 rounded-[10px] bg-sui-neutral-b01 px-sui-4 py-sui-3 text-white shadow-sui-lg"
+        className="pointer-events-auto flex min-w-[280px] max-w-[560px] items-center gap-3 rounded-[10px] bg-neutral-b1 px-4 py-3 text-white shadow-lg"
         data-testid="snackbar-content"
       >
-        <CheckMd className="h-4 w-4 shrink-0 text-sui-success" />
-        <span className="flex-1 font-main-text text-sui-neutral-f01">
+        <CheckMd className="h-4 w-4 shrink-0 text-success-f" />
+        <span className="flex-1 typography-mainText text-neutral-b0">
           {message}
         </span>
         {actionLabel && (
@@ -51,7 +51,7 @@ export const SuiSnackbar = ({
               onAction?.();
               onClose();
             }}
-            className="font-subtitle-mini text-sui-cobranding-b01 hover:opacity-90"
+            className="typography-subtitleMini text-cobranding-f hover:opacity-90"
             data-testid="snackbar-action"
           >
             {actionLabel}

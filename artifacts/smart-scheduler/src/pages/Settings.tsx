@@ -77,13 +77,13 @@ export const Settings = (): JSX.Element => {
     <AppShell>
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">
         {/* Left rail */}
-        <aside className="flex w-full shrink-0 flex-col border-b border-sui-neutral-line bg-white md:w-[260px] md:border-b-0 md:border-r">
-          <div className="px-sui-4 pb-sui-2 pt-sui-4">
-            <h2 className="text-title text-sui-neutral-f03">
+        <aside className="flex w-full shrink-0 flex-col border-b border-neutral-b0-t20 bg-white md:w-[260px] md:border-b-0 md:border-r">
+          <div className="px-4 pb-2 pt-4">
+            <h2 className="text-title text-neutral-b2">
               Settings
             </h2>
           </div>
-          <nav className="flex-1 overflow-y-auto px-sui-2 pb-sui-4">
+          <nav className="flex-1 overflow-y-auto px-2 pb-4">
             {categories.map(({ key, label, Icon }) => {
               const isActive = active === key;
               return (
@@ -91,15 +91,15 @@ export const Settings = (): JSX.Element => {
                   key={key}
                   type="button"
                   onClick={() => setActive(key)}
-                  className={`flex w-full items-center gap-sui-3 rounded-sui-md px-sui-3 py-sui-2 text-left ${
+                  className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-left ${
                     isActive
-                      ? "bg-sui-cobranding-b01-t08 text-sui-cobranding-b01"
-                      : "text-sui-neutral-f03 hover:bg-sui-neutral-b02"
+                      ? "bg-cobranding-b/8 text-cobranding-f"
+                      : "text-neutral-b2 hover:bg-neutral-b2"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                   data-testid={`settings-nav-${key}`}
                 >
-                  <Icon className={`h-4 w-4 ${isActive ? "text-sui-cobranding-b01" : "text-sui-neutral-f02"}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? "text-cobranding-f" : "text-neutral-b1"}`} />
                   <span className="text-subtitle-mini">
                     {label}
                   </span>
@@ -111,38 +111,38 @@ export const Settings = (): JSX.Element => {
 
         {/* Right pane */}
         <section className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-          <header className="border-b border-sui-neutral-line px-sui-6 py-sui-4">
+          <header className="border-b border-neutral-b0-t20 px-6 py-4">
             <h1
-              className="text-title text-sui-neutral-f03"
+              className="text-title text-neutral-b2"
               data-testid="text-settings-title"
             >
               {activeCategory.label}
             </h1>
           </header>
 
-          <div className="flex-1 px-sui-4 py-sui-6 sm:px-sui-6">
+          <div className="flex-1 px-4 py-6 sm:px-6">
             {active === "calendars" ? (
-              <div className="mx-auto flex max-w-3xl flex-col gap-sui-6">
+              <div className="mx-auto flex max-w-3xl flex-col gap-6">
                 {showPromo && (
                   <div
-                    className="relative flex gap-sui-4 rounded-xl border border-sui-neutral-line bg-white p-sui-5"
+                    className="relative flex gap-4 rounded-xl border border-neutral-b0-t20 bg-white p-5"
                     data-testid="card-promo"
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sui-cobranding-b01-t08">
-                      <CalendarMd className="h-5 w-5 text-sui-cobranding-b01" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-cobranding-b/8">
+                      <CalendarMd className="h-5 w-5 text-cobranding-f" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-subtitle text-sui-neutral-f03">
+                      <h3 className="text-subtitle text-neutral-b2">
                         Add online booking to your business
                       </h3>
-                      <p className="mt-1 text-main-text text-sui-neutral-f02">
+                      <p className="mt-1 text-main-text text-neutral-b1">
                         Let customers book time with you based on your availability.
                         Create booking types, share your link, and manage appointments
                         in one place.
                       </p>
                       <button
                         type="button"
-                        className="mt-2 text-subtitle text-sui-cobranding-b01 hover:underline"
+                        className="mt-2 text-subtitle text-cobranding-f hover:underline"
                         data-testid="link-find-out-more"
                       >
                         Find out more
@@ -168,14 +168,14 @@ export const Settings = (): JSX.Element => {
                     action={
                       <button
                         type="button"
-                        className="text-subtitle text-sui-cobranding-b01 hover:underline"
+                        className="text-subtitle text-cobranding-f hover:underline"
                         data-testid="link-manage-microsoft365"
                       >
                         Manage
                       </button>
                     }
                   />
-                  <div className="h-px bg-sui-neutral-line" />
+                  <div className="h-px bg-neutral-b0-t10" />
                   <Row
                     label="Exchange account connection"
                     description="Connect your Microsoft Exchange account to access your calendars and contacts"
@@ -183,7 +183,7 @@ export const Settings = (): JSX.Element => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        className="h-9 gap-sui-2"
+                        className="h-9 gap-2"
                         data-testid="button-connect-exchange"
                       >
                         <ExchangeIcon className="h-5 w-5" />
@@ -201,7 +201,7 @@ export const Settings = (): JSX.Element => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        className="h-9 gap-sui-2"
+                        className="h-9 gap-2"
                         data-testid="button-connect-google"
                       >
                         <GoogleIcon className="h-5 w-5" />
@@ -219,7 +219,7 @@ export const Settings = (): JSX.Element => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        className="h-9 gap-sui-2"
+                        className="h-9 gap-2"
                         data-testid="button-connect-apple"
                       >
                         <AppleCalendarIcon className="h-5 w-5" />
@@ -236,25 +236,25 @@ export const Settings = (): JSX.Element => {
                     action={
                       <Select value={defaultContact} onChange={(e) => setDefaultContact(e.target.value as string)} className="w-[200px]">
                         <MenuItem value="ringcentral">
-                          <span className="flex items-center gap-sui-2">
+                          <span className="flex items-center gap-2">
                             <RingCentralIcon className="h-4 w-4" />
                             RingCentral
                           </span>
                         </MenuItem>
                         <MenuItem value="google">
-                          <span className="flex items-center gap-sui-2">
+                          <span className="flex items-center gap-2">
                             <GoogleIcon className="h-4 w-4" />
                             Google
                           </span>
                         </MenuItem>
                         <MenuItem value="microsoft">
-                          <span className="flex items-center gap-sui-2">
+                          <span className="flex items-center gap-2">
                             <ExchangeIcon className="h-4 w-4" />
                             Microsoft
                           </span>
                         </MenuItem>
                         <MenuItem value="apple">
-                          <span className="flex items-center gap-sui-2">
+                          <span className="flex items-center gap-2">
                             <AppleCalendarIcon className="h-4 w-4" />
                             Apple
                           </span>
@@ -266,14 +266,14 @@ export const Settings = (): JSX.Element => {
               </div>
             ) : (
               <div
-                className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-sui-2 py-16 text-center"
+                className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-2 py-16 text-center"
                 data-testid={`placeholder-${active}`}
               >
-                <activeCategory.Icon className="h-10 w-10 text-sui-neutral-f02" />
-                <h2 className="text-headline text-sui-neutral-f03">
+                <activeCategory.Icon className="h-10 w-10 text-neutral-b1" />
+                <h2 className="text-headline text-neutral-b2">
                   {activeCategory.label}
                 </h2>
-                <p className="text-main-text text-sui-neutral-f02">
+                <p className="text-main-text text-neutral-b1">
                   Settings for {activeCategory.label} will appear here.
                 </p>
               </div>
@@ -293,10 +293,10 @@ const Section = ({
   children: React.ReactNode;
 }): JSX.Element => (
   <div className="flex flex-col gap-0">
-    <h2 className="mb-2 text-subtitle text-sui-neutral-f02">
+    <h2 className="mb-2 text-subtitle text-neutral-b1">
       {title}
     </h2>
-    <div className="flex flex-col rounded-xl border border-sui-neutral-line bg-white">
+    <div className="flex flex-col rounded-xl border border-neutral-b0-t20 bg-white">
       {children}
     </div>
   </div>
@@ -313,15 +313,15 @@ const Row = ({
   description?: string;
   action: React.ReactNode;
 }): JSX.Element => (
-  <div className="flex items-center justify-between gap-sui-4 px-sui-4 py-sui-3">
-    <div className="flex min-w-0 flex-1 items-center gap-sui-3">
+  <div className="flex items-center justify-between gap-4 px-4 py-3">
+    <div className="flex min-w-0 flex-1 items-center gap-3">
       {icon && <div className="flex h-5 w-5 shrink-0 items-center justify-center">{icon}</div>}
       <div className="min-w-0 flex-1">
-        <div className="text-subtitle text-sui-neutral-f03">
+        <div className="text-subtitle text-neutral-b2">
           {label}
         </div>
         {description && (
-          <div className="mt-0.5 text-main-text text-sui-neutral-f02">
+          <div className="mt-0.5 text-main-text text-neutral-b1">
             {description}
           </div>
         )}

@@ -99,7 +99,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
             <span className="h-3 w-3 rounded-md bg-[#ffcc2d]" />
             <span className="h-3 w-3 rounded-md bg-[#05d355]" />
           </div>
-          <div className="font-subtitle text-sui-neutral-f03">
+          <div className="typography-subtitle text-neutral-b2">
             RingCentral
           </div>
           <div />
@@ -107,8 +107,8 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
       </header>
       <section className="flex min-h-0 flex-1 overflow-hidden bg-white sm:rounded-b-[10px]">
         <div className="flex h-full w-full flex-col bg-white">
-          <header className="flex flex-wrap items-center gap-sui-2 border-b border-[#dddfe580] bg-[#0040dd] px-sui-3 py-sui-2 sm:gap-sui-4 sm:px-sui-4 sm:py-2.5">
-            <div className="flex min-w-0 items-center gap-sui-2 sm:gap-sui-3">
+          <header className="flex flex-wrap items-center gap-2 border-b border-[#dddfe580] bg-[#0040dd] px-3 py-2 sm:gap-4 sm:px-4 sm:py-2.5">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               <div className="relative h-9 w-9 shrink-0">
                 <div className="relative h-9 w-9 overflow-hidden rounded-full bg-[url(/figmaAssets/shape.svg)] bg-[100%_100%]">
                   <img className="absolute left-[calc(50%-8px)] top-[calc(50%-8px)] h-4 w-4" alt="Icon" src="/figmaAssets/icon.svg" />
@@ -123,7 +123,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
               </h1>
             </div>
             <div className="order-3 flex w-full flex-1 items-center justify-center gap-1.5 md:order-none md:w-auto">
-              <div className="hidden items-center gap-sui-1 md:flex">
+              <div className="hidden items-center gap-1 md:flex">
                 <Button variant="text" className="h-9 w-9 rounded-full p-0 hover:bg-white/10 min-w-0" aria-label="Previous">
                   <img className="h-9 w-9" alt="Caret left MD" src="/figmaAssets/caretleftmd.svg" />
                 </Button>
@@ -137,7 +137,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                   onClick={toggleAva}
                   aria-pressed={avaOpen}
                   data-testid="button-ava-pill"
-                  className={`flex h-9 w-full items-center rounded-full border border-solid pl-0.5 pr-sui-3 text-left transition-colors ${
+                  className={`flex h-9 w-full items-center rounded-full border border-solid pl-0.5 pr-3 text-left transition-colors ${
                     avaOpen
                       ? "border-white/20 bg-[#ffffff33]"
                       : "border-white/10 bg-[#ffffff1a] hover:bg-[#ffffff26]"
@@ -152,7 +152,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                 </button>
               </div>
             </div>
-            <div className="ml-auto hidden items-center justify-end gap-sui-1 pl-1.5 sm:flex sm:gap-sui-2 sm:pr-sui-2 md:pr-sui-4">
+            <div className="ml-auto hidden items-center justify-end gap-1 pl-1.5 sm:flex sm:gap-2 sm:pr-2 md:pr-4">
               {topActions.map((action) => (
                 <Button key={action.alt} variant="text" className="h-9 w-9 rounded-full p-0 hover:bg-white/10 min-w-0" aria-label={action.alt}>
                   <img className="h-9 w-9" alt={action.alt} src={action.src} />
@@ -161,8 +161,8 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
             </div>
           </header>
           <div className="flex min-h-0 flex-1 items-stretch">
-            <aside className="relative hidden w-[72px] shrink-0 flex-col justify-between border-r border-[#0000001a] bg-sui-neutral-b02 md:flex">
-              <nav className="flex flex-col items-center gap-sui-2 py-sui-4">
+            <aside className="relative hidden w-[72px] shrink-0 flex-col justify-between border-r border-[#0000001a] bg-neutral-b2 md:flex">
+              <nav className="flex flex-col items-center gap-2 py-4">
                 {primarySidebarItems.map((item) => {
                   const isMoreActive = item.isMore && Boolean(moreMenuAnchor);
                   const isCurrent = !item.isMore && item.label === activeNav;
@@ -172,19 +172,19 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                       key={item.label}
                       type="button"
                       onClick={(e) => handleNavClick(item, e)}
-                      className={`relative flex w-[72px] flex-col items-center justify-center gap-[3px] px-1 py-sui-2 ${
-                        highlight ? "bg-sui-cobranding-b01-t08" : "hover:bg-[#0000000a]"
+                      className={`relative flex w-[72px] flex-col items-center justify-center gap-[3px] px-1 py-2 ${
+                        highlight ? "bg-cobranding-b/8" : "hover:bg-[#0000000a]"
                       }`}
                       aria-current={highlight ? "page" : undefined}
                       data-testid={`nav-${item.label.toLowerCase()}`}
                     >
                       {isCurrent && (
-                        <span className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r bg-sui-cobranding-b01" />
+                        <span className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r bg-cobranding-b" />
                       )}
                       <img className="h-5 w-5" alt={item.alt} src={item.src} />
                       <span
-                        className={`self-stretch text-center font-detail-bold text-[10px] font-bold ${
-                          highlight ? "text-sui-cobranding-b01" : "text-sui-neutral-f03"
+                        className={`self-stretch text-center typography-subtitleBold text-[10px] font-bold ${
+                          highlight ? "text-cobranding-f" : "text-neutral-b2"
                         }`}
                       >
                         {item.label}
@@ -201,8 +201,8 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               >
-                <div className="w-max rounded-[10px] border border-solid border-[#00000033] bg-white shadow-sui-md">
-                  <div className="p-sui-2">
+                <div className="w-max rounded-[10px] border border-solid border-[#00000033] bg-white shadow-md">
+                  <div className="p-2">
                     <div className="flex flex-col bg-white">
                       {moreMenuItemsTop.map((menuItem) => {
                         const active = isMoreItemActive(menuItem.href);
@@ -216,13 +216,13 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                           }}
                           aria-current={active ? "page" : undefined}
                           data-testid={`more-menu-${menuItem.label.toLowerCase().replace(/\s+/g, "-")}`}
-                          className={`flex min-h-10 items-center rounded-[10px] px-sui-2 py-2.5 text-left ${active ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"}`}
+                          className={`flex min-h-10 items-center rounded-[10px] px-2 py-2.5 text-left ${active ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"}`}
                         >
                           <div className="flex flex-1 items-center">
-                            <div className="pr-sui-3">
+                            <div className="pr-3">
                               <img className="h-4 w-4" alt={menuItem.alt} src={menuItem.src} />
                             </div>
-                            <span className={`text-subtitle-mini ${active ? "text-sui-cobranding-b01 font-semibold" : "text-sui-neutral-f03"}`}>
+                            <span className={`text-subtitle-mini ${active ? "text-cobranding-f font-semibold" : "text-neutral-b2"}`}>
                               {menuItem.label}
                             </span>
                             {menuItem.hasIndicator && (
@@ -244,13 +244,13 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                             goTo(menuItem.href);
                           }}
                           aria-current={active ? "page" : undefined}
-                          className={`flex min-h-10 items-center rounded-[10px] px-sui-2 py-2.5 text-left ${active ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"}`}
+                          className={`flex min-h-10 items-center rounded-[10px] px-2 py-2.5 text-left ${active ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"}`}
                         >
                           <div className="flex flex-1 items-center">
-                            <div className="pr-sui-3">
+                            <div className="pr-3">
                               <img className="h-4 w-4" alt={menuItem.alt} src={menuItem.src} />
                             </div>
-                            <span className={`text-subtitle-mini ${active ? "text-sui-cobranding-b01 font-semibold" : "text-sui-neutral-f03"}`}>
+                            <span className={`text-subtitle-mini ${active ? "text-cobranding-f font-semibold" : "text-neutral-b2"}`}>
                               {menuItem.label}
                             </span>
                           </div>
@@ -262,7 +262,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                 </div>
               </Popover>
 
-              <nav className="flex flex-col items-center justify-end gap-sui-2 py-sui-4">
+              <nav className="flex flex-col items-center justify-end gap-2 py-4">
                 {secondarySidebarItems.map((item) => {
                   const isCurrent = location === item.href;
                   return (
@@ -270,19 +270,19 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                       key={item.label}
                       type="button"
                       onClick={() => goTo(item.href)}
-                      className={`relative flex w-[72px] flex-col items-center justify-center gap-[3px] px-1 py-sui-2 ${
-                        isCurrent ? "bg-sui-cobranding-b01-t08" : "hover:bg-[#0000000a]"
+                      className={`relative flex w-[72px] flex-col items-center justify-center gap-[3px] px-1 py-2 ${
+                        isCurrent ? "bg-cobranding-b/8" : "hover:bg-[#0000000a]"
                       }`}
                       aria-current={isCurrent ? "page" : undefined}
                       data-testid={`nav-secondary-${item.label.toLowerCase()}`}
                     >
                       {isCurrent && (
-                        <span className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r bg-sui-cobranding-b01" />
+                        <span className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r bg-cobranding-b" />
                       )}
                       <img className="h-5 w-5" alt={item.alt} src={item.src} />
                       <span
-                        className={`self-stretch text-center font-detail-bold text-[10px] font-bold ${
-                          isCurrent ? "text-sui-cobranding-b01" : "text-sui-neutral-f03"
+                        className={`self-stretch text-center typography-subtitleBold text-[10px] font-bold ${
+                          isCurrent ? "text-cobranding-f" : "text-neutral-b2"
                         }`}
                       >
                         {item.label}
@@ -302,7 +302,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
           </div>
 
           {/* Mobile bottom navigation */}
-          <nav className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-[#0000001a] bg-sui-neutral-b02 md:hidden">
+          <nav className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-[#0000001a] bg-neutral-b2 md:hidden">
             {primarySidebarItems.map((item) => {
               const isMoreActive = item.isMore && Boolean(moreMenuAnchor);
               const isCurrent = !item.isMore && item.label === activeNav;
@@ -312,16 +312,16 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                   key={item.label}
                   type="button"
                   onClick={(e) => handleNavClick(item, e)}
-                  className={`relative flex flex-1 flex-col items-center justify-center gap-sui-1 px-1 py-sui-2 ${
-                    highlight ? "bg-sui-cobranding-b01-t08" : "active:bg-[#0000000a]"
+                  className={`relative flex flex-1 flex-col items-center justify-center gap-1 px-1 py-2 ${
+                    highlight ? "bg-cobranding-b/8" : "active:bg-[#0000000a]"
                   }`}
                   aria-current={highlight ? "page" : undefined}
                   data-testid={`nav-mobile-${item.label.toLowerCase()}`}
                 >
                   <img className="h-5 w-5" alt={item.alt} src={item.src} />
                   <span
-                    className={`text-center font-detail-bold text-[10px] font-bold ${
-                      highlight ? "text-sui-cobranding-b01" : "text-sui-neutral-f03"
+                    className={`text-center typography-subtitleBold text-[10px] font-bold ${
+                      highlight ? "text-cobranding-f" : "text-neutral-b2"
                     }`}
                   >
                     {item.label}

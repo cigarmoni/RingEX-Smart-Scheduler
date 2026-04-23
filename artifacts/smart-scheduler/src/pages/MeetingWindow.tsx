@@ -127,7 +127,7 @@ const ToolbarButton = ({
         type="button"
         onClick={onClick}
         data-testid={testid}
-        className="flex h-10 items-center gap-2 rounded-md bg-sui-danger-b px-4 font-medium text-white hover:bg-sui-danger-f"
+        className="flex h-10 items-center gap-2 rounded-md bg-danger px-4 font-medium text-white hover:bg-danger-f"
       >
         {icon}
         {label && <span className="text-[13px]">{label}</span>}
@@ -145,7 +145,7 @@ const ToolbarButton = ({
       <div className="relative flex items-center gap-0.5">
         <div
           className={`flex h-9 w-9 items-center justify-center rounded-md ${
-            isSelected ? "bg-sui-cobranding-b01 text-white" : "text-white"
+            isSelected ? "bg-cobranding-b text-white" : "text-white"
           }`}
         >
           {icon}
@@ -154,7 +154,7 @@ const ToolbarButton = ({
           <ArrowDownMd className="absolute -right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-white" />
         )}
         {badge && (
-          <span className="absolute -right-1 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-sui-danger-b px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-1 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white">
             {badge}
           </span>
         )}
@@ -184,7 +184,7 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
       id="share-booking-trigger"
       type="button"
       onClick={(e) => setAnchorEl(e.currentTarget)}
-      className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini font-medium text-sui-cobranding-b01 hover:bg-sui-cobranding-b01-t08"
+      className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 typography-descriptorMini font-medium text-cobranding-f hover:bg-cobranding-b/8"
       data-testid="button-share-booking-link"
     >
       <AiStarsMd className="h-3 w-3" />
@@ -204,58 +204,58 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
       >
         {purchased ? (
           <div
-            className="z-[70] w-[400px] rounded-[10px] bg-white p-0 shadow-sui-md"
+            className="z-[70] w-[400px] rounded-[10px] bg-white p-0 shadow-md"
             data-testid="popover-booking-link-compose"
           >
-            <div className="flex items-center justify-between px-sui-4 pt-sui-4">
-              <h4 className="font-title text-sui-neutral-f01">
+            <div className="flex items-center justify-between px-4 pt-4">
+              <h4 className="typography-title text-neutral-b0">
                 Share booking link
               </h4>
               <button
                 type="button"
                 onClick={() => setAnchorEl(null)}
                 aria-label="Close"
-                className="flex h-6 w-6 items-center justify-center rounded-full text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                className="flex h-6 w-6 items-center justify-center rounded-full text-neutral-b1 hover:bg-neutral-b2"
                 data-testid="button-booking-compose-close"
               >
                 <Xmd className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="flex flex-col gap-sui-4 px-sui-4 py-sui-4">
+            <div className="flex flex-col gap-4 px-4 py-4">
               <div className="flex flex-col gap-1">
-                <label className="font-descriptor-mini text-sui-neutral-f01">
+                <label className="typography-descriptorMini text-neutral-b0">
                   Select booking type
                 </label>
-                <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-line bg-sui-neutral-b01 pl-2.5 pr-1.5">
-                  <span className="font-main-text text-sui-neutral-f01">
+                <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-neutral-b0-t20 bg-neutral-b1 pl-2.5 pr-1.5">
+                  <span className="typography-mainText text-neutral-b0">
                     15-min follow-up with Andy Lau
                   </span>
-                  <ArrowDownMd className="h-4 w-4 text-sui-neutral-f02" />
+                  <ArrowDownMd className="h-4 w-4 text-neutral-b1" />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="font-descriptor-mini text-sui-neutral-f01">
+                <label className="typography-descriptorMini text-neutral-b0">
                   Send via
                 </label>
-                <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-line bg-sui-neutral-b01 pl-2.5 pr-1.5">
-                  <span className="font-main-text text-sui-neutral-f01">
+                <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-neutral-b0-t20 bg-neutral-b1 pl-2.5 pr-1.5">
+                  <span className="typography-mainText text-neutral-b0">
                     Meeting chat
                   </span>
-                  <ArrowDownMd className="h-4 w-4 text-sui-neutral-f02" />
+                  <ArrowDownMd className="h-4 w-4 text-neutral-b1" />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="font-descriptor-mini text-sui-neutral-f01">
+                <label className="typography-descriptorMini text-neutral-b0">
                   Message
                 </label>
-                <div className="min-h-[48px] rounded-[10px] border border-solid border-sui-neutral-line bg-sui-neutral-b01 px-sui-4 pb-[15px] pt-sui-4">
-                  <p className="font-main-text text-sui-neutral-f01">
+                <div className="min-h-[48px] rounded-[10px] border border-solid border-neutral-b0-t20 bg-neutral-b1 px-4 pb-[15px] pt-4">
+                  <p className="typography-mainText text-neutral-b0">
                     Here's my booking link so you can choose a time that works
                     for you:{" "}
-                    <span className="text-sui-cobranding-b01">
+                    <span className="text-cobranding-f">
                       15-min follow-up with Andy Lau
                     </span>
                     .
@@ -264,11 +264,11 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-sui-2 rounded-b-[10px] border-t border-solid border-sui-neutral-line bg-white px-sui-4 py-sui-3">
+            <div className="flex items-center justify-end gap-2 rounded-b-[10px] border-t border-solid border-neutral-b0-t20 bg-white px-4 py-3">
               <button
                 type="button"
                 onClick={() => setAnchorEl(null)}
-                className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] border border-solid border-sui-neutral-line bg-sui-neutral-b01 px-3 font-subtitle-mini text-sui-neutral-f01 hover:bg-sui-neutral-b02"
+                className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] border border-solid border-neutral-b0-t20 bg-neutral-b1 px-3 typography-subtitleMini text-neutral-b0 hover:bg-neutral-b2"
                 data-testid="button-booking-compose-cancel"
               >
                 Cancel
@@ -279,7 +279,7 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
                   setAnchorEl(null);
                   setSnackbarMessage("Booking link sent to Meeting chat.");
                 }}
-                className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] bg-sui-cobranding-b01 px-3 font-subtitle-mini text-white hover:opacity-90"
+                className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] bg-cobranding-b px-3 typography-subtitleMini text-white hover:opacity-90"
                 data-testid="button-booking-compose-send"
               >
                 Send
@@ -405,10 +405,10 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
 
         {/* Notes panel */}
         <aside
-          className="flex w-[360px] shrink-0 flex-col bg-white text-sui-neutral-f02"
+          className="flex w-[360px] shrink-0 flex-col bg-white text-neutral-b1"
           data-testid="panel-notes"
         >
-          <div className="flex items-center justify-between border-b border-sui-neutral-line px-3">
+          <div className="flex items-center justify-between border-b border-neutral-b0-t20 px-3">
             <div className="flex items-center gap-1" role="tablist">
               <button
                 type="button"
@@ -417,12 +417,12 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                 onClick={() => setActiveTab("notes")}
                 data-testid="tab-notes"
                 className={`relative px-3 py-3 text-[13px] font-semibold ${
-                  activeTab === "notes" ? "text-sui-cobranding-b01" : "text-sui-neutral-f02"
+                  activeTab === "notes" ? "text-cobranding-f" : "text-neutral-b1"
                 }`}
               >
                 Notes
                 {activeTab === "notes" && (
-                  <span className="absolute inset-x-2 -bottom-px h-[2px] bg-sui-cobranding-b01" />
+                  <span className="absolute inset-x-2 -bottom-px h-[2px] bg-cobranding-b" />
                 )}
               </button>
               <button
@@ -433,13 +433,13 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                 data-testid="tab-transcript"
                 className={`relative px-3 py-3 text-[13px] font-semibold ${
                   activeTab === "transcript"
-                    ? "text-sui-cobranding-b01"
-                    : "text-sui-neutral-f02"
+                    ? "text-cobranding-f"
+                    : "text-neutral-b1"
                 }`}
               >
                 Transcript
                 {activeTab === "transcript" && (
-                  <span className="absolute inset-x-2 -bottom-px h-[2px] bg-sui-cobranding-b01" />
+                  <span className="absolute inset-x-2 -bottom-px h-[2px] bg-cobranding-b" />
                 )}
               </button>
             </div>
@@ -448,7 +448,7 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                 type="button"
                 aria-label="Language"
                 data-testid="button-notes-language"
-                className="flex h-8 w-8 items-center justify-center rounded-md text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-neutral-b1 hover:bg-neutral-b2"
               >
                 <EarthFilledMd className="h-4 w-4" />
               </button>
@@ -456,7 +456,7 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                 type="button"
                 aria-label="Pause"
                 data-testid="button-notes-pause"
-                className="flex h-8 w-8 items-center justify-center rounded-md text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-neutral-b1 hover:bg-neutral-b2"
               >
                 <StopMd className="h-4 w-4" />
               </button>
@@ -464,7 +464,7 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                 type="button"
                 aria-label="Close"
                 data-testid="button-notes-close"
-                className="flex h-8 w-8 items-center justify-center rounded-md text-sui-neutral-f02 hover:bg-sui-neutral-b02"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-neutral-b1 hover:bg-neutral-b2"
               >
                 <Xmd className="h-4 w-4" />
               </button>
@@ -479,13 +479,13 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
             />
 
             <section className="flex flex-col gap-1.5">
-              <h3 className="text-[14px] font-semibold text-sui-neutral-f01">
+              <h3 className="text-[14px] font-semibold text-neutral-b0">
                 Summary so far
               </h3>
-              <p className="text-[11px] text-sui-neutral-f03">
+              <p className="text-[11px] text-neutral-b2">
                 Next updated in 2 minutes
               </p>
-              <p className="text-[13px] leading-[19px] text-sui-neutral-f02">
+              <p className="text-[13px] leading-[19px] text-neutral-b1">
                 The team reviewed Q2 marketing performance, noting strong
                 website traffic gains while social engagement dipped. Discussion
                 shifted to reallocating budget toward paid search and
@@ -495,10 +495,10 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
             </section>
 
             <section className="flex flex-col gap-2">
-              <h3 className="text-[14px] font-semibold text-sui-neutral-f01">
+              <h3 className="text-[14px] font-semibold text-neutral-b0">
                 Key points
               </h3>
-              <ul className="flex flex-col gap-2 pl-4 text-[13px] leading-[19px] text-sui-neutral-f02">
+              <ul className="flex flex-col gap-2 pl-4 text-[13px] leading-[19px] text-neutral-b1">
                 <li className="list-disc">
                   <span className="font-semibold">Website traffic</span> is up
                   18% quarter-over-quarter, driven mostly by organic search.
@@ -518,30 +518,30 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
             </section>
 
             <section className="flex flex-col gap-2">
-              <h3 className="text-[14px] font-semibold text-sui-neutral-f01">
+              <h3 className="text-[14px] font-semibold text-neutral-b0">
                 Action items
               </h3>
-              <ul className="flex flex-col gap-2 pl-4 text-[13px] leading-[19px] text-sui-neutral-f02">
+              <ul className="flex flex-col gap-2 pl-4 text-[13px] leading-[19px] text-neutral-b1">
                 <li className="list-disc">
-                  <a className="font-medium text-sui-cobranding-b01 hover:underline" href="#">
+                  <a className="font-medium text-cobranding-f hover:underline" href="#">
                     Mike Green
                   </a>{" "}
                   to draft the updated paid search plan by Friday.
                 </li>
                 <li className="list-disc">
-                  <a className="font-medium text-sui-cobranding-b01 hover:underline" href="#">
+                  <a className="font-medium text-cobranding-f hover:underline" href="#">
                     Andy Lau
                   </a>{" "}
                   to share three new Instagram creative concepts next week.
                 </li>
                 <li className="list-disc">
-                  <a className="font-medium text-sui-cobranding-b01 hover:underline" href="#">
+                  <a className="font-medium text-cobranding-f hover:underline" href="#">
                     Ayo Dam
                   </a>{" "}
                   to reach out to two influencer agencies for proposals.
                 </li>
                 <li className="list-disc">
-                  <a className="font-medium text-sui-cobranding-b01 hover:underline" href="#">
+                  <a className="font-medium text-cobranding-f hover:underline" href="#">
                     Andy Lau
                   </a>{" "}
                   to find a time slot for follow-up meeting next week.

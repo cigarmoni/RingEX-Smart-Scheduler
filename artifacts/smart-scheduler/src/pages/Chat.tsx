@@ -251,25 +251,25 @@ export const Chat = (): JSX.Element => {
     <AppShell activeNav="Chat">
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">
         {/* Conversation list */}
-        <div className="flex w-full shrink-0 flex-col border-b border-sui-neutral-line md:w-[320px] md:border-b-0 md:border-r">
-          <div className="flex items-center justify-between px-sui-4 pt-sui-4">
-            <div className="flex items-center gap-sui-2">
-              <h2 className="font-title text-sui-neutral-f01">
+        <div className="flex w-full shrink-0 flex-col border-b border-neutral-b0-t20 md:w-[320px] md:border-b-0 md:border-r">
+          <div className="flex items-center justify-between px-4 pt-4">
+            <div className="flex items-center gap-2">
+              <h2 className="typography-title text-neutral-b0">
                 Chat
               </h2>
               <button
                 type="button"
-                className="rounded p-1 text-sui-neutral-f03 hover:bg-sui-neutral-b02"
+                className="rounded p-1 text-neutral-b2 hover:bg-neutral-b2"
                 aria-label="Folders"
                 data-testid="button-folders"
               >
                 <FolderMd className="h-4 w-4" />
               </button>
             </div>
-            <div className="flex items-center gap-sui-1 text-sui-neutral-f03">
+            <div className="flex items-center gap-1 text-neutral-b2">
               <button
                 type="button"
-                className="rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="Compose"
                 data-testid="button-compose"
               >
@@ -277,7 +277,7 @@ export const Chat = (): JSX.Element => {
               </button>
               <button
                 type="button"
-                className="rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="Notifications"
                 data-testid="button-notifications"
               >
@@ -285,7 +285,7 @@ export const Chat = (): JSX.Element => {
               </button>
               <button
                 type="button"
-                className="rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="More"
                 data-testid="button-chat-more"
               >
@@ -294,7 +294,7 @@ export const Chat = (): JSX.Element => {
             </div>
           </div>
 
-          <nav className="mt-3 flex items-center gap-sui-4 border-b border-sui-neutral-line px-sui-4">
+          <nav className="mt-3 flex items-center gap-4 border-b border-neutral-b0-t20 px-4">
             {chatTabs.map((tab) => {
               const isActive = activeTab === tab.label;
               return (
@@ -303,7 +303,7 @@ export const Chat = (): JSX.Element => {
                   type="button"
                   onClick={() => setActiveTab(tab.label)}
                   className={`relative flex items-center gap-1.5 px-1 pb-2.5 pt-2 text-[12px] font-bold tracking-wider ${
-                    isActive ? "text-sui-cobranding-b01" : "text-sui-neutral-f03"
+                    isActive ? "text-cobranding-f" : "text-neutral-b2"
                   }`}
                   data-testid={`tab-${tab.label.toLowerCase()}`}
                 >
@@ -311,23 +311,23 @@ export const Chat = (): JSX.Element => {
                   {tab.count !== undefined && (
                     <span
                       className={`flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold ${
-                        isActive ? "bg-sui-cobranding-b01 text-white" : "bg-sui-neutral-line text-sui-neutral-f03"
+                        isActive ? "bg-cobranding-b text-white" : "bg-neutral-b0-t10 text-neutral-b2"
                       }`}
                     >
                       {tab.count}
                     </span>
                   )}
                   {isActive && (
-                    <span className="absolute inset-x-0 -bottom-px h-[2px] bg-sui-cobranding-b01" />
+                    <span className="absolute inset-x-0 -bottom-px h-[2px] bg-cobranding-b" />
                   )}
                 </button>
               );
             })}
           </nav>
 
-          <div className="flex items-center gap-sui-2 px-sui-4 py-2.5">
-            <div className="flex h-8 flex-1 items-center gap-sui-2 rounded-md bg-sui-neutral-b02 px-3">
-              <SearchMd className="h-4 w-4 text-sui-neutral-f03" />
+          <div className="flex items-center gap-2 px-4 py-2.5">
+            <div className="flex h-8 flex-1 items-center gap-2 rounded-md bg-neutral-b2 px-3">
+              <SearchMd className="h-4 w-4 text-neutral-b2" />
               <input
                 placeholder="Search conversations"
                 className="h-auto flex-1 border-0 bg-transparent p-0 text-sm focus-visible:outline-none"
@@ -336,11 +336,11 @@ export const Chat = (): JSX.Element => {
             </div>
             <button
               type="button"
-              className="flex items-center gap-1 text-[12px] font-bold text-sui-neutral-f03 hover:text-sui-neutral-f01"
+              className="flex items-center gap-1 text-[12px] font-bold text-neutral-b2 hover:text-neutral-b0"
               data-testid="button-filter"
             >
               <span>ALL</span>
-              <span className="text-sui-neutral-f03">UNREAD (2)</span>
+              <span className="text-neutral-b2">UNREAD (2)</span>
               <ArrowDownMd className="h-3 w-3" />
             </button>
           </div>
@@ -353,13 +353,13 @@ export const Chat = (): JSX.Element => {
                   key={convo.id}
                   type="button"
                   onClick={() => setActiveConvoId(convo.id)}
-                  className={`relative flex w-full items-start gap-sui-3 px-sui-3 py-2.5 text-left ${
-                    isActive ? "bg-sui-cobranding-b01-t08" : "hover:bg-sui-neutral-b02"
+                  className={`relative flex w-full items-start gap-3 px-3 py-2.5 text-left ${
+                    isActive ? "bg-cobranding-b/8" : "hover:bg-neutral-b2"
                   }`}
                   data-testid={`row-conversation-${convo.id}`}
                 >
                   {convo.hasIndicator && (
-                    <span className="absolute left-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-sui-cobranding-b01" />
+                    <span className="absolute left-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cobranding-b" />
                   )}
                   <Avatar
                     initials={convo.initials}
@@ -368,16 +368,16 @@ export const Chat = (): JSX.Element => {
                     online={convo.online}
                   />
                   <div className="flex min-w-0 flex-1 flex-col">
-                    <div className="flex items-baseline justify-between gap-sui-2">
-                      <span className="truncate text-sm font-semibold text-sui-neutral-f01">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="truncate text-sm font-semibold text-neutral-b0">
                         {convo.name}
                       </span>
-                      <span className="shrink-0 text-[12px] text-sui-neutral-f03">{convo.time}</span>
+                      <span className="shrink-0 text-[12px] text-neutral-b2">{convo.time}</span>
                     </div>
-                    <div className="flex items-center justify-between gap-sui-2">
-                      <span className="truncate text-[12px] text-sui-neutral-f03">{convo.snippet}</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="truncate text-[12px] text-neutral-b2">{convo.snippet}</span>
                       {convo.unread && (
-                        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-sui-cobranding-b01 px-1 text-[10px] font-bold text-white">
+                        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-cobranding-b px-1 text-[10px] font-bold text-white">
                           {convo.unread}
                         </span>
                       )}
@@ -391,24 +391,24 @@ export const Chat = (): JSX.Element => {
 
         {/* Active conversation */}
         <div className="flex min-w-0 flex-1 flex-col">
-          <div className="flex items-center justify-between border-b border-sui-neutral-line px-sui-4 py-sui-3">
-            <div className="flex min-w-0 items-center gap-sui-2">
-              <h3 className="truncate font-title text-sui-neutral-f01">
+          <div className="flex items-center justify-between border-b border-neutral-b0-t20 px-4 py-3">
+            <div className="flex min-w-0 items-center gap-2">
+              <h3 className="truncate typography-title text-neutral-b0">
                 {activeConvo?.name ?? "Conversation"}
               </h3>
               <button
                 type="button"
-                className="rounded-full p-1 text-[#fe8624] hover:bg-sui-neutral-b02"
+                className="rounded-full p-1 text-[#fe8624] hover:bg-neutral-b2"
                 aria-label="Favorite"
                 data-testid="button-favorite"
               >
                 <StarMd className="h-4 w-4" />
               </button>
             </div>
-            <div className="flex items-center gap-sui-1 text-sui-neutral-f03">
+            <div className="flex items-center gap-1 text-neutral-b2">
               <button
                 type="button"
-                className="flex items-center gap-0.5 rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="flex items-center gap-0.5 rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="AI"
                 data-testid="button-ai"
               >
@@ -417,7 +417,7 @@ export const Chat = (): JSX.Element => {
               </button>
               <button
                 type="button"
-                className="flex items-center gap-0.5 rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="flex items-center gap-0.5 rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="Video call"
                 data-testid="button-video-call"
               >
@@ -426,7 +426,7 @@ export const Chat = (): JSX.Element => {
               </button>
               <button
                 type="button"
-                className="rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="More"
                 data-testid="button-thread-more"
               >
@@ -434,16 +434,16 @@ export const Chat = (): JSX.Element => {
               </button>
               <button
                 type="button"
-                className="rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="Help"
                 data-testid="button-help"
               >
                 <HelpMd className="h-4 w-4" />
               </button>
-              <div className="mx-1 h-5 w-px bg-sui-neutral-line" />
+              <div className="mx-1 h-5 w-px bg-neutral-b0-t10" />
               <button
                 type="button"
-                className="rounded-full p-2 hover:bg-sui-neutral-b02"
+                className="rounded-full p-2 hover:bg-neutral-b2"
                 aria-label="Toggle panel"
                 data-testid="button-toggle-panel"
               >
@@ -453,34 +453,34 @@ export const Chat = (): JSX.Element => {
           </div>
 
           {/* Messages */}
-          <div ref={messagesRef} className="flex-1 space-y-6 overflow-y-auto px-sui-4 py-sui-4 sm:px-6">
+          <div ref={messagesRef} className="flex-1 space-y-6 overflow-y-auto px-4 py-4 sm:px-6">
             <Message
               avatar={{ initials: "C", color: "bg-[#5b9bd5]" }}
               name="Chester Hodges"
               time="3:15"
               body={
                 <>
-                  <p className="text-sm text-sui-neutral-f01">
+                  <p className="text-sm text-neutral-b0">
                     You could check the progress here:{" "}
-                    <a className="text-sui-cobranding-b01 underline" href="#">
+                    <a className="text-cobranding-f underline" href="#">
                       https://unsplash.com
                     </a>
                   </p>
-                  <div className="mt-sui-3 flex max-w-md gap-sui-3 rounded-lg border border-sui-neutral-line bg-white p-sui-3">
+                  <div className="mt-3 flex max-w-md gap-3 rounded-lg border border-neutral-b0-t20 bg-white p-3">
                     <div className="flex h-20 w-28 shrink-0 items-center justify-center rounded bg-gradient-to-br from-[#3a3a3a] to-[#a8b5b8] text-[12px] font-bold text-white">
                       Unsplash
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-sui-neutral-f01">
+                      <p className="text-sm font-semibold text-neutral-b0">
                         Best 500+ Urban Pictures | Download Free Images on Unsplash
                       </p>
-                      <p className="mt-1 line-clamp-2 text-[12px] text-sui-neutral-f03">
+                      <p className="mt-1 line-clamp-2 text-[12px] text-neutral-b2">
                         Beautiful, free images and photos that you can download and use
                         for any project.
                       </p>
                     </div>
                   </div>
-                  <div className="mt-sui-2 flex items-center gap-sui-2">
+                  <div className="mt-2 flex items-center gap-2">
                     <ReactionPill emoji="👍" count={1} />
                     <ReactionPill emoji="🙂" />
                   </div>
@@ -495,11 +495,11 @@ export const Chat = (): JSX.Element => {
               time="3:15"
               body={
                 <>
-                  <p className="text-sm text-sui-neutral-f01">
+                  <p className="text-sm text-neutral-b0">
                     Perfect. Thanks for sharing! Sketch files for iOS onboarding screens
                     for the September brand launch. We received a request from product.
                   </p>
-                  <div className="mt-sui-2 flex items-center gap-sui-2">
+                  <div className="mt-2 flex items-center gap-2">
                     <ReactionPill emoji="👍" count={1} />
                     <ReactionPill emoji="🔥" count={2} />
                     <ReactionPill emoji="🙂" />
@@ -541,7 +541,7 @@ export const Chat = (): JSX.Element => {
           </div>
 
           {showSchedulerBanner && (
-            <div className="px-sui-4 pb-sui-2 sm:px-6">
+            <div className="px-4 pb-2 sm:px-6">
               <FeatureIntroBanner
                 className="w-[520px] max-w-full"
                 data-testid="banner-scheduler-intent"
@@ -559,55 +559,55 @@ export const Chat = (): JSX.Element => {
           )}
 
           {/* Composer */}
-          <div className="border-t border-sui-neutral-line bg-white px-sui-4 py-sui-3 sm:px-6">
-            <div className="rounded-lg border border-sui-neutral-line p-sui-2">
+          <div className="border-t border-neutral-b0-t20 bg-white px-4 py-3 sm:px-6">
+            <div className="rounded-lg border border-neutral-b0-t20 p-2">
               <input
                 value={composer}
                 onChange={(e) => setComposer(e.target.value)}
                 placeholder="Type a message"
-                className="w-full border-0 p-sui-2 text-sm focus-visible:outline-none"
+                className="w-full border-0 p-2 text-sm focus-visible:outline-none"
                 data-testid="input-composer"
               />
               <div className="mt-1 flex items-center justify-between">
                 <button
                   type="button"
-                  className="flex items-center gap-1 rounded-md border border-sui-neutral-line px-2 py-1 text-[12px] text-sui-neutral-f03 hover:bg-sui-neutral-b02"
+                  className="flex items-center gap-1 rounded-md border border-neutral-b0-t20 px-2 py-1 text-[12px] text-neutral-b2 hover:bg-neutral-b2"
                   data-testid="button-draft-for-me"
                 >
                   <AiStarsMd className="h-3 w-3" />
                   Draft for me
                 </button>
-                <div className="flex items-center gap-0.5 text-sui-neutral-f03">
-                  <button type="button" className="rounded p-1.5 hover:bg-sui-neutral-b02" aria-label="Mention" data-testid="button-mention">
+                <div className="flex items-center gap-0.5 text-neutral-b2">
+                  <button type="button" className="rounded p-1.5 hover:bg-neutral-b2" aria-label="Mention" data-testid="button-mention">
                     <MentionMd className="h-4 w-4" />
                   </button>
-                  <button type="button" className="rounded p-1.5 hover:bg-sui-neutral-b02" aria-label="Format" data-testid="button-format">
+                  <button type="button" className="rounded p-1.5 hover:bg-neutral-b2" aria-label="Format" data-testid="button-format">
                     <EditMd className="h-4 w-4" />
                   </button>
-                  <button type="button" className="rounded p-1.5 hover:bg-sui-neutral-b02" aria-label="Attach" data-testid="button-attach">
+                  <button type="button" className="rounded p-1.5 hover:bg-neutral-b2" aria-label="Attach" data-testid="button-attach">
                     <AttachMd className="h-4 w-4" />
                   </button>
-                  <button type="button" className="rounded p-1.5 hover:bg-sui-neutral-b02" aria-label="Emoji" data-testid="button-emoji">
+                  <button type="button" className="rounded p-1.5 hover:bg-neutral-b2" aria-label="Emoji" data-testid="button-emoji">
                     <EmojiMd className="h-4 w-4" />
                   </button>
-                  <button type="button" className="rounded p-1.5 hover:bg-sui-neutral-b02" aria-label="Image" data-testid="button-image">
+                  <button type="button" className="rounded p-1.5 hover:bg-neutral-b2" aria-label="Image" data-testid="button-image">
                     <ImageMd className="h-4 w-4" />
                   </button>
-                  <button type="button" className="rounded p-1.5 hover:bg-sui-neutral-b02" aria-label="Voice" data-testid="button-voice">
+                  <button type="button" className="rounded p-1.5 hover:bg-neutral-b2" aria-label="Voice" data-testid="button-voice">
                     <MicrophoneMd className="h-4 w-4" />
                   </button>
                   
                   <button
                     type="button"
                     onClick={(e) => setMoreAnchor(e.currentTarget)}
-                    className="rounded p-1.5 hover:bg-sui-neutral-b02"
+                    className="rounded p-1.5 hover:bg-neutral-b2"
                     aria-label="More"
                     data-testid="button-composer-more"
                   >
                     <OverflowMd className="h-4 w-4" />
                   </button>
                   <Popover open={Boolean(moreAnchor)} anchorEl={moreAnchor} onClose={() => setMoreAnchor(null)} anchorOrigin={{vertical: "top", horizontal: "right"}} transformOrigin={{vertical: "bottom", horizontal: "right"}}>
-                    <div className="w-56 bg-white p-1.5 shadow-sui-lg rounded-lg border border-sui-neutral-line">
+                    <div className="w-56 bg-white p-1.5 shadow-lg rounded-lg border border-neutral-b0-t20">
                       <ComposerMenuItem
                         icon={<CheckMd className="h-4 w-4" />}
                         label="Create a task"
@@ -650,8 +650,8 @@ export const Chat = (): JSX.Element => {
 
                   <span id="picker-anchor" />
                   <Popover open={Boolean(pickerAnchor)} anchorEl={pickerAnchor} onClose={() => setPickerAnchor(null)} anchorOrigin={{vertical: "top", horizontal: "right"}} transformOrigin={{vertical: "bottom", horizontal: "right"}}>
-                    <div className="w-72 rounded-lg p-2 shadow-sui-lg border border-sui-neutral-line bg-white">
-                      <div className="px-2 pb-2 pt-1 text-[12px] font-semibold uppercase tracking-wider text-sui-neutral-f03">
+                    <div className="w-72 rounded-lg p-2 shadow-lg border border-neutral-b0-t20 bg-white">
+                      <div className="px-2 pb-2 pt-1 text-[12px] font-semibold uppercase tracking-wider text-neutral-b2">
                         Share booking link
                       </div>
                       <div className="flex flex-col">
@@ -660,15 +660,15 @@ export const Chat = (): JSX.Element => {
                             key={bt.id}
                             type="button"
                             onClick={() => handleShareBooking(bt)}
-                            className="flex items-start gap-sui-2 rounded-md px-2 py-2 text-left hover:bg-sui-neutral-b02"
+                            className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-neutral-b2"
                             data-testid={`booking-type-${bt.id}`}
                           >
-                            <CalendarMd className="mt-0.5 h-4 w-4 shrink-0 text-sui-cobranding-b01" />
+                            <CalendarMd className="mt-0.5 h-4 w-4 shrink-0 text-cobranding-f" />
                             <div className="min-w-0 flex-1">
-                              <div className="truncate text-sm font-semibold text-sui-neutral-f01">
+                              <div className="truncate text-sm font-semibold text-neutral-b0">
                                 {bt.title}
                               </div>
-                              <div className="truncate text-[12px] text-sui-neutral-f03">
+                              <div className="truncate text-[12px] text-neutral-b2">
                                 {bt.duration}
                               </div>
                             </div>
@@ -680,7 +680,7 @@ export const Chat = (): JSX.Element => {
 
                   <button
                     type="button"
-                    className="ml-1 rounded p-1.5 text-sui-cobranding-b01 hover:bg-sui-neutral-b02"
+                    className="ml-1 rounded p-1.5 text-cobranding-f hover:bg-neutral-b2"
                     aria-label="Send"
                     data-testid="button-send"
                   >
@@ -731,16 +731,16 @@ const Message = ({
   time: string;
   body: React.ReactNode;
 }) => (
-  <div className="flex gap-sui-3">
+  <div className="flex gap-3">
     <Avatar initials={avatar.initials} color={avatar.color} size="sm" />
     <div className="min-w-0 flex-1">
-      <div className="flex items-baseline gap-sui-2">
-        <span className="text-sm font-semibold text-sui-neutral-f01">{name}</span>
-        {presence && <span className="text-[12px] text-sui-neutral-f03">{presence}</span>}
-        <span className="ml-auto text-[12px] text-sui-neutral-f03">{time}</span>
+      <div className="flex items-baseline gap-2">
+        <span className="text-sm font-semibold text-neutral-b0">{name}</span>
+        {presence && <span className="text-[12px] text-neutral-b2">{presence}</span>}
+        <span className="ml-auto text-[12px] text-neutral-b2">{time}</span>
       </div>
       {subtitle && (
-        <div className="text-[12px] text-sui-neutral-f03" data-testid="text-message-subtitle">
+        <div className="text-[12px] text-neutral-b2" data-testid="text-message-subtitle">
           {subtitle}
         </div>
       )}
@@ -763,10 +763,10 @@ const ComposerMenuItem = ({
   <button
     type="button"
     onClick={onClick}
-    className="flex w-full items-center gap-sui-3 rounded-md px-sui-3 py-sui-2 text-left text-sm text-sui-neutral-f01 hover:bg-sui-neutral-b02"
+    className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-neutral-b0 hover:bg-neutral-b2"
     data-testid={testId}
   >
-    <span className="text-sui-neutral-f03">{icon}</span>
+    <span className="text-neutral-b2">{icon}</span>
     <span className="font-medium">{label}</span>
   </button>
 );
@@ -779,34 +779,34 @@ const EventCard = ({
   onBook: () => void;
 }) => (
   <div
-    className="mt-1 max-w-md rounded-2xl border-[1.2px] border-[#dddfe580] bg-white px-sui-4 py-sui-3"
+    className="mt-1 max-w-md rounded-2xl border-[1.2px] border-[#dddfe580] bg-white px-4 py-3"
     data-testid={`card-event-${booking.id}`}
   >
-    <div className="flex flex-col gap-sui-2">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center gap-1">
-        <CalendarMd className="h-4 w-4 shrink-0 text-sui-cobranding-b01" />
+        <CalendarMd className="h-4 w-4 shrink-0 text-cobranding-f" />
         <p
-          className="text-sm font-medium leading-5 text-sui-cobranding-b01"
+          className="text-sm font-medium leading-5 text-cobranding-f"
           data-testid="text-event-title"
         >
           {booking.title}
         </p>
       </div>
-      <p className="text-sm font-medium leading-5 text-sui-neutral-f01">
+      <p className="text-sm font-medium leading-5 text-neutral-b0">
         Hi team! Here's a link to book a time — pick whatever slot works best for you.
       </p>
-      <div className="flex items-center gap-sui-2">
-        <span className="h-2.5 w-2.5 rounded-full bg-sui-success" />
-        <p className="text-[12px] font-medium leading-[17px] text-sui-neutral-f03">
+      <div className="flex items-center gap-2">
+        <span className="h-2.5 w-2.5 rounded-full bg-success" />
+        <p className="text-[12px] font-medium leading-[17px] text-neutral-b2">
           15 time slots available this week
         </p>
       </div>
     </div>
-    <div className="mt-sui-4">
+    <div className="mt-4">
       <button
         type="button"
         onClick={onBook}
-        className="inline-flex h-8 min-w-14 items-center justify-center gap-1.5 rounded-[10px] border border-sui-cobranding-b01 bg-white px-sui-3 text-sm font-medium leading-5 text-sui-cobranding-b01 hover:bg-sui-cobranding-b01-t08"
+        className="inline-flex h-8 min-w-14 items-center justify-center gap-1.5 rounded-[10px] border border-cobranding-f bg-white px-3 text-sm font-medium leading-5 text-cobranding-f hover:bg-cobranding-b/8"
         data-testid={`button-book-time-${booking.id}`}
       >
         Book a time
@@ -847,12 +847,12 @@ const BookingDialog = ({
   onOpenChange: (open: boolean) => void;
   onSelectSlot: (slot: string) => void;
 }) => (
-  <Dialog open={booking !== null} onClose={() => onOpenChange(false)} maxWidth="md" PaperProps={{className: "max-w-[840px] gap-0 overflow-hidden rounded-[10px] border border-sui-neutral-line bg-white p-0 w-[840px] max-w-full"}}>
+  <Dialog open={booking !== null} onClose={() => onOpenChange(false)} maxWidth="md" PaperProps={{className: "max-w-[840px] gap-0 overflow-hidden rounded-[10px] border border-neutral-b0-t20 bg-white p-0 w-[840px] max-w-full"}}>
     {booking && (
       <>
-        <div className="space-y-0 border-b border-sui-neutral-line px-6 pb-3 pt-4">
+        <div className="space-y-0 border-b border-neutral-b0-t20 px-6 pb-3 pt-4">
           <DialogTitle
-            className="pr-8 text-[17px] font-medium leading-[25px] tracking-[-0.2px] text-sui-neutral-f01"
+            className="pr-8 text-[17px] font-medium leading-[25px] tracking-[-0.2px] text-neutral-b0"
             data-testid="text-booking-dialog-title"
           >
             Book your time for {booking?.title ?? ""}
@@ -862,33 +862,33 @@ const BookingDialog = ({
         <div className="flex h-[445px] items-stretch">
           {/* Left column */}
           <div className="flex w-[322px] shrink-0 flex-col gap-4 overflow-y-auto px-6 py-5">
-            <div className="flex items-center gap-sui-4">
-              <ProfileMd className="h-5 w-5 shrink-0 text-sui-neutral-f01" />
-              <span className="text-[13px] font-medium leading-[19px] text-sui-neutral-f02">
+            <div className="flex items-center gap-4">
+              <ProfileMd className="h-5 w-5 shrink-0 text-neutral-b0" />
+              <span className="text-[13px] font-medium leading-[19px] text-neutral-b1">
                 Perry He
               </span>
             </div>
-            <div className="flex items-center gap-sui-4">
-              <ClockMd className="h-5 w-5 shrink-0 text-sui-neutral-f01" />
+            <div className="flex items-center gap-4">
+              <ClockMd className="h-5 w-5 shrink-0 text-neutral-b0" />
               <span
-                className="text-[13px] font-medium leading-[19px] text-sui-neutral-f02"
+                className="text-[13px] font-medium leading-[19px] text-neutral-b1"
                 data-testid="text-booking-duration"
               >
                 {booking?.duration ?? ""}
               </span>
             </div>
-            <div className="flex items-start gap-sui-4">
-              <MapPinMd className="mt-0.5 h-5 w-5 shrink-0 text-sui-neutral-f01" />
-              <div className="flex flex-col gap-1 text-[13px] font-medium leading-[19px] text-sui-neutral-f02">
+            <div className="flex items-start gap-4">
+              <MapPinMd className="mt-0.5 h-5 w-5 shrink-0 text-neutral-b0" />
+              <div className="flex flex-col gap-1 text-[13px] font-medium leading-[19px] text-neutral-b1">
                 <span>https://v.ringcentral.com/join/perry-he</span>
                 <span>+ (415) 939-0468</span>
                 <span>Conf Rm - BMT20 2nd - Divisa</span>
               </div>
             </div>
-            <div className="flex items-start gap-sui-4">
-              <EditMd className="mt-0.5 h-5 w-5 shrink-0 text-sui-neutral-f01" />
+            <div className="flex items-start gap-4">
+              <EditMd className="mt-0.5 h-5 w-5 shrink-0 text-neutral-b0" />
               <p
-                className="text-[13px] font-medium leading-[19px] text-sui-neutral-f02"
+                className="text-[13px] font-medium leading-[19px] text-neutral-b1"
                 data-testid="text-booking-description"
               >
                 {booking?.description ?? ""}
@@ -896,53 +896,53 @@ const BookingDialog = ({
             </div>
           </div>
 
-          <div className="w-px bg-sui-neutral-line" />
+          <div className="w-px bg-neutral-b0-t10" />
 
           {/* Right column */}
           <div className="flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
             {/* Calendar */}
             <div className="flex flex-col items-center">
               <div className="flex h-6 w-full items-center justify-between">
-                <span className="text-sm font-bold leading-5 text-sui-neutral-f01">
+                <span className="text-sm font-bold leading-5 text-neutral-b0">
                   June 2025
                 </span>
-                <div className="flex items-center gap-sui-2">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-sui-neutral-b02"
+                    className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-neutral-b2"
                     aria-label="Previous month"
                     data-testid="button-prev-month"
                   >
-                    <ArrowLeftMd className="h-4 w-4 text-sui-neutral-f01" />
+                    <ArrowLeftMd className="h-4 w-4 text-neutral-b0" />
                   </button>
                   <button
                     type="button"
-                    className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-sui-neutral-b02"
+                    className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-neutral-b2"
                     aria-label="Next month"
                     data-testid="button-next-month"
                   >
-                    <ArrowRightMd className="h-4 w-4 text-sui-neutral-f01" />
+                    <ArrowRightMd className="h-4 w-4 text-neutral-b0" />
                   </button>
                 </div>
               </div>
-              <div className="mt-sui-2 flex w-full gap-sui-2 text-center text-[11px] font-medium leading-[17px] text-sui-neutral-f02">
+              <div className="mt-2 flex w-full gap-2 text-center text-[11px] font-medium leading-[17px] text-neutral-b1">
                 {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => (
                   <div key={d} className="flex-1">
                     {d}
                   </div>
                 ))}
               </div>
-              <div className="mt-sui-2 flex h-10 w-full items-center gap-sui-2">
+              <div className="mt-2 flex h-10 w-full items-center gap-2">
                 {calendarDays.map((d) => (
                   <button
                     key={d.day}
                     type="button"
                     className={`flex h-10 flex-1 items-center justify-center rounded-full text-[11px] font-medium leading-[17px] ${
                       d.selected
-                        ? "border border-white bg-sui-cobranding-b01 text-white"
+                        ? "border border-white bg-cobranding-b text-white"
                         : d.muted
-                          ? "text-sui-neutral-f04"
-                          : "text-sui-neutral-f01 hover:bg-sui-neutral-b02"
+                          ? "text-neutral-b3"
+                          : "text-neutral-b0 hover:bg-neutral-b2"
                     }`}
                     data-testid={`button-day-${d.day}`}
                   >
@@ -952,7 +952,7 @@ const BookingDialog = ({
               </div>
               <button
                 type="button"
-                className="mt-sui-2 flex h-6 w-6 items-center justify-center rounded-full text-sui-neutral-f01 hover:bg-sui-neutral-b02"
+                className="mt-2 flex h-6 w-6 items-center justify-center rounded-full text-neutral-b0 hover:bg-neutral-b2"
                 aria-label="Collapse"
                 data-testid="button-collapse-calendar"
               >
@@ -962,10 +962,10 @@ const BookingDialog = ({
 
             {/* Selected day + tz */}
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold leading-5 text-sui-neutral-f01">Thu 16</span>
+              <span className="text-sm font-bold leading-5 text-neutral-b0">Thu 16</span>
               <button
                 type="button"
-                className="flex items-center gap-1 rounded-md px-2 py-1 text-[13px] font-medium text-sui-neutral-f01 hover:bg-sui-neutral-b02"
+                className="flex items-center gap-1 rounded-md px-2 py-1 text-[13px] font-medium text-neutral-b0 hover:bg-neutral-b2"
                 data-testid="button-timezone"
               >
                 <EarthFilledMd className="h-4 w-4" />
@@ -975,13 +975,13 @@ const BookingDialog = ({
             </div>
 
             {/* Time slot grid */}
-            <div className="grid grid-cols-3 gap-sui-2">
+            <div className="grid grid-cols-3 gap-2">
               {timeSlots.map((slot) => (
                 <button
                   key={slot}
                   type="button"
                   onClick={() => onSelectSlot(slot)}
-                  className="flex h-10 items-center justify-center rounded-full border border-sui-neutral-line bg-white text-sm font-medium text-sui-neutral-f01 hover:border-sui-cobranding-b01 hover:text-sui-cobranding-b01"
+                  className="flex h-10 items-center justify-center rounded-full border border-neutral-b0-t20 bg-white text-sm font-medium text-neutral-b0 hover:border-cobranding-f hover:text-cobranding-f"
                   data-testid={`button-slot-${slot.replace(/[^0-9A-Za-z]/g, "")}`}
                 >
                   {slot}
@@ -998,9 +998,9 @@ const BookingDialog = ({
 const ReactionPill = ({ emoji, count }: { emoji: string; count?: number }) => (
   <button
     type="button"
-    className="flex items-center gap-1 rounded-full border border-sui-neutral-line bg-white px-2 py-0.5 text-xs hover:bg-sui-neutral-b02"
+    className="flex items-center gap-1 rounded-full border border-neutral-b0-t20 bg-white px-2 py-0.5 text-xs hover:bg-neutral-b2"
   >
     <span>{emoji}</span>
-    {count !== undefined && <span className="text-sui-neutral-f03">{count}</span>}
+    {count !== undefined && <span className="text-neutral-b2">{count}</span>}
   </button>
 );

@@ -31,13 +31,13 @@ export const AvaUpsellDialog = ({ open, onOpenChange, onFreeTrial }: AvaUpsellDi
                     alt="Bookings"
                     src="/figmaAssets/bookings-icon.svg"
                   />
-                  <p className="text-[12px] font-semibold uppercase leading-[15px] tracking-[0.2px] text-sui-neutral-f03">
+                  <p className="text-[12px] font-semibold uppercase leading-[15px] tracking-[0.2px] text-neutral-b2">
                     Bookings
                   </p>
                 </div>
                 <h2
                   data-testid="text-upsell-title"
-                  className="text-[20px] font-semibold leading-7 tracking-[-0.2px] text-sui-neutral-f01"
+                  className="text-[20px] font-semibold leading-7 tracking-[-0.2px] text-neutral-b0"
                 >
                   Unlock online booking for your business
                 </h2>
@@ -58,40 +58,40 @@ export const AvaUpsellDialog = ({ open, onOpenChange, onFreeTrial }: AvaUpsellDi
                   alt=""
                   src="/figmaAssets/upsell-chip-icon.svg"
                 />
-                <p className="relative whitespace-nowrap text-[12px] font-medium leading-[1.2] text-sui-neutral-f01">
+                <p className="relative whitespace-nowrap text-[12px] font-medium leading-[1.2] text-neutral-b0">
                   $25/month/user*
                 </p>
               </div>
 
               <div className="flex flex-col gap-5">
-                <p className="text-[14px] font-semibold leading-5 tracking-[-0.1856px] text-sui-neutral-f01">
+                <p className="text-[14px] font-semibold leading-5 tracking-[-0.1856px] text-neutral-b0">
                   Let customers book time with you based on your availability 📅
                 </p>
-                <p className="text-[14px] leading-5 tracking-[-0.1856px] text-sui-neutral-f02">
+                <p className="text-[14px] leading-5 tracking-[-0.1856px] text-neutral-b1">
                   Create booking pages and share links across RingCentral to
                   reduce scheduling back-and-forth:
                 </p>
                 <ul className="flex flex-col gap-2">
                   <li className="text-[14px] leading-5 tracking-[-0.1856px]">
-                    <span className="font-bold text-sui-neutral-f01">🗓️</span>{" "}
-                    <span className="font-semibold text-sui-neutral-f01">Booking page:</span>{" "}
-                    <span className="text-sui-neutral-f02">Customize your booking pages</span>
+                    <span className="font-bold text-neutral-b0">🗓️</span>{" "}
+                    <span className="font-semibold text-neutral-b0">Booking page:</span>{" "}
+                    <span className="text-neutral-b1">Customize your booking pages</span>
                   </li>
                   <li className="text-[14px] leading-5 tracking-[-0.1856px]">
-                    <span className="text-sui-neutral-f01">🔗</span>{" "}
-                    <span className="font-semibold text-sui-neutral-f01">Easy sharing:</span>{" "}
-                    <span className="text-sui-neutral-f02">Share via SMS, calls, meetings, and messages.</span>
+                    <span className="text-neutral-b0">🔗</span>{" "}
+                    <span className="font-semibold text-neutral-b0">Easy sharing:</span>{" "}
+                    <span className="text-neutral-b1">Share via SMS, calls, meetings, and messages.</span>
                   </li>
                   <li className="text-[14px] leading-5 tracking-[-0.1856px]">
-                    <span className="text-sui-neutral-f01">🔔</span>{" "}
-                    <span className="font-semibold text-sui-neutral-f01">Reminders:</span>{" "}
-                    <span className="text-sui-neutral-f02">Send confirmations and follow-ups to help reduce no-shows.</span>
+                    <span className="text-neutral-b0">🔔</span>{" "}
+                    <span className="font-semibold text-neutral-b0">Reminders:</span>{" "}
+                    <span className="text-neutral-b1">Send confirmations and follow-ups to help reduce no-shows.</span>
                   </li>
                 </ul>
                 <button
                   type="button"
                   data-testid="button-upsell-learn-more"
-                  className="self-start text-[14px] font-medium leading-5 text-sui-cobranding-b01 hover:underline"
+                  className="self-start text-[14px] font-medium leading-5 text-cobranding-f hover:underline"
                 >
                   Learn more
                 </button>
