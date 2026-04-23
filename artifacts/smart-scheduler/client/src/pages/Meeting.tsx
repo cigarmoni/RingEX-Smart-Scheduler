@@ -351,7 +351,11 @@ export const MeetingContent = ({
   };
 
   useEffect(() => {
-    if (flow === "post-meeting" || flow === "after-meeting-share-link") {
+    if (
+      flow === "post-meeting" ||
+      flow === "after-meeting-share-link" ||
+      flow === "after-post-meeting-share-link"
+    ) {
       setActiveTab("PAST");
       setSelectedPastId("tv-time-capsule");
     } else if (flow === "in-meeting") {
@@ -359,7 +363,21 @@ export const MeetingContent = ({
     }
   }, [flow]);
 
-  const bookingLinkPurchased = flow === "after-meeting-share-link";
+  const bookingLinkPurchased =
+    flow === "after-meeting-share-link" || flow === "after-post-meeting-share-link";
+  const sharePopoverVariant = flow === "after-post-meeting-share-link";
+  const [sharePopoverOpen, setSharePopoverOpen] = useState(false);
+  const openSharePopover = () => {
+    setShareMessage("");
+    setShareRecipient("");
+    setShareBookingType("therapy-session-natalie");
+    setShareSendVia("email");
+    setSharePopoverOpen(true);
+  };
+  const handleSendSharePopover = () => {
+    setSharePopoverOpen(false);
+    toast({ description: "Booking link sent" });
+  };
 
   useEffect(() => {
     if (activeTab === "PAST") {
@@ -848,15 +866,120 @@ export const MeetingContent = ({
                             </span>
                             {item.assignee === "Dana" &&
                               (bookingLinkPurchased ? (
-                                <button
-                                  type="button"
-                                  onClick={openShareDialog}
-                                  className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
-                                  data-testid={`button-share-booking-link-${i}`}
-                                >
-                                  <Lightbulb className="h-3.5 w-3.5" />
-                                  Share booking link
-                                </button>
+                                sharePopoverVariant ? (
+                                  <Popover
+                                    open={sharePopoverOpen}
+                                    onOpenChange={(o) => (o ? openSharePopover() : setSharePopoverOpen(false))}
+                                  >
+                                    <PopoverTrigger asChild>
+                                      <button
+                                        type="button"
+                                        className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
+                                        data-testid={`button-share-booking-link-${i}`}
+                                      >
+                                        <Lightbulb className="h-3.5 w-3.5" />
+                                        Share booking link
+                                      </button>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                      side="bottom"
+                                      align="start"
+                                      className="w-[360px] rounded-xl border border-[#dddfe5] bg-white p-4 shadow-lg"
+                                      data-testid="popover-share-booking-link"
+                                    >
+                                      <div className="flex flex-col gap-3">
+                                        <div className="font-headline text-[16px] font-semibold text-black" data-testid="text-share-popover-title">
+                                          Share booking link
+                                        </div>
+                                        <div className="flex flex-col gap-1.5">
+                                          <Label htmlFor="share-popover-type" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                            Booking type
+                                          </Label>
+                                          <Select value={shareBookingType} onValueChange={setShareBookingType}>
+                                            <SelectTrigger id="share-popover-type" className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black" data-testid="select-share-popover-type">
+                                              <SelectValue placeholder="Select a booking type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="therapy-session-natalie">Therapy session with Natalie</SelectItem>
+                                              <SelectItem value="initial-consultation">Initial consultation</SelectItem>
+                                              <SelectItem value="follow-up-15">15 min follow-up</SelectItem>
+                                              <SelectItem value="discovery-call-30">30 min discovery call</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                        <div className="flex flex-col gap-1.5">
+                                          <Label htmlFor="share-popover-via" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                            Send via
+                                          </Label>
+                                          <Select value={shareSendVia} onValueChange={setShareSendVia}>
+                                            <SelectTrigger id="share-popover-via" className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black" data-testid="select-share-popover-via">
+                                              <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="email">Email</SelectItem>
+                                              <SelectItem value="text">Text</SelectItem>
+                                              <SelectItem value="chat">Chat</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                        <div className="flex flex-col gap-1.5">
+                                          <Label htmlFor="share-popover-recipient" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                            {shareSendVia === "email" ? "Email" : shareSendVia === "text" ? "Phone number" : "Recipient"}
+                                          </Label>
+                                          <Input
+                                            id="share-popover-recipient"
+                                            value={shareRecipient}
+                                            onChange={(e) => setShareRecipient(e.target.value)}
+                                            placeholder="Enter name or email"
+                                            className="h-9 rounded-md border border-[#dddfe5] bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                            data-testid="input-share-popover-recipient"
+                                          />
+                                        </div>
+                                        <div className="flex flex-col gap-1.5">
+                                          <Label htmlFor="share-popover-message" className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black">
+                                            Additional message
+                                          </Label>
+                                          <Textarea
+                                            id="share-popover-message"
+                                            value={shareMessage}
+                                            onChange={(e) => setShareMessage(e.target.value)}
+                                            placeholder="Enter additional message"
+                                            className="min-h-[64px] rounded-md border border-[#dddfe5] bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
+                                            data-testid="textarea-share-popover-message"
+                                          />
+                                        </div>
+                                        <div className="flex justify-end gap-2 pt-1">
+                                          <Button
+                                            variant="outline"
+                                            onClick={() => setSharePopoverOpen(false)}
+                                            className="h-8 rounded-[10px] border border-[#dddfe5] bg-white px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black hover:bg-[#f5f6f9]"
+                                            data-testid="button-share-popover-cancel"
+                                          >
+                                            Cancel
+                                          </Button>
+                                          <Button
+                                            onClick={handleSendSharePopover}
+                                            disabled={shareRecipient.trim().length === 0}
+                                            className="h-8 rounded-[10px] bg-[#0040dd] px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-white hover:bg-[#0037be] disabled:bg-[#dddfe5] disabled:text-white"
+                                            data-testid="button-share-popover-send"
+                                          >
+                                            Send
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    </PopoverContent>
+                                  </Popover>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={openShareDialog}
+                                    className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
+                                    data-testid={`button-share-booking-link-${i}`}
+                                  >
+                                    <Lightbulb className="h-3.5 w-3.5" />
+                                    Share booking link
+                                  </button>
+                                )
                               ) : (
                                 <Popover
                                   open={introOpen}

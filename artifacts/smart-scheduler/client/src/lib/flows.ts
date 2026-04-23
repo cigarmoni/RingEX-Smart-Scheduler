@@ -30,7 +30,7 @@ export const FLOWS: FlowEntry[] = [
   { id: "after-booking-initial-setup", label: "Booking tab", group: "after", route: "/", flow: "after-booking-initial-setup" },
   { id: "after-chat-booking-link", label: "Chat", group: "after", route: "/chat", flow: "after-chat-booking-link" },
   { id: "after-meeting-share-link", label: "In meeting", group: "after", route: "/meeting-window", flow: "share-booking", setPurchased: true },
-  { id: "after-post-meeting-share-link", label: "Post meeting", group: "after", route: "/", flow: "after-post-meeting-share-link", comingSoon: true },
+  { id: "after-post-meeting-share-link", label: "Post meeting", group: "after", route: "/meeting", flow: "after-post-meeting-share-link", setPurchased: true },
   { id: "after-call-share-link", label: "In call", group: "after", route: "/phone", flow: "after-call-share-link" },
   { id: "after-post-call-share-link", label: "Post call", group: "after", route: "/", flow: "after-post-call-share-link", comingSoon: true },
   { id: "after-text-booking-link", label: "Text", group: "after", route: "/text", flow: "after-text-booking-link" },
