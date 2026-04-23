@@ -18,6 +18,7 @@ import { Phone } from "@/pages/Phone";
 import { MeetingWindow } from "@/pages/MeetingWindow";
 import { Placeholder } from "@/pages/Placeholder";
 import { MeetingPage } from "@/pages/MeetingPage";
+import { Apps } from "@/pages/Apps";
 
 function Router() {
   return (
@@ -37,9 +38,7 @@ function Router() {
       <Route path="/contacts">
         <Placeholder title="Contacts" activeNav="Contacts" />
       </Route>
-      <Route path="/apps">
-        <Placeholder title="Apps" />
-      </Route>
+      <Route path="/apps" component={Apps} />
       <Route path="/help">
         <Placeholder title="Help" />
       </Route>
