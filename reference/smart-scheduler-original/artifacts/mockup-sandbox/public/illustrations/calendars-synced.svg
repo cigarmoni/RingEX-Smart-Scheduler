@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="92" fill="#f5f6f9"/>
+  <!-- Left calendar (host) -->
+  <g>
+    <rect x="20" y="68" width="68" height="76" rx="8" fill="#ffffff" stroke="#dddfe5" stroke-width="2"/>
+    <rect x="20" y="68" width="68" height="16" rx="8" fill="#5d7ce8"/>
+    <rect x="20" y="76" width="68" height="8" fill="#5d7ce8"/>
+    <g fill="#dddfe5">
+      <circle cx="32" cy="98" r="2"/><circle cx="44" cy="98" r="2"/><circle cx="56" cy="98" r="2"/><circle cx="68" cy="98" r="2"/><circle cx="80" cy="98" r="2"/>
+      <circle cx="32" cy="112" r="2"/><circle cx="56" cy="112" r="2"/><circle cx="68" cy="112" r="2"/><circle cx="80" cy="112" r="2"/>
+      <circle cx="32" cy="126" r="2"/><circle cx="44" cy="126" r="2"/><circle cx="68" cy="126" r="2"/>
+    </g>
+    <circle cx="44" cy="112" r="3.5" fill="#5d7ce8"/>
+    <circle cx="56" cy="126" r="3.5" fill="#5d7ce8"/>
+    <circle cx="80" cy="126" r="3.5" fill="#5d7ce8"/>
+  </g>
+
+  <!-- Right calendar (customer) -->
+  <g>
+    <rect x="112" y="68" width="68" height="76" rx="8" fill="#ffffff" stroke="#dddfe5" stroke-width="2"/>
+    <rect x="112" y="68" width="68" height="16" rx="8" fill="#ff7a00"/>
+    <rect x="112" y="76" width="68" height="8" fill="#ff7a00"/>
+    <g fill="#dddfe5">
+      <circle cx="124" cy="98" r="2"/><circle cx="136" cy="98" r="2"/><circle cx="148" cy="98" r="2"/><circle cx="160" cy="98" r="2"/><circle cx="172" cy="98" r="2"/>
+      <circle cx="124" cy="112" r="2"/><circle cx="148" cy="112" r="2"/><circle cx="160" cy="112" r="2"/>
+      <circle cx="124" cy="126" r="2"/><circle cx="136" cy="126" r="2"/><circle cx="160" cy="126" r="2"/><circle cx="172" cy="126" r="2"/>
+    </g>
+    <circle cx="136" cy="112" r="3.5" fill="#ff7a00"/>
+    <circle cx="172" cy="112" r="3.5" fill="#ff7a00"/>
+    <circle cx="148" cy="126" r="3.5" fill="#ff7a00"/>
+  </g>
+
+  <!-- Sync arc + matched slot -->
+  <path d="M88 106 q12 -22 24 0" stroke="#9e9fa4" stroke-width="1.8" stroke-dasharray="3 3" fill="none"/>
+  <g transform="translate(92 56)">
+    <rect x="0" y="0" width="36" height="20" rx="6" fill="#ffffff" stroke="#16a937" stroke-width="2"/>
+    <circle cx="9" cy="10" r="4" fill="#16a937"/>
+    <path d="M6 10 l2 2 l4 -4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text x="22" y="13" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="7" font-weight="700">Booked</text>
+  </g>
+
+  <!-- Hangers -->
+  <rect x="34" y="60" width="4" height="14" rx="2" fill="#72757a"/>
+  <rect x="70" y="60" width="4" height="14" rx="2" fill="#72757a"/>
+  <rect x="126" y="60" width="4" height="14" rx="2" fill="#72757a"/>
+  <rect x="162" y="60" width="4" height="14" rx="2" fill="#72757a"/>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="92" fill="#f5f6f9"/>
+
+  <!-- Calendar card -->
+  <rect x="36" y="36" width="128" height="116" rx="12" fill="#ffffff" stroke="#dddfe5" stroke-width="2"/>
+  <!-- Header -->
+  <rect x="48" y="48" width="40" height="6" rx="3" fill="#72757a"/>
+  <rect x="48" y="60" width="56" height="4" rx="2" fill="#9e9fa4"/>
+  <!-- Day chips -->
+  <g>
+    <rect x="48" y="74" width="20" height="22" rx="6" fill="#ffffff" stroke="#dddfe5" stroke-width="1.5"/>
+    <text x="58" y="84" text-anchor="middle" fill="#9e9fa4" font-family="Inter, Helvetica, Arial, sans-serif" font-size="6" font-weight="700">MON</text>
+    <text x="58" y="92" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="800">14</text>
+
+    <rect x="72" y="74" width="20" height="22" rx="6" fill="#5d7ce8"/>
+    <text x="82" y="84" text-anchor="middle" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="6" font-weight="700">TUE</text>
+    <text x="82" y="92" text-anchor="middle" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="800">15</text>
+
+    <rect x="96" y="74" width="20" height="22" rx="6" fill="#ffffff" stroke="#dddfe5" stroke-width="1.5"/>
+    <text x="106" y="84" text-anchor="middle" fill="#9e9fa4" font-family="Inter, Helvetica, Arial, sans-serif" font-size="6" font-weight="700">WED</text>
+    <text x="106" y="92" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="800">16</text>
+
+    <rect x="120" y="74" width="20" height="22" rx="6" fill="#ffffff" stroke="#dddfe5" stroke-width="1.5"/>
+    <text x="130" y="84" text-anchor="middle" fill="#9e9fa4" font-family="Inter, Helvetica, Arial, sans-serif" font-size="6" font-weight="700">THU</text>
+    <text x="130" y="92" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="800">17</text>
+  </g>
+  <!-- Slot list -->
+  <rect x="48" y="106" width="44" height="12" rx="6" fill="#ffffff" stroke="#dddfe5" stroke-width="1.5"/>
+  <text x="70" y="114" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="7" font-weight="600">9:00 AM</text>
+
+  <rect x="96" y="106" width="44" height="12" rx="6" fill="#ff7a00"/>
+  <text x="118" y="114" text-anchor="middle" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="7" font-weight="700">10:30 AM</text>
+
+  <rect x="48" y="124" width="44" height="12" rx="6" fill="#ffffff" stroke="#dddfe5" stroke-width="1.5"/>
+  <text x="70" y="132" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="7" font-weight="600">1:00 PM</text>
+
+  <rect x="96" y="124" width="44" height="12" rx="6" fill="#ffffff" stroke="#dddfe5" stroke-width="1.5"/>
+  <text x="118" y="132" text-anchor="middle" fill="#72757a" font-family="Inter, Helvetica, Arial, sans-serif" font-size="7" font-weight="600">2:30 PM</text>
+
+  <!-- Tap ripple -->
+  <circle cx="118" cy="112" r="14" stroke="#ff7a00" stroke-width="1.5" stroke-dasharray="2 3" fill="none" opacity="0.6"/>
+  <circle cx="118" cy="112" r="20" stroke="#ff7a00" stroke-width="1.2" stroke-dasharray="2 3" fill="none" opacity="0.4"/>
+
+  <!-- Hand pointer -->
+  <g transform="translate(126 116)">
+    <path d="M0 0 c0 -8 6 -8 6 0 v6 c4 -2 10 0 10 6 v10 c0 6 -4 10 -10 10 h-6 c-6 0 -10 -4 -10 -10 v-12 c0 -4 4 -6 6 -4 z"
+          fill="#ffffff" stroke="#72757a" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+</svg>

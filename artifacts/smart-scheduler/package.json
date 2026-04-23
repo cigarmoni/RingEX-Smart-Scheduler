@@ -1,0 +1,40 @@
+{
+  "name": "@workspace/smart-scheduler",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.config.ts --host 0.0.0.0",
+    "build": "vite build --config vite.config.ts",
+    "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@ringcentral/spring-icon": "^1.8.0",
+    "@ringcentral/spring-theme": "^1.8.0",
+    "@ringcentral/spring-ui": "^1.8.0",
+    "clsx": "catalog:",
+    "dayjs": "^1.11.13",
+    "react-virtuoso": "4.7.10",
+    "tailwind-merge": "catalog:"
+  },
+  "devDependencies": {
+    "@replit/vite-plugin-cartographer": "catalog:",
+    "@replit/vite-plugin-dev-banner": "catalog:",
+    "@replit/vite-plugin-runtime-error-modal": "catalog:",
+    "@tanstack/react-query": "^5.0.0",
+    "@types/node": "catalog:",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "catalog:",
+    "@workspace/api-client-react": "workspace:*",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "catalog:",
+    "wouter": "^3.3.5",
+    "zod": "^3.23.8"
+  }
+}
