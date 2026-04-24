@@ -4,7 +4,7 @@ import {
   MicrophoneOffFilledMd as MicOff,
   DialpadMd as Keypad,
   SpeakerFilledMd as Audio,
-  PlusFilledMd as Add,
+  CirclePlusFilledMd as Add,
   HoldFilledMd as Hold,
   TransferCallMd as TransferCall,
   RecordFilledMd as Record,
