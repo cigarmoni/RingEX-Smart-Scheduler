@@ -1,5 +1,6 @@
-import { Sparkles, X } from "lucide-react";
 import type { ReactNode } from "react";
+import { UpgradeMd, Xmd } from "@ringcentral/spring-icon";
+import { Icon } from "@ringcentral/spring-ui";
 import { cn } from "@/lib/utils";
 
 export interface FeatureIntroBannerAction {
@@ -13,6 +14,7 @@ export interface FeatureIntroBannerProps {
   description: ReactNode;
   action?: FeatureIntroBannerAction;
   actions?: ReactNode;
+  tagLabel?: string;
   onDismiss?: () => void;
   dismissTestId?: string;
   dismissAriaLabel?: string;
@@ -25,6 +27,7 @@ export const FeatureIntroBanner = ({
   description,
   action,
   actions,
+  tagLabel = "Add-on",
   onDismiss,
   dismissTestId,
   dismissAriaLabel = "Dismiss",
@@ -34,39 +37,66 @@ export const FeatureIntroBanner = ({
   return (
     <div
       className={cn(
-        "relative flex items-start gap-3 rounded-lg border-l-4 border-[#fe8624] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)]",
-        onDismiss && "pr-10",
+        "relative flex w-full flex-col items-start gap-4 overflow-hidden rounded-[20px] border border-solid border-[#ffadad] bg-[var(--sui-colors-neutral-base,white)] p-4",
         className,
       )}
       data-testid={rest["data-testid"]}
     >
-      <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#fe8624]" />
-      <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold text-black">{title}</p>
-        <div className="mt-1 text-xs text-[#323439]">{description}</div>
-        {action && (
-          <button
-            type="button"
-            onClick={action.onClick}
-            className="mt-2 text-xs font-semibold text-[#0040dd] hover:underline"
-            data-testid={action.testId}
-          >
-            {action.label}
-          </button>
-        )}
-        {actions && <div className="mt-3">{actions}</div>}
+      <div className="flex w-full flex-col items-start gap-2">
+        {/* Header row: Add-on tag + close */}
+        <div className="flex w-full items-center justify-between">
+          <div className="relative flex h-5 min-w-[24px] shrink-0 items-center justify-center gap-1 overflow-hidden rounded-[4px] pl-1 pr-1.5">
+            <div
+              className="absolute inset-0"
+              style={{ backgroundColor: "rgba(254, 134, 36, 0.1)" }}
+            />
+            <div className="relative flex shrink-0 items-center gap-1 pb-px">
+              <Icon as={UpgradeMd} size={12} color="#cc5200" />
+              <span className="text-[12px] font-semibold leading-[17px] text-[#cc5200] whitespace-nowrap">
+                {tagLabel}
+              </span>
+            </div>
+          </div>
+          {onDismiss && (
+            <button
+              type="button"
+              onClick={onDismiss}
+              aria-label={dismissAriaLabel}
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)]"
+              data-testid={dismissTestId}
+            >
+              <Icon as={Xmd} size={16} />
+            </button>
+          )}
+        </div>
+
+        {/* Body block */}
+        <div className="flex w-full flex-col items-start">
+          <div className="flex w-full items-center pb-2">
+            <p className="flex-1 min-w-0 text-[15px] font-bold leading-[18px] text-[var(--sui-colors-neutral-b0)]">
+              {title}
+            </p>
+          </div>
+          <div className="flex w-full flex-col items-center justify-center">
+            <div className="w-full text-[14px] font-normal leading-[18px] text-[var(--sui-colors-neutral-b0)]">
+              {description}
+            </div>
+          </div>
+          {action && (
+            <div className="flex flex-col items-start pt-4">
+              <button
+                type="button"
+                onClick={action.onClick}
+                className="text-[15px] font-medium leading-[20px] text-[var(--sui-colors-neutral-b0)] underline decoration-solid hover:opacity-80"
+                data-testid={action.testId}
+              >
+                {action.label}
+              </button>
+            </div>
+          )}
+          {actions && <div className="pt-4">{actions}</div>}
+        </div>
       </div>
-      {onDismiss && (
-        <button
-          type="button"
-          onClick={onDismiss}
-          aria-label={dismissAriaLabel}
-          className="absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-md text-[#56585e] hover:bg-[#f5f6f9]"
-          data-testid={dismissTestId}
-        >
-          <X className="h-4 w-4" />
-        </button>
-      )}
     </div>
   );
 };
