@@ -15,6 +15,7 @@ import {
   ShareInRoomMd as ScreenshareSui,
   OverflowMd as OverflowSui,
 } from "@ringcentral/spring-icon";
+import { Dialer, DialPad, DialTextField, DialDelete } from "@ringcentral/spring-ui";
 import {
   CcSp,
   HangUpSp,
@@ -106,21 +107,6 @@ type ControlButton = {
 };
 
 type PhoneView = "dialer" | "in-call" | "history";
-
-const dialerKeys: { d: string; l?: string }[] = [
-  { d: "1" },
-  { d: "2", l: "ABC" },
-  { d: "3", l: "DEF" },
-  { d: "4", l: "GHI" },
-  { d: "5", l: "JKL" },
-  { d: "6", l: "MNO" },
-  { d: "7", l: "PQRS" },
-  { d: "8", l: "TUV" },
-  { d: "9", l: "WXYZ" },
-  { d: "*" },
-  { d: "0", l: "+" },
-  { d: "#" },
-];
 
 type BookingField = {
   label: string;
@@ -250,56 +236,43 @@ export const PhonePage = (): JSX.Element => {
           data-testid="view-dialer"
         >
           <div className="flex w-full max-w-[360px] flex-col items-center gap-5 rounded-xl bg-[var(--sui-colors-neutral-base)] p-6 shadow-sm">
-            <div
-              className="flex h-14 w-full items-center justify-center text-center text-3xl font-semibold tracking-wider text-[var(--sui-colors-neutral-b0)]"
-              data-testid="text-dialed-number"
-            >
-              {dialedNumber || (
-                <span className="text-base font-normal text-[var(--sui-colors-neutral-b2)]">
-                  Enter a phone number
-                </span>
-              )}
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {dialerKeys.map((k) => (
+            <Dialer>
+              <div className="w-full" data-testid="text-dialed-number">
+                <DialTextField
+                  value={dialedNumber}
+                  onChange={(v: string) => setDialedNumber(v)}
+                  placeholder="Enter a phone number"
+                  keypadMode
+                />
+              </div>
+              <DialPad />
+              <div className="mt-1 flex w-full items-center justify-center gap-6">
+                <span className="h-14 w-14" />
                 <button
-                  key={k.d}
                   type="button"
-                  onClick={() => setDialedNumber((n) => n + k.d)}
-                  className="flex h-16 w-16 flex-col items-center justify-center rounded-full bg-[var(--sui-colors-neutral-b5)] text-2xl font-semibold text-[var(--sui-colors-neutral-b0)] hover:bg-[var(--sui-colors-neutral-b4)]"
-                  data-testid={`button-dial-${k.d}`}
+                  onClick={startCall}
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--sui-colors-success)] text-white shadow-md hover:opacity-90"
+                  aria-label="Call"
+                  data-testid="button-dialer-call"
                 >
-                  <span className="leading-none">{k.d}</span>
-                  {k.l && (
-                    <span className="mt-0.5 text-[10px] font-medium tracking-wider text-[var(--sui-colors-neutral-b2)]">
-                      {k.l}
-                    </span>
-                  )}
+                  <Icon as={PhoneIcon} size={22} />
                 </button>
-              ))}
-            </div>
-            <div className="mt-1 flex w-full items-center justify-center gap-6">
-              <span className="h-14 w-14" />
-              <button
-                type="button"
-                onClick={startCall}
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--sui-colors-success)] text-white shadow-md hover:opacity-90"
-                aria-label="Call"
-                data-testid="button-dialer-call"
-              >
-                <Icon as={PhoneIcon} size={22} />
-              </button>
-              <button
-                type="button"
-                onClick={() => setDialedNumber((n) => n.slice(0, -1))}
-                className="flex h-14 w-14 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b2)] hover:bg-[var(--sui-colors-neutral-b5)]"
-                aria-label="Backspace"
-                data-testid="button-dialer-backspace"
-                disabled={!dialedNumber}
-              >
-                <Icon as={ArrowDown2} size={20} />
-              </button>
-            </div>
+                <DialDelete
+                  onDelete={() => setDialedNumber((n) => n.slice(0, -1))}
+                  onClear={() => setDialedNumber("")}
+                >
+                  <button
+                    type="button"
+                    className="flex h-14 w-14 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b2)] hover:bg-[var(--sui-colors-neutral-b5)] disabled:opacity-40"
+                    aria-label="Backspace"
+                    data-testid="button-dialer-backspace"
+                    disabled={!dialedNumber}
+                  >
+                    <Icon as={ArrowDown2} size={20} />
+                  </button>
+                </DialDelete>
+              </div>
+            </Dialer>
           </div>
         </div>
       </AppShell>
