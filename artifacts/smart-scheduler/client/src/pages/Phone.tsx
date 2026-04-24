@@ -1,15 +1,17 @@
 import { useEffect, useState, type ComponentType, type SVGProps } from "react";
 import {
-  Mic,
-  MicOff,
-  Keypad,
-  Audio,
-  Add,
-  Hold,
-  TransferCall,
-  Record,
-  StopRecord,
-  Videocam,
+  MicrophoneMd as Mic,
+  MicrophoneOffMd as MicOff,
+  DialpadMd as Keypad,
+  AudioMd as Audio,
+  PlusMd as Add,
+  HoldMd as Hold,
+  TransferCallMd as TransferCall,
+  RecordMd as Record,
+  StopMd as StopRecord,
+  VideoMd as Videocam,
+} from "@ringcentral/spring-icon";
+import {
   CcSp,
   HangUpSp,
   MoreHoriz,
