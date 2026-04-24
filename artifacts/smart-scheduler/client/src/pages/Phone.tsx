@@ -4,11 +4,11 @@ import {
   MicrophoneOffFilledMd as MicOff,
   DialpadMd as Keypad,
   SpeakerFilledMd as Audio,
-  CirclePlusFilledMd as Add,
+  PlusMd as Add,
   HoldFilledMd as Hold,
   TransferCallMd as TransferCall,
-  RecordFilledMd as Record,
-  CircleStopMd as StopRecord,
+  RecordMd as Record,
+  SmartNotesMd as SmartNotes,
   VideoFilledMd as Videocam,
   VerticalBars3Md as Signal3Sui,
   Hdmd as HdSui,
@@ -101,6 +101,8 @@ type CallTab = "CONTACT" | "NOTES" | "TEXT" | "BOOKINGS";
 type ControlButton = {
   label: string;
   icon: IconCmp;
+  active?: boolean;
+  tone?: "danger";
 };
 
 type PhoneView = "dialer" | "in-call" | "history";
@@ -312,7 +314,7 @@ export const PhonePage = (): JSX.Element => {
     { label: "Hold", icon: Hold },
     { label: "Transfer", icon: TransferCall },
     { label: "Record", icon: Record },
-    { label: "Stop", icon: StopRecord },
+    { label: "Stop notes", icon: SmartNotes, active: true, tone: "danger" as const },
     { label: "Video", icon: Videocam },
   ];
 
@@ -579,24 +581,30 @@ export const PhonePage = (): JSX.Element => {
                   </div>
                 </div>
 
-                {/* 3x3 control grid */}
-                <div className="relative grid grid-cols-3 gap-x-2 gap-y-3 px-6 py-5">
-                  {controls.map((c) => (
-                    <button
-                      key={c.label}
-                      type="button"
-                      onClick={() => {
-                        if (c.label === "Mute" || c.label === "Unmute") setMuted((m) => !m);
-                      }}
-                      className="flex flex-col items-center gap-1.5"
-                      data-testid={`button-call-${c.label.toLowerCase().replace(/\s+/g, "-")}`}
-                    >
-                      <span className={`flex h-12 w-12 items-center justify-center rounded-full bg-[var(--sui-colors-neutral-b5)] hover:bg-[var(--sui-colors-neutral-b4)] ${SUI_TEXT}`}>
-                        <Icon as={c.icon} size={20} />
-                      </span>
-                      <span className={`text-[11px] font-medium ${SUI_TEXT}`}>{c.label}</span>
-                    </button>
-                  ))}
+                {/* 3x3 control grid — Spring UI spec (28117:15648) */}
+                <div className="relative grid grid-cols-3 gap-x-7 gap-y-6 px-6 py-5 place-items-center">
+                  {controls.map((c) => {
+                    const isDangerActive = c.active && c.tone === "danger";
+                    const circleCls = isDangerActive
+                      ? "bg-[color-mix(in_srgb,var(--sui-colors-danger-b)_10%,transparent)] text-[var(--sui-colors-danger-b)]"
+                      : `bg-white border border-[rgba(0,0,0,0.2)] hover:bg-[var(--sui-colors-neutral-b5)] ${SUI_TEXT}`;
+                    return (
+                      <button
+                        key={c.label}
+                        type="button"
+                        onClick={() => {
+                          if (c.label === "Mute" || c.label === "Unmute") setMuted((m) => !m);
+                        }}
+                        className="flex w-16 flex-col items-center gap-1"
+                        data-testid={`button-call-${c.label.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
+                        <span className={`flex h-16 w-16 items-center justify-center rounded-full ${circleCls}`}>
+                          <Icon as={c.icon} size={24} />
+                        </span>
+                        <span className={`w-full truncate text-center text-[12px] font-medium leading-4 ${SUI_TEXT}`}>{c.label}</span>
+                      </button>
+                    );
+                  })}
 
                 </div>
 
