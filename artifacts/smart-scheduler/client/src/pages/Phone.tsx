@@ -15,7 +15,7 @@ import {
   ShareInRoomMd as ScreenshareSui,
   OverflowMd as OverflowSui,
 } from "@ringcentral/spring-icon";
-import { Dialer, DialPad, DialTextField, DialDelete } from "@ringcentral/spring-ui";
+import { Dialer, DialPad, DialTextField, DialDelete, IconButton } from "@ringcentral/spring-ui";
 import {
   CcSp,
   HangUpSp,
@@ -281,9 +281,9 @@ export const PhonePage = (): JSX.Element => {
 
   const controls: ControlButton[] = [
     { label: muted ? "Unmute" : "Mute", icon: muted ? MicOff : Mic },
-    { label: "Keypad", icon: Keypad },
+    { label: "Dialpad", icon: Keypad },
     { label: "Audio", icon: Audio },
-    { label: "New call", icon: Add },
+    { label: "Add", icon: Add },
     { label: "Hold", icon: Hold },
     { label: "Transfer", icon: TransferCall },
     { label: "Record", icon: Record },
@@ -554,31 +554,36 @@ export const PhonePage = (): JSX.Element => {
                   </div>
                 </div>
 
-                {/* 3x3 control grid — Spring UI spec (28117:15648) */}
+                {/* 3x3 control grid — Spring UI IconButton (spec 28117:15648) */}
                 <div className="relative grid grid-cols-3 gap-x-7 gap-y-6 px-6 py-5 place-items-center">
                   {controls.map((c) => {
                     const isDangerActive = c.active && c.tone === "danger";
-                    const circleCls = isDangerActive
-                      ? "bg-[color-mix(in_srgb,var(--sui-colors-danger-b)_10%,transparent)] text-[var(--sui-colors-danger-b)]"
-                      : `bg-white border border-[rgba(0,0,0,0.2)] hover:bg-[var(--sui-colors-neutral-b5)] ${SUI_TEXT}`;
                     return (
-                      <button
+                      <IconButton
                         key={c.label}
-                        type="button"
+                        size="xxlarge"
+                        shape="circular"
+                        variant="outlined"
+                        color={isDangerActive ? "danger" : "secondary"}
+                        symbol={c.icon}
+                        label={c.label}
+                        className="[&_.sui-icon-button-label]:!max-w-none [&_.sui-icon-button-label]:!min-w-[80px] [&_.sui-icon-button-label]:!whitespace-nowrap"
                         onClick={() => {
                           if (c.label === "Mute" || c.label === "Unmute") setMuted((m) => !m);
                         }}
-                        className="flex w-16 flex-col items-center gap-1"
+                        style={
+                          isDangerActive
+                            ? {
+                                backgroundColor:
+                                  "color-mix(in srgb, var(--sui-colors-danger-b) 10%, transparent)",
+                                borderColor: "transparent",
+                              }
+                            : undefined
+                        }
                         data-testid={`button-call-${c.label.toLowerCase().replace(/\s+/g, "-")}`}
-                      >
-                        <span className={`flex h-16 w-16 items-center justify-center rounded-full ${circleCls}`}>
-                          <Icon as={c.icon} size={24} />
-                        </span>
-                        <span className={`w-full truncate text-center text-[12px] font-medium leading-4 ${SUI_TEXT}`}>{c.label}</span>
-                      </button>
+                      />
                     );
                   })}
-
                 </div>
 
                 {/* Bottom action bar */}
