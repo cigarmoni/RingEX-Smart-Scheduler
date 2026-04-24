@@ -1,15 +1,15 @@
 import { useEffect, useState, type ComponentType, type SVGProps } from "react";
 import {
-  MicrophoneFilledMd as Mic,
-  MicrophoneOffFilledMd as MicOff,
+  MicrophoneMd as Mic,
+  MicrophoneOffMd as MicOff,
   DialpadMd as Keypad,
-  SpeakerFilledMd as Audio,
+  VolumeMd as Audio,
   PlusMd as Add,
-  HoldFilledMd as Hold,
+  HoldMd as Hold,
   TransferCallMd as TransferCall,
   RecordMd as Record,
   SmartNotesMd as SmartNotes,
-  VideoFilledMd as Videocam,
+  VideoMd as Videocam,
   VerticalBars3Md as Signal3Sui,
   Hdmd as HdSui,
   ShareInRoomMd as ScreenshareSui,
@@ -561,7 +561,7 @@ export const PhonePage = (): JSX.Element => {
                     return (
                       <div key={c.label} className="flex flex-col items-center gap-1.5">
                         <IconButton
-                          size="large"
+                          size="xxlarge"
                           shape="circular"
                           variant="outlined"
                           color={isDangerActive ? "danger" : "secondary"}
