@@ -51,7 +51,9 @@ export const FeatureIntroBanner = ({
               style={{ backgroundColor: "rgba(254, 134, 36, 0.1)" }}
             />
             <div className="relative flex shrink-0 items-center gap-1 pb-px">
-              <Icon as={UpgradeMd} size={12} color="#cc5200" />
+              <span className="inline-flex h-3 w-3 items-center justify-center [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-[#cc5200]">
+                <UpgradeMd />
+              </span>
               <span className="text-[12px] font-semibold leading-[17px] text-[#cc5200] whitespace-nowrap">
                 {tagLabel}
               </span>
