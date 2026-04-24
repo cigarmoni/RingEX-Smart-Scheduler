@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { UpgradeMd, Xmd } from "@ringcentral/spring-icon";
-import { Icon } from "@ringcentral/spring-ui";
 import { cn } from "@/lib/utils";
 
 export interface FeatureIntroBannerAction {
@@ -64,10 +63,10 @@ export const FeatureIntroBanner = ({
               type="button"
               onClick={onDismiss}
               aria-label={dismissAriaLabel}
-              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)]"
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
               data-testid={dismissTestId}
             >
-              <Icon as={Xmd} size={16} />
+              <Xmd />
             </button>
           )}
         </div>
@@ -89,7 +88,7 @@ export const FeatureIntroBanner = ({
               <button
                 type="button"
                 onClick={action.onClick}
-                className="text-[15px] font-medium leading-[20px] text-[var(--sui-colors-neutral-b0)] underline decoration-solid hover:opacity-80"
+                className="font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tracking-[var(--subtitle-letter-spacing)] [font-style:var(--subtitle-font-style)] text-[var(--sui-colors-neutral-b0)] underline decoration-solid hover:opacity-80"
                 data-testid={action.testId}
               >
                 {action.label}
