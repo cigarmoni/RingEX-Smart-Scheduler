@@ -10,6 +10,10 @@ import {
   RecordMd as Record,
   StopMd as StopRecord,
   VideoMd as Videocam,
+  VerticalBars3Md as Signal3Sui,
+  Hdmd as HdSui,
+  ShareInRoomMd as ScreenshareSui,
+  OverflowMd as OverflowSui,
 } from "@ringcentral/spring-icon";
 import {
   CcSp,
@@ -526,18 +530,18 @@ export const PhonePage = (): JSX.Element => {
               <div className="flex w-full shrink-0 flex-col border-b border-[var(--sui-colors-neutral-b4)] sm:h-full sm:w-[280px] sm:border-b-0 sm:border-r">
                 {/* Top status row */}
                 <div className="flex items-center justify-between px-4 pt-3">
-                  <div className={`flex items-center gap-2 text-xs ${SUI_TEXT}`}>
+                  <div className={`flex items-center gap-2 ${SUI_TEXT}`}>
                     <span
-                      className="font-mono text-sm font-semibold tabular-nums"
+                      className="font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tabular-nums"
                       data-testid="text-call-timer"
                     >
                       00:11
                     </span>
                     <span className="text-[var(--sui-colors-success)]">
-                      <Icon as={Signal3} size={14} />
+                      <Icon as={Signal3Sui} size={14} />
                     </span>
                     <span className={SUI_MUTED}>
-                      <Icon as={Hd} size={14} />
+                      <Icon as={HdSui} size={14} />
                     </span>
                     <span className={SUI_MUTED}>
                       <Icon as={MicOff} size={14} />
@@ -550,7 +554,7 @@ export const PhonePage = (): JSX.Element => {
                       aria-label="Share screen"
                       data-testid="button-screen-share"
                     >
-                      <Icon as={Screenshare} size={16} />
+                      <Icon as={ScreenshareSui} size={16} />
                     </button>
                     <button
                       type="button"
@@ -558,7 +562,7 @@ export const PhonePage = (): JSX.Element => {
                       aria-label="Toggle panel"
                       data-testid="button-toggle-call-panel"
                     >
-                      <Icon as={MoreHoriz} size={16} />
+                      <Icon as={OverflowSui} size={16} />
                     </button>
                   </div>
                 </div>
