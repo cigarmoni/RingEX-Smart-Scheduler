@@ -559,29 +559,38 @@ export const PhonePage = (): JSX.Element => {
                   {controls.map((c) => {
                     const isDangerActive = c.active && c.tone === "danger";
                     return (
-                      <IconButton
-                        key={c.label}
-                        size="xxlarge"
-                        shape="circular"
-                        variant="outlined"
-                        color={isDangerActive ? "danger" : "secondary"}
-                        symbol={c.icon}
-                        label={c.label}
-                        className="[&_.sui-icon-button-label]:!max-w-none [&_.sui-icon-button-label]:!min-w-[80px] [&_.sui-icon-button-label]:!whitespace-nowrap"
-                        onClick={() => {
-                          if (c.label === "Mute" || c.label === "Unmute") setMuted((m) => !m);
-                        }}
-                        style={
-                          isDangerActive
-                            ? {
-                                backgroundColor:
-                                  "color-mix(in srgb, var(--sui-colors-danger-b) 10%, transparent)",
-                                borderColor: "transparent",
-                              }
-                            : undefined
-                        }
-                        data-testid={`button-call-${c.label.toLowerCase().replace(/\s+/g, "-")}`}
-                      />
+                      <div key={c.label} className="flex flex-col items-center gap-1.5">
+                        <IconButton
+                          size="large"
+                          shape="circular"
+                          variant="outlined"
+                          color={isDangerActive ? "danger" : "secondary"}
+                          symbol={c.icon}
+                          aria-label={c.label}
+                          onClick={() => {
+                            if (c.label === "Mute" || c.label === "Unmute") setMuted((m) => !m);
+                          }}
+                          style={
+                            isDangerActive
+                              ? {
+                                  backgroundColor:
+                                    "color-mix(in srgb, var(--sui-colors-danger-b) 10%, transparent)",
+                                  borderColor: "transparent",
+                                }
+                              : undefined
+                          }
+                          data-testid={`button-call-${c.label.toLowerCase().replace(/\s+/g, "-")}`}
+                        />
+                        <span
+                          className={`text-[12px] font-medium leading-4 whitespace-nowrap ${
+                            isDangerActive
+                              ? "text-[var(--sui-colors-danger-b)]"
+                              : "text-[var(--sui-colors-neutral-b1)]"
+                          }`}
+                        >
+                          {c.label}
+                        </span>
+                      </div>
                     );
                   })}
                 </div>
