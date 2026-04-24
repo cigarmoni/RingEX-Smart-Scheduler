@@ -10,10 +10,10 @@ import {
   RecordMd as Record,
   SmartNotesMd as SmartNotes,
   VideoMd as Videocam,
-  VerticalBars3Md as Signal3Sui,
+  WeakConnectionMd as WeakConnectionSui,
   Hdmd as HdSui,
-  ShareInRoomMd as ScreenshareSui,
-  OverflowMd as OverflowSui,
+  PinMd as PinSui,
+  CollapseLeftMd as CollapseLeftSui,
 } from "@ringcentral/spring-icon";
 import { Dialer, DialPad, DialTextField, DialDelete, IconButton } from "@ringcentral/spring-ui";
 import {
@@ -503,41 +503,38 @@ export const PhonePage = (): JSX.Element => {
             <div className="flex h-[calc(100%-28px)] flex-col sm:flex-row">
               {/* Left column: contact + controls — 280px per Figma */}
               <div className="flex w-full shrink-0 flex-col border-b border-[var(--sui-colors-neutral-b4)] sm:h-full sm:w-[280px] sm:border-b-0 sm:border-r">
-                {/* Top status row */}
+                {/* Top status row — Figma 28563:478950 */}
                 <div className="flex items-center justify-between px-4 pt-3">
-                  <div className={`flex items-center gap-2 ${SUI_TEXT}`}>
+                  <div className="flex items-center gap-2">
                     <span
-                      className="font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tabular-nums"
+                      className="text-[12px] font-medium leading-[17px] tabular-nums text-[var(--sui-colors-neutral-b0)]"
                       data-testid="text-call-timer"
                     >
                       00:11
                     </span>
-                    <span className="text-[var(--sui-colors-success)]">
-                      <Icon as={Signal3Sui} size={14} />
+                    <span className={SUI_MUTED}>
+                      <Icon as={WeakConnectionSui} size={16} />
                     </span>
                     <span className={SUI_MUTED}>
-                      <Icon as={HdSui} size={14} />
-                    </span>
-                    <span className={SUI_MUTED}>
-                      <Icon as={MicOff} size={14} />
+                      <Icon as={HdSui} size={16} />
                     </span>
                   </div>
-                  <div className={`flex items-center gap-1 ${SUI_MUTED}`}>
+                  <div className={`flex items-center gap-2 ${SUI_MUTED}`}>
                     <button
                       type="button"
-                      className="rounded p-1 hover:bg-[var(--sui-colors-neutral-b5)]"
-                      aria-label="Share screen"
-                      data-testid="button-screen-share"
+                      className="rounded p-0.5 hover:bg-[var(--sui-colors-neutral-b5)]"
+                      aria-label="Pin"
+                      data-testid="button-pin-call"
                     >
-                      <Icon as={ScreenshareSui} size={16} />
+                      <Icon as={PinSui} size={16} />
                     </button>
                     <button
                       type="button"
-                      className="rounded p-1 hover:bg-[var(--sui-colors-neutral-b5)]"
-                      aria-label="Toggle panel"
-                      data-testid="button-toggle-call-panel"
+                      className="rounded p-0.5 hover:bg-[var(--sui-colors-neutral-b5)]"
+                      aria-label="Collapse"
+                      data-testid="button-collapse-call"
                     >
-                      <Icon as={OverflowSui} size={16} />
+                      <Icon as={CollapseLeftSui} size={16} />
                     </button>
                   </div>
                 </div>
