@@ -555,7 +555,7 @@ export const PhonePage = (): JSX.Element => {
                 </div>
 
                 {/* 3x3 control grid — Spring UI IconButton (spec 28117:15648) */}
-                <div className="relative grid grid-cols-3 gap-x-7 gap-y-6 px-6 py-5 place-items-center">
+                <div className="relative grid grid-cols-3 gap-4 px-6 py-5 place-items-center">
                   {controls.map((c) => {
                     const isDangerActive = c.active && c.tone === "danger";
                     return (
