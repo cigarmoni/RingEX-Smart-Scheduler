@@ -687,60 +687,6 @@ export const PhonePage = (): JSX.Element => {
                     </div>
 
                     <div className="flex-1 space-y-4 overflow-y-auto px-4 py-3 text-sm">
-                      {/* Recap callout */}
-                      <div className="rounded-lg bg-[var(--sui-colors-neutral-b5)] p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#7b8794] text-[10px] font-semibold text-white">
-                            A
-                          </span>
-                          <span className={`text-sm font-semibold ${SUI_TEXT}`}>
-                            Amanda answered the call
-                          </span>
-                        </div>
-                        <p className={`mt-2 text-sm ${SUI_TEXT}`}>
-                          Sarah tried to find out the common time slot for schedule a follow-up
-                          appointment.
-                        </p>
-                        <Popover open={showSuggestion} onOpenChange={setShowSuggestion}>
-                          <PopoverTrigger asChild>
-                            <button
-                              type="button"
-                              className="mt-2 inline-flex items-center justify-center gap-[var(--sui-spacing-1)] rounded-[var(--sui-radius-xs)] px-[var(--sui-spacing-1)] py-0.5 font-[family-name:var(--typography-font-family,'Inter',sans-serif)] text-[12px] font-medium leading-[17px] text-[var(--sui-colors-primary-f)] hover:bg-[var(--sui-colors-cobranding-t20)]"
-                              data-testid="button-share-booking-link"
-                              aria-label="Share booking link"
-                            >
-                              <span className="flex w-[12px] items-center justify-end">
-                                <ShareBookingLinkIcon size={12} />
-                              </span>
-                              Share booking link
-                            </button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            side="bottom"
-                            align="center"
-                            sideOffset={8}
-                            collisionPadding={8}
-                            className="z-[110] w-[280px] border-0 bg-transparent p-0 shadow-none"
-                            data-testid="popover-suggestion"
-                          >
-                            <FeatureIntroBanner
-                              title="Send a booking link"
-                              description="Let your customers choose a time based on your availability instead of coordinating schedules manually."
-                              action={{
-                                label: "Find out more",
-                                onClick: () => {
-                                  setShowSuggestion(false);
-                                  setUpsellOpen(true);
-                                },
-                                testId: "button-suggestion-find-out-more",
-                              }}
-                              onDismiss={() => setShowSuggestion(false)}
-                              dismissTestId="button-dismiss-suggestion"
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-
                       <div className={`text-center text-xs ${SUI_MUTED}`}>
                         Amanda Miller answered the call
                       </div>
@@ -780,7 +726,49 @@ export const PhonePage = (): JSX.Element => {
                           </ul>
                           <p className={`mt-2 text-sm font-semibold ${SUI_TEXT}`}>Tasks</p>
                           <ul className={`mt-1 list-disc space-y-1 pl-5 text-sm ${SUI_TEXT}`}>
-                            <li>Jason will send booking link to Christina.</li>
+                            <li>
+                              Jason will send booking link to Christina.
+                              <div className="mt-1">
+                                <Popover open={showSuggestion} onOpenChange={setShowSuggestion}>
+                                  <PopoverTrigger asChild>
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center justify-center gap-[var(--sui-spacing-1)] rounded-[var(--sui-radius-xs)] px-[var(--sui-spacing-1)] py-0.5 font-[family-name:var(--typography-font-family,'Inter',sans-serif)] text-[12px] font-medium leading-[17px] text-[var(--sui-colors-primary-f)] hover:bg-[var(--sui-colors-cobranding-t20)]"
+                                      data-testid="button-share-booking-link"
+                                      aria-label="Share booking link"
+                                    >
+                                      <span className="flex w-[12px] items-center justify-end">
+                                        <ShareBookingLinkIcon size={12} />
+                                      </span>
+                                      Share booking link
+                                    </button>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    side="bottom"
+                                    align="start"
+                                    sideOffset={8}
+                                    collisionPadding={8}
+                                    className="z-[110] w-[280px] border-0 bg-transparent p-0 shadow-none"
+                                    data-testid="popover-suggestion"
+                                  >
+                                    <FeatureIntroBanner
+                                      title="Send a booking link"
+                                      description="Let your customers choose a time based on your availability instead of coordinating schedules manually."
+                                      action={{
+                                        label: "Find out more",
+                                        onClick: () => {
+                                          setShowSuggestion(false);
+                                          setUpsellOpen(true);
+                                        },
+                                        testId: "button-suggestion-find-out-more",
+                                      }}
+                                      onDismiss={() => setShowSuggestion(false)}
+                                      dismissTestId="button-dismiss-suggestion"
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              </div>
+                            </li>
                           </ul>
                         </div>
                       </div>
