@@ -1,5 +1,31 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { useLocation } from "wouter";
+import {
+  MessageMd,
+  MessageFilledMd,
+  VideoMd,
+  VideoFilledMd,
+  CallMd,
+  CallFilledMd,
+  Smsmd,
+  SmsFilledMd,
+  ContactsMd,
+  ContactsFilledMd,
+  OverflowMd,
+  AppsMd,
+  AppsFilledMd,
+  SettingsMd,
+  SettingsFilledMd,
+  HelpMd,
+  HelpFilledMd,
+  WorkspacesMd,
+  WorkspacesFilledMd,
+  WorkflowOutlinedMd,
+  WorkflowFilledMd,
+  CalendarMd,
+  CalendarFilledMd,
+  CustomizeMd,
+} from "@ringcentral/spring-icon";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { AvaDrawer } from "@/components/AvaDrawer";
@@ -21,35 +47,50 @@ export type NavLabel =
   | "Contacts"
   | "More";
 
+type IconComponent = typeof MessageMd;
+
 const primarySidebarItems: {
   label: NavLabel;
-  src: string;
-  alt: string;
+  Icon: IconComponent;
+  IconFilled: IconComponent;
   href?: string;
   isMore?: boolean;
 }[] = [
-  { label: "Chat", src: "/figmaAssets/message.svg", alt: "Message", href: "/chat" },
-  { label: "Meeting", src: "/figmaAssets/video.svg", alt: "Video", href: "/meeting" },
-  { label: "Phone", src: "/figmaAssets/call.svg", alt: "Call", href: "/phone" },
-  { label: "Text", src: "/figmaAssets/sms.svg", alt: "Sms", href: "/text" },
-  { label: "Contacts", src: "/figmaAssets/contacts.svg", alt: "Contacts", href: "/contacts" },
-  { label: "More", src: "/figmaAssets/overflow.svg", alt: "Overflow", isMore: true },
+  { label: "Chat", Icon: MessageMd, IconFilled: MessageFilledMd, href: "/chat" },
+  { label: "Meeting", Icon: VideoMd, IconFilled: VideoFilledMd, href: "/meeting" },
+  { label: "Phone", Icon: CallMd, IconFilled: CallFilledMd, href: "/phone" },
+  { label: "Text", Icon: Smsmd, IconFilled: SmsFilledMd, href: "/text" },
+  { label: "Contacts", Icon: ContactsMd, IconFilled: ContactsFilledMd, href: "/contacts" },
+  { label: "More", Icon: OverflowMd, IconFilled: OverflowMd, isMore: true },
 ];
 
-const moreMenuItemsTop = [
-  { label: "Workspace", src: "/figmaAssets/workspacesmd.svg", alt: "Workspaces MD", href: "/workspace" },
-  { label: "Workflows", src: "/figmaAssets/workflowoutlinedmd.svg", alt: "Workflow outlined MD", href: "/workflows" },
-  { label: "Bookings", src: "/figmaAssets/calendarmd.svg", alt: "Calendar MD", hasIndicator: true, href: "/" },
+type MoreMenuItem = {
+  label: string;
+  Icon: IconComponent;
+  IconFilled: IconComponent;
+  href: string;
+  hasIndicator?: boolean;
+};
+
+const moreMenuItemsTop: MoreMenuItem[] = [
+  { label: "Workspace", Icon: WorkspacesMd, IconFilled: WorkspacesFilledMd, href: "/workspace" },
+  { label: "Workflows", Icon: WorkflowOutlinedMd, IconFilled: WorkflowFilledMd, href: "/workflows" },
+  { label: "Bookings", Icon: CalendarMd, IconFilled: CalendarFilledMd, hasIndicator: true, href: "/" },
 ];
 
-const moreMenuItemsBottom = [
-  { label: "Customize", src: "/figmaAssets/customizemd.svg", alt: "Customize MD", href: "/customize" },
+const moreMenuItemsBottom: MoreMenuItem[] = [
+  { label: "Customize", Icon: CustomizeMd, IconFilled: CustomizeMd, href: "/customize" },
 ];
 
-const secondarySidebarItems = [
-  { label: "Apps", src: "/figmaAssets/appsmd.svg", alt: "Apps MD", href: "/apps" },
-  { label: "Settings", src: "/figmaAssets/settingsmd-1.svg", alt: "Settings MD", href: "/settings" },
-  { label: "Help", src: "/figmaAssets/helpmd.svg", alt: "Help MD", href: "/help" },
+const secondarySidebarItems: {
+  label: string;
+  Icon: IconComponent;
+  IconFilled: IconComponent;
+  href: string;
+}[] = [
+  { label: "Apps", Icon: AppsMd, IconFilled: AppsFilledMd, href: "/apps" },
+  { label: "Settings", Icon: SettingsMd, IconFilled: SettingsFilledMd, href: "/settings" },
+  { label: "Help", Icon: HelpMd, IconFilled: HelpFilledMd, href: "/help" },
 ];
 
 interface AppShellProps {
@@ -75,6 +116,16 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
   };
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const isMoreItemActive = (href?: string) => !!href && href !== "/" && location === href;
+  const moreMenuHrefs = [
+    ...moreMenuItemsTop.map((i) => i.href),
+    ...moreMenuItemsBottom.map((i) => i.href),
+  ];
+  const moreMenuHrefsMobile = [
+    ...moreMenuHrefs,
+    ...secondarySidebarItems.map((i) => i.href),
+  ];
+  const isOnMoreSubpage = moreMenuHrefs.includes(location);
+  const isOnMoreSubpageMobile = moreMenuHrefsMobile.includes(location);
   const moreMenuDesktopRef = useRef<HTMLDivElement>(null);
   const moreMenuMobileRef = useRef<HTMLDivElement>(null);
   const moreButtonRef = useRef<HTMLButtonElement>(null);
@@ -178,27 +229,28 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
           </header>
           <div className="flex min-h-0 flex-1 items-stretch">
             <aside className="relative hidden w-[72px] shrink-0 flex-col justify-between border-r border-[#0000001a] bg-[#f5f6f9] md:flex">
-              <nav className="flex flex-col items-center gap-2 py-4">
+              <nav className="flex flex-col items-stretch gap-2 py-4">
                 {primarySidebarItems.map((item) => {
-                  const isMoreActive = item.isMore && moreMenuOpen;
+                  const isMoreActive =
+                    item.isMore && (moreMenuOpen || isOnMoreSubpage);
                   const isCurrent = !item.isMore && item.label === activeNav;
                   const highlight = isMoreActive || isCurrent;
+                  const IconToRender = highlight ? item.IconFilled : item.Icon;
                   return (
                     <button
                       key={item.label}
                       ref={item.isMore ? moreButtonRef : undefined}
                       type="button"
                       onClick={() => handleNavClick(item)}
-                      className={`relative flex w-[72px] flex-col items-center justify-center gap-1 px-1 py-2 ${
-                        highlight ? "bg-[#0040dd1a]" : "hover:bg-[#0000000a]"
+                      className={`flex w-full flex-col items-center justify-center gap-1 px-1 py-2 ${
+                        highlight
+                          ? "bg-[#0040dd33] text-[#0040dd]"
+                          : "text-black hover:bg-[#0000000a]"
                       }`}
                       aria-current={highlight ? "page" : undefined}
                       data-testid={`nav-${item.label.toLowerCase()}`}
                     >
-                      {isCurrent && (
-                        <span className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r bg-[#0040dd]" />
-                      )}
-                      <img className="h-5 w-5" alt={item.alt} src={item.src} />
+                      <IconToRender className="h-5 w-5" fill="currentColor" />
                       <span
                         className={`self-stretch text-center font-detail-bold text-[length:var(--detail-bold-font-size)] font-[number:var(--detail-bold-font-weight)] leading-[var(--detail-bold-line-height)] tracking-[var(--detail-bold-letter-spacing)] [font-style:var(--detail-bold-font-style)] ${
                           highlight ? "text-[#0040dd]" : "text-black"
@@ -214,13 +266,13 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
               {moreMenuOpen && (
                 <div
                   ref={moreMenuDesktopRef}
-                  className="absolute left-[72px] top-[220px] z-50 w-max rounded-[10px] border border-solid border-[#00000033] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
+                  className="absolute left-[72px] top-[220px] z-50 w-max overflow-hidden rounded-[10px] border border-solid border-[#00000033] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
                 >
-                  <div className="p-2">
-                    <div className="flex flex-col bg-white">
-                      {moreMenuItemsTop.map((menuItem) => {
-                        const active = isMoreItemActive(menuItem.href);
-                        return (
+                  <div className="flex flex-col bg-white py-2">
+                    {moreMenuItemsTop.map((menuItem) => {
+                      const active = isMoreItemActive(menuItem.href);
+                      const IconToRender = active ? menuItem.IconFilled : menuItem.Icon;
+                      return (
                         <button
                           key={menuItem.label}
                           type="button"
@@ -230,13 +282,15 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                           }}
                           aria-current={active ? "page" : undefined}
                           data-testid={`more-menu-${menuItem.label.toLowerCase().replace(/\s+/g, "-")}`}
-                          className={`flex min-h-10 items-center rounded-[10px] px-2 py-2.5 text-left ${active ? "bg-[#0040dd1a]" : "hover:bg-[#f5f6f9]"}`}
+                          className={`flex min-h-10 w-full items-center px-3 py-2.5 text-left ${
+                            active
+                              ? "bg-[#0040dd33] text-[#0040dd]"
+                              : "text-black hover:bg-[#f5f6f9]"
+                          }`}
                         >
                           <div className="flex flex-1 items-center">
-                            <div className="pr-3">
-                              <img className="h-4 w-4" alt={menuItem.alt} src={menuItem.src} />
-                            </div>
-                            <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "text-[#0040dd] font-semibold" : "text-black"}`}>
+                            <IconToRender className="mr-3 h-4 w-4" fill="currentColor" />
+                            <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                               {menuItem.label}
                             </span>
                             {menuItem.hasIndicator && (
@@ -244,12 +298,13 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                             )}
                           </div>
                         </button>
-                        );
-                      })}
-                      <Separator className="my-2 bg-[#0000001a]" />
-                      {moreMenuItemsBottom.map((menuItem) => {
-                        const active = isMoreItemActive(menuItem.href);
-                        return (
+                      );
+                    })}
+                    <Separator className="my-2 bg-[#0000001a]" />
+                    {moreMenuItemsBottom.map((menuItem) => {
+                      const active = isMoreItemActive(menuItem.href);
+                      const IconToRender = active ? menuItem.IconFilled : menuItem.Icon;
+                      return (
                         <button
                           key={menuItem.label}
                           type="button"
@@ -258,42 +313,43 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                             goTo(menuItem.href);
                           }}
                           aria-current={active ? "page" : undefined}
-                          className={`flex min-h-10 items-center rounded-[10px] px-2 py-2.5 text-left ${active ? "bg-[#0040dd1a]" : "hover:bg-[#f5f6f9]"}`}
+                          className={`flex min-h-10 w-full items-center px-3 py-2.5 text-left ${
+                            active
+                              ? "bg-[#0040dd33] text-[#0040dd]"
+                              : "text-black hover:bg-[#f5f6f9]"
+                          }`}
                         >
                           <div className="flex flex-1 items-center">
-                            <div className="pr-3">
-                              <img className="h-4 w-4" alt={menuItem.alt} src={menuItem.src} />
-                            </div>
-                            <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "text-[#0040dd] font-semibold" : "text-black"}`}>
+                            <IconToRender className="mr-3 h-4 w-4" fill="currentColor" />
+                            <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                               {menuItem.label}
                             </span>
                           </div>
                         </button>
-                        );
-                      })}
-                    </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
 
-              <nav className="flex flex-col items-center justify-end gap-2 py-4">
+              <nav className="flex flex-col items-stretch justify-end gap-2 py-4">
                 {secondarySidebarItems.map((item) => {
                   const isCurrent = location === item.href;
+                  const IconToRender = isCurrent ? item.IconFilled : item.Icon;
                   return (
                     <button
                       key={item.label}
                       type="button"
                       onClick={() => goTo(item.href)}
-                      className={`relative flex w-[72px] flex-col items-center justify-center gap-[3px] px-1 py-2 ${
-                        isCurrent ? "bg-[#0040dd1a]" : "hover:bg-[#0000000a]"
+                      className={`flex w-full flex-col items-center justify-center gap-[3px] px-1 py-2 ${
+                        isCurrent
+                          ? "bg-[#0040dd33] text-[#0040dd]"
+                          : "text-black hover:bg-[#0000000a]"
                       }`}
                       aria-current={isCurrent ? "page" : undefined}
                       data-testid={`nav-secondary-${item.label.toLowerCase()}`}
                     >
-                      {isCurrent && (
-                        <span className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-r bg-[#0040dd]" />
-                      )}
-                      <img className="h-5 w-5" alt={item.alt} src={item.src} />
+                      <IconToRender className="h-5 w-5" fill="currentColor" />
                       <span
                         className={`self-stretch text-center font-detail-bold text-[length:var(--detail-bold-font-size)] font-[number:var(--detail-bold-font-weight)] leading-[var(--detail-bold-line-height)] tracking-[var(--detail-bold-letter-spacing)] [font-style:var(--detail-bold-font-style)] ${
                           isCurrent ? "text-[#0040dd]" : "text-black"
@@ -318,22 +374,26 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
           {/* Mobile bottom navigation */}
           <nav className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-[#0000001a] bg-[#f5f6f9] md:hidden">
             {primarySidebarItems.map((item) => {
-              const isMoreActive = item.isMore && moreMenuOpen;
+              const isMoreActive =
+                item.isMore && (moreMenuOpen || isOnMoreSubpageMobile);
               const isCurrent = !item.isMore && item.label === activeNav;
               const highlight = isMoreActive || isCurrent;
+              const IconToRender = highlight ? item.IconFilled : item.Icon;
               return (
                 <button
                   key={item.label}
                   ref={item.isMore ? moreButtonMobileRef : undefined}
                   type="button"
                   onClick={() => handleNavClick(item)}
-                  className={`relative flex flex-1 flex-col items-center justify-center gap-1 px-1 py-2 ${
-                    highlight ? "bg-[#0040dd1a]" : "active:bg-[#0000000a]"
+                  className={`flex flex-1 flex-col items-center justify-center gap-1 px-1 py-2 ${
+                    highlight
+                      ? "bg-[#0040dd33] text-[#0040dd]"
+                      : "text-black active:bg-[#0000000a]"
                   }`}
                   aria-current={highlight ? "page" : undefined}
                   data-testid={`nav-mobile-${item.label.toLowerCase()}`}
                 >
-                  <img className="h-5 w-5" alt={item.alt} src={item.src} />
+                  <IconToRender className="h-5 w-5" fill="currentColor" />
                   <span
                     className={`text-center font-detail-bold text-[length:var(--detail-bold-font-size)] font-[number:var(--detail-bold-font-weight)] leading-[var(--detail-bold-line-height)] tracking-[var(--detail-bold-letter-spacing)] [font-style:var(--detail-bold-font-style)] ${
                       highlight ? "text-[#0040dd]" : "text-black"
@@ -349,13 +409,13 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
           {moreMenuOpen && (
             <div
               ref={moreMenuMobileRef}
-              className="fixed inset-x-3 bottom-[80px] z-50 rounded-[10px] border border-solid border-[#00000033] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] md:hidden"
+              className="fixed inset-x-3 bottom-[80px] z-50 overflow-hidden rounded-[10px] border border-solid border-[#00000033] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] md:hidden"
             >
-              <div className="p-2">
-                <div className="flex flex-col bg-white">
-                  {moreMenuItemsTop.map((menuItem) => {
-                    const active = isMoreItemActive(menuItem.href);
-                    return (
+              <div className="flex flex-col bg-white py-2">
+                {moreMenuItemsTop.map((menuItem) => {
+                  const active = isMoreItemActive(menuItem.href);
+                  const IconToRender = active ? menuItem.IconFilled : menuItem.Icon;
+                  return (
                     <button
                       key={menuItem.label}
                       type="button"
@@ -365,13 +425,15 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                       }}
                       aria-current={active ? "page" : undefined}
                       data-testid={`more-menu-mobile-${menuItem.label.toLowerCase().replace(/\s+/g, "-")}`}
-                      className={`flex min-h-10 items-center rounded-[10px] px-2 py-2.5 text-left ${active ? "bg-[#0040dd1a]" : "hover:bg-[#f5f6f9]"}`}
+                      className={`flex min-h-10 w-full items-center px-3 py-2.5 text-left ${
+                        active
+                          ? "bg-[#0040dd33] text-[#0040dd]"
+                          : "text-black hover:bg-[#f5f6f9]"
+                      }`}
                     >
                       <div className="flex flex-1 items-center">
-                        <div className="pr-3">
-                          <img className="h-4 w-4" alt={menuItem.alt} src={menuItem.src} />
-                        </div>
-                        <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "text-[#0040dd] font-semibold" : "text-black"}`}>
+                        <IconToRender className="mr-3 h-4 w-4" fill="currentColor" />
+                        <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                           {menuItem.label}
                         </span>
                         {menuItem.hasIndicator && (
@@ -379,12 +441,13 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                         )}
                       </div>
                     </button>
-                    );
-                  })}
-                  <Separator className="my-2 bg-[#0000001a]" />
-                  {[...secondarySidebarItems, ...moreMenuItemsBottom].map((menuItem) => {
-                    const active = isMoreItemActive(menuItem.href);
-                    return (
+                  );
+                })}
+                <Separator className="my-2 bg-[#0000001a]" />
+                {[...secondarySidebarItems, ...moreMenuItemsBottom].map((menuItem) => {
+                  const active = isMoreItemActive(menuItem.href);
+                  const IconToRender = active ? menuItem.IconFilled : menuItem.Icon;
+                  return (
                     <button
                       key={menuItem.label}
                       type="button"
@@ -393,20 +456,21 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                         goTo(menuItem.href);
                       }}
                       aria-current={active ? "page" : undefined}
-                      className={`flex min-h-10 items-center rounded-[10px] px-2 py-2.5 text-left ${active ? "bg-[#0040dd1a]" : "hover:bg-[#f5f6f9]"}`}
+                      className={`flex min-h-10 w-full items-center px-3 py-2.5 text-left ${
+                        active
+                          ? "bg-[#0040dd33] text-[#0040dd]"
+                          : "text-black hover:bg-[#f5f6f9]"
+                      }`}
                     >
                       <div className="flex flex-1 items-center">
-                        <div className="pr-3">
-                          <img className="h-4 w-4" alt={menuItem.alt} src={menuItem.src} />
-                        </div>
-                        <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "text-[#0040dd] font-semibold" : "text-black"}`}>
+                        <IconToRender className="mr-3 h-4 w-4" fill="currentColor" />
+                        <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                           {menuItem.label}
                         </span>
                       </div>
                     </button>
-                    );
-                  })}
-                </div>
+                  );
+                })}
               </div>
             </div>
           )}

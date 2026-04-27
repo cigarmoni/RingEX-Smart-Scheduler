@@ -723,15 +723,8 @@ export const Chat = (): JSX.Element => {
         onOpenChange={(open) => {
           if (!open) setBookingDialog(null);
         }}
-        onSelectSlot={(slot) => {
-          const b = bookingDialog;
+        onSelectSlot={() => {
           setBookingDialog(null);
-          if (b) {
-            toast({
-              title: "Time booked",
-              description: `${b.title} — Thu, Jun 16 at ${slot}`,
-            });
-          }
         }}
       />
     </AppShell>
