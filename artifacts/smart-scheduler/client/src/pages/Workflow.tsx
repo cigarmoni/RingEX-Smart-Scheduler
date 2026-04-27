@@ -12,10 +12,11 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowDown,
-  User,
   Plus,
 } from "lucide-react";
 import {
+  PlayOutlinedMd,
+  MergeCallsMd,
   BranchMd,
   ListMd,
   RefreshMd,
@@ -403,7 +404,9 @@ export const Workflow = (): JSX.Element => {
               className="h-8 rounded-[10px] bg-[#0040dd] px-3 font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tracking-[var(--subtitle-letter-spacing)] text-white hover:bg-[#0037be] [font-style:var(--subtitle-font-style)]"
               data-testid="button-publish"
             >
-              <User className="mr-1.5 h-4 w-4" />
+              <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current">
+                <MergeCallsMd />
+              </span>
               Publish
             </Button>
             <Button
@@ -565,7 +568,9 @@ export const Workflow = (): JSX.Element => {
                 className="mt-2 flex w-full max-w-[240px] items-center gap-2 rounded-lg border border-[#fe8624] bg-[#fff4eb] px-3 py-2.5 shadow-sm"
                 data-testid="node-start"
               >
-                <Play className="h-4 w-4 shrink-0 fill-[#fe8624] text-[#fe8624]" />
+                <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#fe8624]">
+                  <PlayOutlinedMd />
+                </span>
                 <span className="flex-1 text-sm font-semibold text-black">
                   Start
                 </span>
