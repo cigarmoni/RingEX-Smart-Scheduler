@@ -1142,7 +1142,7 @@ export const MeetingContent = ({
           ) : (
           <div className="flex min-h-0 flex-1 flex-col items-center gap-4 overflow-y-auto px-6 pt-2 pb-6">
             <h2
-              className="text-center font-headline text-[24px] font-[number:var(--headline-font-weight)] leading-[32px] text-black"
+              className="font-headline text-[24px] font-medium leading-[32px] tracking-[-0.2px] text-black text-center"
               data-testid="text-detail-title"
             >
               {selected.title}
