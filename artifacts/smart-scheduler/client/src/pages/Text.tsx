@@ -24,12 +24,10 @@ import {
 import { useBookingTypes, type BookingType } from "@/lib/bookingTypes";
 import { IconButton } from "@ringcentral/spring-ui";
 import {
-  AiStarsMd,
   AttachMd,
+  CalendarMd,
   EmojiMd,
   ImageMd,
-  MentionMd,
-  OverflowMd,
   SendMd,
   PlusMd,
   SearchMd,
@@ -630,83 +628,44 @@ export const Text = (): JSX.Element => {
                     data-testid="button-text-image"
                     TooltipProps={{ title: "Insert image" }}
                   />
-                  <Popover open={composerMoreOpen} onOpenChange={setComposerMoreOpen}>
-                    <PopoverTrigger asChild>
-                      <span className="inline-flex">
-                        <IconButton
-                          symbol={OverflowMd as unknown as React.ComponentType}
-                          variant="icon"
-                          color="neutral"
-                          size="medium"
-                          aria-label="More actions"
-                          data-testid="button-text-composer-more"
-                          TooltipProps={{ title: "More actions" }}
-                        />
-                      </span>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      align="end"
-                      side="top"
-                      sideOffset={8}
-                      className="w-72 rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
-                      data-testid="popover-text-more"
-                    >
-                      <button
-                        type="button"
-                        className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
-                        data-testid="button-text-ai"
-                        aria-label="AI writing tools"
+                  {!isPurchased ? (
+                    <span className="inline-flex">
+                      <IconButton
+                        symbol={CalendarMd as unknown as React.ComponentType}
+                        variant="icon"
+                        color="neutral"
+                        size="medium"
+                        aria-label="Share booking link"
+                        data-testid="button-text-schedule"
+                        TooltipProps={{ title: "Share booking link" }}
+                        onClick={() => setBookingIntroOpen(true)}
+                      />
+                    </span>
+                  ) : (
+                    <Popover open={composerMoreOpen} onOpenChange={setComposerMoreOpen}>
+                      <PopoverTrigger asChild>
+                        <span className="inline-flex">
+                          <IconButton
+                            symbol={CalendarMd as unknown as React.ComponentType}
+                            variant="icon"
+                            color="neutral"
+                            size="medium"
+                            aria-label="Share booking link"
+                            data-testid="button-text-schedule"
+                            TooltipProps={{ title: "Share booking link" }}
+                          />
+                        </span>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        align="end"
+                        side="top"
+                        sideOffset={8}
+                        className="w-72 rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                        data-testid="popover-text-booking-link"
                       >
-                        <AiStarsMd
-                          width={16}
-                          height={16}
-                          fill="currentColor"
-                          className="shrink-0 text-[#56585e]"
-                          aria-hidden
-                        />
-                        <span className="text-sm text-black">AI writing tools</span>
-                      </button>
-                      <button
-                        type="button"
-                        className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
-                        data-testid="button-text-mention"
-                        aria-label="Mention"
-                      >
-                        <MentionMd
-                          width={16}
-                          height={16}
-                          fill="currentColor"
-                          className="shrink-0 text-[#56585e]"
-                          aria-hidden
-                        />
-                        <span className="text-sm text-black">Mention</span>
-                      </button>
-                      <div className="my-1 h-px bg-[rgba(0,0,0,0.1)]" />
-                      <div className="px-2 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
-                        Insert booking link
-                      </div>
-                      {!isPurchased ? (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setComposerMoreOpen(false);
-                            setBookingIntroOpen(true);
-                          }}
-                          className="flex w-full items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
-                          data-testid="button-text-schedule"
-                          aria-label="Insert booking link"
-                        >
-                          <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
-                          <div className="min-w-0 flex-1">
-                            <div className="truncate text-sm font-semibold text-black">
-                              Set up booking link
-                            </div>
-                            <div className="truncate text-xs text-[#56585e]">
-                              Lets clients book a time with you
-                            </div>
-                          </div>
-                        </button>
-                      ) : (
+                        <div className="px-2 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
+                          Insert booking link
+                        </div>
                         <div className="flex flex-col">
                           {bookingTypes.map((bt) => (
                             <button
@@ -728,9 +687,9 @@ export const Text = (): JSX.Element => {
                             </button>
                           ))}
                         </div>
-                      )}
-                    </PopoverContent>
-                  </Popover>
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </div>
                 <IconButton
                   symbol={SendMd as unknown as React.ComponentType}
