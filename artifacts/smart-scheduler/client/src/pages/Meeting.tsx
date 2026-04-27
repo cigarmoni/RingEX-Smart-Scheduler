@@ -13,7 +13,7 @@ import {
   Upload,
   Video,
 } from "lucide-react";
-import { EditPenMd, ReportIssueMd, Xmd } from "@ringcentral/spring-icon";
+import { EditPenMd, GlobeMd, OverflowMd, ReportIssueMd, ShareMd, Xmd } from "@ringcentral/spring-icon";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
 import { Button } from "@/components/ui/button";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
@@ -748,78 +748,107 @@ export const MeetingContent = ({
               className="relative flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 pt-2 pb-6"
               data-testid="pane-post-meeting-detail"
             >
-              <h2
-                className="font-headline text-[24px] font-[number:var(--headline-font-weight)] leading-[32px] text-black"
-                data-testid="text-past-detail-title"
-              >
-                {selectedPast.title}
-              </h2>
-
-              <div
-                className="flex flex-wrap items-center gap-x-2 gap-y-1 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-[#323439]"
-                data-testid="text-past-detail-meta"
-              >
-                <span>{selectedPast.date}</span>
-                <span className="text-[#dddfe5]">·</span>
-                <span>ID {selectedPast.meetingId}</span>
-                <span className="text-[#dddfe5]">·</span>
-                <span>{selectedPast.duration}</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <AvatarStack
-                  participants={selectedPast.participants}
-                  total={selectedPast.participantCount}
-                  size="md"
-                />
-                <button
-                  type="button"
-                  className="flex h-6 w-6 items-center justify-center rounded-md hover:bg-[#f5f6f9]"
-                  aria-label="Show participants"
-                  data-testid="button-past-participants-caret"
+              <div className="flex flex-col items-center gap-1 py-4 text-center">
+                <h2
+                  className="font-headline text-[24px] font-[number:var(--headline-font-weight)] leading-[32px] tracking-[-0.2px] text-black"
+                  data-testid="text-past-detail-title"
                 >
-                  <ChevronDown className="h-4 w-4 text-[#323439]" />
-                </button>
+                  {selectedPast.title}
+                </h2>
+
+                <div
+                  className="flex flex-col items-center gap-1 font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)]"
+                  data-testid="text-past-detail-meta"
+                >
+                  <p className="text-[#72757a]">
+                    <span>{selectedPast.date}</span>
+                    <span className="mx-1">·</span>
+                    <span>ID {selectedPast.meetingId}</span>
+                  </p>
+                  <p className="text-[#323439]">{selectedPast.duration}</p>
+                </div>
+
+                <div className="mt-2 flex items-center justify-center gap-1">
+                  <AvatarStack
+                    participants={selectedPast.participants}
+                    total={selectedPast.participantCount}
+                    size="md"
+                  />
+                  <button
+                    type="button"
+                    className="flex h-5 w-5 items-center justify-center rounded-md hover:bg-[#f5f6f9]"
+                    aria-label="Show participants"
+                    data-testid="button-past-participants-caret"
+                  >
+                    <ChevronDown className="h-4 w-4 text-[#323439]" />
+                  </button>
+                </div>
               </div>
 
-              <nav
-                className="flex items-center gap-1 border-b border-[#dddfe5]"
-                role="tablist"
-              >
-                {postMeetingSubTabs.map((t) => {
-                  const isActive = postMeetingTab === t;
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      onClick={() => setPostMeetingTab(t)}
-                      className={`relative px-3 py-2 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] ${
-                        isActive
-                          ? "font-semibold text-[#0040dd]"
-                          : "text-[#323439]"
-                      }`}
-                      data-testid={`tab-post-meeting-${t.toLowerCase()}`}
-                    >
-                      {t}
-                      {isActive && (
-                        <span className="absolute inset-x-2 -bottom-px h-[2px] bg-[#0040dd]" />
-                      )}
-                    </button>
-                  );
-                })}
-              </nav>
+              <div className="flex items-center justify-between gap-2">
+                <nav
+                  className="flex items-center gap-1"
+                  role="tablist"
+                >
+                  {postMeetingSubTabs.map((t) => {
+                    const isActive = postMeetingTab === t;
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        onClick={() => setPostMeetingTab(t)}
+                        className={`rounded-full px-3 py-1 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] text-[#323439] transition-colors ${
+                          isActive
+                            ? "border border-[#dddfe5] bg-[#dddfe580]"
+                            : "border border-transparent hover:bg-[#f5f6f9]"
+                        }`}
+                        data-testid={`tab-post-meeting-${t.toLowerCase()}`}
+                      >
+                        {t}
+                      </button>
+                    );
+                  })}
+                </nav>
+
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]"
+                    aria-label="Translate"
+                    data-testid="button-translate-notes"
+                  >
+                    <GlobeMd />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]"
+                    aria-label="Share"
+                    data-testid="button-share-notes"
+                  >
+                    <ShareMd />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]"
+                    aria-label="More"
+                    data-testid="button-more-notes"
+                  >
+                    <OverflowMd />
+                  </Button>
+                </div>
+              </div>
 
               {postMeetingTab === "Notes" ? (
                 <div className="relative flex flex-col gap-5">
                   <div className="flex items-center gap-2">
                     <span
-                      className="inline-flex items-center gap-1 rounded-full bg-[#f5f6f9] px-2 py-0.5 font-detail-bold text-[10px] font-bold uppercase tracking-wide text-[#323439]"
+                      className="inline-flex items-center gap-1 rounded-full border border-[#fe8624] bg-white px-2 py-0.5 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#323439]"
                       data-testid="pill-generated-by-ai"
                     >
-                      <Sparkles className="h-3 w-3" />
-                      Generated by AI
+                      <Sparkles className="h-3 w-3 text-[#fe8624]" />
+                      Generated by <span className="font-semibold text-[#fe8624]">AI</span>
                     </span>
                   </div>
 
