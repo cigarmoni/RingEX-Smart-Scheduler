@@ -5,7 +5,6 @@ import {
   CalendarDays,
   ChevronDown,
   Edit3,
-  Flag,
   LogIn,
   MapPin,
   Search,
@@ -13,8 +12,8 @@ import {
   Sparkles,
   Upload,
   Video,
-  X,
 } from "lucide-react";
+import { EditPenMd, ReportIssueMd, Xmd } from "@ringcentral/spring-icon";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
 import { Button } from "@/components/ui/button";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
@@ -715,32 +714,32 @@ export const MeetingContent = ({
               <>
                 <Button
                   variant="ghost"
-                  className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9]"
+                  className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]"
                   aria-label="Report"
                   data-testid="button-report"
                 >
-                  <Flag className="h-4 w-4 text-[#323439]" />
+                  <ReportIssueMd />
                 </Button>
                 <Button
                   variant="ghost"
-                  className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9]"
+                  className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]"
                   aria-label="Edit"
                   data-testid="button-edit-details"
                 >
-                  <Edit3 className="h-4 w-4 text-[#323439]" />
+                  <EditPenMd />
                 </Button>
               </>
             )}
             <Button
               variant="ghost"
-              className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9]"
+              className="h-8 w-8 rounded-md p-0 hover:bg-[#f5f6f9] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]"
               aria-label="Close"
               data-testid="button-close-details"
               onClick={() => {
                 if (activeTab === "PAST") setSelectedPastId(null);
               }}
             >
-              <X className="h-4 w-4 text-[#323439]" />
+              <Xmd />
             </Button>
           </header>
 
@@ -1112,15 +1111,15 @@ export const MeetingContent = ({
               )}
             </div>
           ) : (
-          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 pt-2 pb-6">
+          <div className="flex min-h-0 flex-1 flex-col items-center gap-4 overflow-y-auto px-6 pt-2 pb-6">
             <h2
-              className="font-headline text-[24px] font-[number:var(--headline-font-weight)] leading-[32px] text-black"
+              className="text-center font-headline text-[24px] font-[number:var(--headline-font-weight)] leading-[32px] text-black"
               data-testid="text-detail-title"
             >
               {selected.title}
             </h2>
 
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col items-center gap-1.5">
               <div className="flex items-center gap-2 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-[#323439]">
                 <Calendar className="h-4 w-4 text-[#323439]" />
                 <span data-testid="text-detail-date">{selected.date}</span>
@@ -1153,7 +1152,7 @@ export const MeetingContent = ({
             </div>
 
             <Card
-              className="rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none"
+              className="w-full rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none"
               data-testid="card-participants"
             >
               <CardContent className="flex flex-col gap-2 p-4">
@@ -1189,12 +1188,19 @@ export const MeetingContent = ({
               </CardContent>
             </Card>
 
-            <div
-              className="whitespace-pre-wrap font-main-text text-[length:var(--main-text-font-size)] font-[number:var(--main-text-font-weight)] leading-[var(--main-text-line-height)] text-[#323439]"
-              data-testid="text-detail-description"
+            <Card
+              className="w-full rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none"
+              data-testid="card-description"
             >
-              {selected.description}
-            </div>
+              <CardContent className="p-4">
+                <div
+                  className="whitespace-pre-wrap font-main-text text-[length:var(--main-text-font-size)] font-[number:var(--main-text-font-weight)] leading-[var(--main-text-line-height)] text-[#323439]"
+                  data-testid="text-detail-description"
+                >
+                  {selected.description}
+                </div>
+              </CardContent>
+            </Card>
           </div>
           )}
         </div>
