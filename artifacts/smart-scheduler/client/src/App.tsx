@@ -1,7 +1,6 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@ringcentral/spring-theme";
 import { suiLight } from "@ringcentral/spring-theme";
@@ -60,7 +59,6 @@ function App() {
       <ThemeProvider theme={suiLight}>
         <TooltipProvider>
           <AvaProvider>
-            <Toaster />
             <Router />
           </AvaProvider>
         </TooltipProvider>
