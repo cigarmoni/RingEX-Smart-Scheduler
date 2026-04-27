@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useFlowParam, useIsBookingPurchased } from "@/lib/flows";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -372,6 +372,24 @@ export const Workflow = (): JSX.Element => {
     }
   }, [flow]);
 
+  const stepListRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!panelOpen) return;
+    const container = stepListRef.current;
+    if (!container) return;
+    const target = container.querySelector<HTMLElement>(
+      '[data-testid="step-send-booking"]',
+    );
+    if (!target) return;
+    const targetBottom = target.offsetTop + target.offsetHeight;
+    const desiredScrollTop = Math.max(
+      0,
+      targetBottom - container.clientHeight,
+    );
+    container.scrollTop = desiredScrollTop;
+  }, [panelOpen, openSections, filter, flow]);
+
   return (
     <AppShell activeNav="More">
       <div className="flex min-h-0 flex-1 flex-col">
@@ -491,7 +509,7 @@ export const Workflow = (): JSX.Element => {
                 </Select>
               </div>
 
-              <div className="flex-1 overflow-y-auto pb-2">
+              <div ref={stepListRef} className="flex-1 overflow-y-auto pb-2">
                 {stepSections
                   .filter(
                     (section) => filter === "all" || filter === section.id,
