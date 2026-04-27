@@ -11,16 +11,34 @@ import {
   Search,
   ChevronDown,
   ChevronUp,
-  Repeat,
-  RotateCw,
-  MessageSquare,
-  MessageCircle,
-  Calendar,
-  Video,
   ArrowDown,
   User,
   Plus,
 } from "lucide-react";
+import {
+  BranchMd,
+  ListMd,
+  RefreshMd,
+  ExitMd,
+  Smsmd,
+  MessagesMd,
+  ChatDotMd,
+  OutgoingCallMd,
+  CalendarMd,
+  VideoMd,
+  WorkflowOutlinedMd,
+  VariableMd,
+  JsonMd,
+  ArrowLeftRightMd,
+  CodeMd,
+  LookUpProfileMd,
+  AddContactMd,
+  ContactsMd,
+  HubspotColoredMd,
+  SalesforceColoredMd,
+  GoogleCalendarColoredMd,
+  ArrowRightUpMd,
+} from "@ringcentral/spring-icon";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,26 +54,143 @@ import { BookingFeatureDialog } from "@/components/BookingFeatureDialog";
 type StepRow = {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   icon: JSX.Element;
-  iconBg: string;
+  iconBg?: string;
   hasIndicator?: boolean;
 };
 
-const genericSteps: StepRow[] = [
+type StepSection = {
+  id: string;
+  label: string;
+  steps: StepRow[];
+};
+
+const FLOW_ORANGE = "#ff6600";
+const FLOW_ORANGE_BG = "bg-[#ff66001a]";
+const OLIVE = "#219e37";
+const OLIVE_BG = "bg-[#219e371a]";
+const AMETHYST = "#743dff";
+const AMETHYST_BG = "bg-[#743dff1a]";
+
+const flowControlsSteps: StepRow[] = [
+  {
+    id: "if-else",
+    title: "If/Else",
+    description: "Set branches for flows under true/false conditions.",
+    icon: <WorkflowOutlinedMd className="h-5 w-5" fill={FLOW_ORANGE} />,
+    iconBg: FLOW_ORANGE_BG,
+  },
+  {
+    id: "switch",
+    title: "Switch",
+    description: "Set branches for flows under different conditions.",
+    icon: <BranchMd className="h-5 w-5" fill={FLOW_ORANGE} />,
+    iconBg: FLOW_ORANGE_BG,
+  },
   {
     id: "repeat-each",
     title: "Repeat for each",
     description: "Repeat actions for each item in a list",
-    icon: <Repeat className="h-4 w-4 text-[#fe8624]" />,
-    iconBg: "bg-[#fe86241a]",
+    icon: <ListMd className="h-5 w-5" fill={FLOW_ORANGE} />,
+    iconBg: FLOW_ORANGE_BG,
   },
   {
     id: "repeat-while",
     title: "Repeat while",
     description: "Repeat actions based on conditions",
-    icon: <RotateCw className="h-4 w-4 text-[#fe8624]" />,
-    iconBg: "bg-[#fe86241a]",
+    icon: <RefreshMd className="h-5 w-5" fill={FLOW_ORANGE} />,
+    iconBg: FLOW_ORANGE_BG,
+  },
+  {
+    id: "end",
+    title: "End",
+    description: "End flow and define output variables",
+    icon: <ExitMd className="h-5 w-5" fill={FLOW_ORANGE} />,
+    iconBg: FLOW_ORANGE_BG,
+  },
+];
+
+const interactionSteps: StepRow[] = [
+  {
+    id: "chat",
+    title: "Chat",
+    description: "AI chats with the customer to collect information",
+    icon: <MessagesMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
+  },
+  {
+    id: "send-message",
+    title: "Send message",
+    description: "Send a prepared or AI generated message to the customer",
+    icon: <ChatDotMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
+  },
+];
+
+const utilitiesSteps: StepRow[] = [
+  {
+    id: "llm",
+    title: "LLM",
+    description: "Call an LLM model to interpret, summarize, extract, or classify any text",
+    icon: <WorkflowOutlinedMd className="h-5 w-5" fill={AMETHYST} />,
+    iconBg: AMETHYST_BG,
+  },
+  {
+    id: "workflow",
+    title: "Workflow",
+    description: "Add a nested workflow to current workflow",
+    icon: <WorkflowOutlinedMd className="h-5 w-5" fill={AMETHYST} />,
+    iconBg: AMETHYST_BG,
+  },
+  {
+    id: "set-variable",
+    title: "Set variable",
+    description: "Set variable to be used in the subsequent workflow",
+    icon: <VariableMd className="h-5 w-5" fill={AMETHYST} />,
+    iconBg: AMETHYST_BG,
+  },
+  {
+    id: "parse-json",
+    title: "Parse JSON",
+    description: "Extract values from JSON and use values in the subsequent workflow",
+    icon: <JsonMd className="h-5 w-5" fill={AMETHYST} />,
+    iconBg: AMETHYST_BG,
+  },
+  {
+    id: "send-http",
+    title: "Send HTTP request",
+    description: "Transmit an HTTP request to any URL",
+    icon: <ArrowLeftRightMd className="h-5 w-5" fill={AMETHYST} />,
+    iconBg: AMETHYST_BG,
+  },
+  {
+    id: "comment",
+    title: "Comment",
+    description: "Add a debug comment to the workflow’s activity log",
+    icon: <CodeMd className="h-5 w-5" fill={AMETHYST} />,
+    iconBg: AMETHYST_BG,
+  },
+];
+
+const integrationsSteps: StepRow[] = [
+  {
+    id: "hubspot",
+    title: "HubSpot",
+    description: "Create lead, assign tickets, generate report, etc.",
+    icon: <HubspotColoredMd className="h-7 w-7" />,
+  },
+  {
+    id: "salesforce",
+    title: "Salesforce",
+    description: "Create lead, assign tickets, generate report, etc.",
+    icon: <SalesforceColoredMd className="h-7 w-7" />,
+  },
+  {
+    id: "google-calendar",
+    title: "Google calendar",
+    description: "Create new events and tasks",
+    icon: <GoogleCalendarColoredMd className="h-7 w-7" />,
   },
 ];
 
@@ -64,30 +199,66 @@ const ringCentralSteps: StepRow[] = [
     id: "send-sms",
     title: "Send SMS",
     description: "Send an SMS message from your number.",
-    icon: <MessageSquare className="h-4 w-4 text-[#0040dd]" />,
-    iconBg: "bg-[#0040dd1a]",
+    icon: <Smsmd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
   },
   {
     id: "send-chat",
     title: "Send chat message",
     description: "Send a team chat message to specified team ID in RingCentral App.",
-    icon: <MessageCircle className="h-4 w-4 text-[#0040dd]" />,
-    iconBg: "bg-[#0040dd1a]",
+    icon: <MessagesMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
+  },
+  {
+    id: "ringout-call",
+    title: "Make a RingOut call",
+    description: "Initiate phone call by connecting two phone numbers via RingOut.",
+    icon: <OutgoingCallMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
+  },
+  {
+    id: "create-meeting",
+    title: "Create a meeting",
+    description: "Create and load a meeting URL into the workflow",
+    icon: <VideoMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
   },
   {
     id: "send-booking",
     title: "Send booking link",
     description: "Send booking link via text, chat, or email",
-    icon: <Calendar className="h-4 w-4 text-[#16a937]" />,
-    iconBg: "bg-[#16a9371a]",
+    icon: <CalendarMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
   },
   {
-    id: "create-meeting",
-    title: "Create a meeting",
-    description: "Create a RingCentral video meeting.",
-    icon: <Video className="h-4 w-4 text-[#0040dd]" />,
-    iconBg: "bg-[#0040dd1a]",
+    id: "lookup-contact",
+    title: "Lookup contact",
+    description: "Lookup and load a contact into the workflow by a phone number.",
+    icon: <LookUpProfileMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
   },
+  {
+    id: "create-personal-contact",
+    title: "Create personal contact",
+    description: "Add a contact to my personal address book",
+    icon: <AddContactMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
+  },
+  {
+    id: "update-personal-contact",
+    title: "Update personal contact",
+    description: "Update a contact in my personal address book",
+    icon: <ContactsMd className="h-5 w-5" fill={OLIVE} />,
+    iconBg: OLIVE_BG,
+  },
+];
+
+const stepSections: StepSection[] = [
+  { id: "flow-controls", label: "Flow controls", steps: flowControlsSteps },
+  { id: "interaction", label: "Interaction", steps: interactionSteps },
+  { id: "utilities", label: "Utilities", steps: utilitiesSteps },
+  { id: "integrations", label: "Integrations", steps: integrationsSteps },
+  { id: "ringcentral", label: "RingCentral", steps: ringCentralSteps },
 ];
 
 const StepItem = ({
@@ -100,29 +271,69 @@ const StepItem = ({
   <button
     type="button"
     onClick={onClick}
-    className="flex w-full items-start gap-3 rounded-lg p-2 text-left hover:bg-[#f5f6f9]"
+    className="flex w-full items-center gap-3 rounded-[10px] px-4 py-[13px] text-left hover:bg-[#f5f6f9]"
     data-testid={`step-${step.id}`}
   >
     <div
-      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${step.iconBg}`}
+      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${step.iconBg ?? ""}`}
     >
       {step.icon}
     </div>
     <div className="flex min-w-0 flex-1 flex-col">
       <div className="flex items-center gap-1.5">
-        <span className="text-sm font-semibold text-black">{step.title}</span>
+        <span className="truncate text-sm font-medium leading-5 text-black">
+          {step.title}
+        </span>
         {step.hasIndicator && (
           <span className="h-2 w-2 rounded-full bg-[#fe8624]" />
         )}
       </div>
-      <span className="text-xs text-[#56585e]">{step.description}</span>
+      {step.description && (
+        <span className="text-xs leading-[18px] text-[#666]">
+          {step.description}
+        </span>
+      )}
     </div>
+  </button>
+);
+
+const SectionHeader = ({
+  label,
+  open,
+  onToggle,
+  testId,
+}: {
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+  testId: string;
+}) => (
+  <button
+    type="button"
+    onClick={onToggle}
+    className="flex w-full items-center gap-2 px-4 py-3 text-left"
+    data-testid={testId}
+  >
+    {open ? (
+      <ChevronDown className="h-4 w-4 text-[#757575]" />
+    ) : (
+      <ChevronUp className="h-4 w-4 text-[#757575]" />
+    )}
+    <span className="flex-1 truncate text-sm font-medium leading-5 text-[#757575]">
+      {label}
+    </span>
   </button>
 );
 
 export const Workflow = (): JSX.Element => {
   const [panelOpen, setPanelOpen] = useState(true);
-  const [ringCentralOpen, setRingCentralOpen] = useState(true);
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>(
+    () =>
+      stepSections.reduce<Record<string, boolean>>((acc, section) => {
+        acc[section.id] = true;
+        return acc;
+      }, {}),
+  );
   const [filter, setFilter] = useState("all");
   const [bookingIntroOpen, setBookingIntroOpen] = useState(false);
   const isPurchased = useIsBookingPurchased();
@@ -151,7 +362,7 @@ export const Workflow = (): JSX.Element => {
     if (flow === "after-workflow-send-link") {
       setBookingIntroOpen(false);
       setPanelOpen(true);
-      setRingCentralOpen(true);
+      setOpenSections((prev) => ({ ...prev, ringcentral: true }));
       setConfigPanelOpen(false);
       setSendBookingStepAdded(false);
     } else {
@@ -268,48 +479,69 @@ export const Workflow = (): JSX.Element => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="generic">Generic</SelectItem>
-                    <SelectItem value="ringcentral">RingCentral</SelectItem>
+                    {stepSections.map((section) => (
+                      <SelectItem key={section.id} value={section.id}>
+                        {section.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-2 pb-4">
-                <div className="flex flex-col gap-1">
-                  {genericSteps.map((step) => (
-                    <StepItem
-                      key={step.id}
-                      step={step}
-                      onClick={() => handleStepClick(step.id)}
-                    />
-                  ))}
-                </div>
-                <div className="mt-2 px-2 py-2">
-                  <button
-                    type="button"
-                    onClick={() => setRingCentralOpen((p) => !p)}
-                    className="flex w-full items-center gap-1 text-sm font-semibold text-black"
-                    data-testid="button-toggle-ringcentral-group"
-                  >
-                    {ringCentralOpen ? (
-                      <ChevronDown className="h-4 w-4" />
-                    ) : (
-                      <ChevronUp className="h-4 w-4" />
-                    )}
-                    RingCentral
-                  </button>
-                </div>
-                {ringCentralOpen && (
-                  <div className="flex flex-col gap-1">
-                    {ringCentralSteps.map((step) => (
-                      <StepItem
-                        key={step.id}
-                        step={step}
-                        onClick={() => handleStepClick(step.id)}
-                      />
-                    ))}
-                  </div>
-                )}
+              <div className="flex-1 overflow-y-auto pb-2">
+                {stepSections
+                  .filter(
+                    (section) => filter === "all" || filter === section.id,
+                  )
+                  .map((section, index) => {
+                    const isOpen = openSections[section.id] ?? true;
+                    return (
+                      <div key={section.id}>
+                        {index > 0 && (
+                          <div className="border-t border-[#0000001a]" />
+                        )}
+                        <div className="flex flex-col pb-2">
+                          <SectionHeader
+                            label={section.label}
+                            open={isOpen}
+                            onToggle={() =>
+                              setOpenSections((prev) => ({
+                                ...prev,
+                                [section.id]: !isOpen,
+                              }))
+                            }
+                            testId={`button-toggle-${section.id}-group`}
+                          />
+                          {isOpen && (
+                            <div className="flex flex-col px-1">
+                              {section.steps.map((step) => (
+                                <StepItem
+                                  key={step.id}
+                                  step={step}
+                                  onClick={() => handleStepClick(step.id)}
+                                />
+                              ))}
+                              {section.id === "integrations" && (
+                                <button
+                                  type="button"
+                                  className="flex w-full items-center gap-2 px-4 py-3 text-left hover:bg-[#f5f6f9]"
+                                  data-testid="button-discover-integrations"
+                                >
+                                  <span className="flex-1 truncate text-sm font-medium leading-5 text-[#066fac]">
+                                    Discover more integrations
+                                  </span>
+                                  <ArrowRightUpMd
+                                    className="h-5 w-5"
+                                    fill="#066fac"
+                                  />
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </aside>
           )}
@@ -359,8 +591,8 @@ export const Workflow = (): JSX.Element => {
                   }`}
                   data-testid="node-send-booking"
                 >
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#16a9371a]">
-                    <Calendar className="h-3.5 w-3.5 text-[#16a937]" />
+                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#219e371a]">
+                    <CalendarMd className="h-3.5 w-3.5 text-[#219e37]" />
                   </div>
                   <span className="flex-1 text-sm font-semibold text-black">
                     Send booking link
@@ -390,8 +622,8 @@ export const Workflow = (): JSX.Element => {
             >
               <div className="flex items-center justify-between border-b border-[#dddfe5] px-4 py-3">
                 <div className="flex min-w-0 items-center gap-2">
-                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#16a9371a]">
-                    <Calendar className="h-4 w-4 text-[#16a937]" />
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#219e371a]">
+                    <CalendarMd className="h-4 w-4 text-[#219e37]" />
                   </div>
                   <h3 className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
                     Send booking link
