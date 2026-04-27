@@ -21,7 +21,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { bookingTypes, type BookingType } from "@/lib/bookingTypes";
+import { useBookingTypes, type BookingType } from "@/lib/bookingTypes";
 import { IconButton } from "@ringcentral/spring-ui";
 import {
   CalendarMd,
@@ -151,6 +151,7 @@ export const Text = (): JSX.Element => {
   const [bookingPickerOpen, setBookingPickerOpen] = useState(false);
   const flow = useFlowParam();
   const isPurchased = useIsBookingPurchased();
+  const bookingTypes = useBookingTypes();
   const composerRef = useRef<HTMLDivElement>(null);
 
   const handleInsertBookingLink = (booking: BookingType) => {

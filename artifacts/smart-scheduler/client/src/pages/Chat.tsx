@@ -51,7 +51,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
-import { bookingTypes, type BookingType } from "@/lib/bookingTypes";
+import { useBookingTypes, type BookingType } from "@/lib/bookingTypes";
 
 type EventCardMessage = {
   id: string;
@@ -208,6 +208,7 @@ export const Chat = (): JSX.Element => {
   const { toast } = useToast();
   const flow = useFlowParam();
   const isPurchased = useIsBookingPurchased();
+  const bookingTypes = useBookingTypes();
 
   const scheduleKeywords = [
     "meeting",

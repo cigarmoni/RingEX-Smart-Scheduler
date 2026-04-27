@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from "react";
+
 export type BookingType = {
   id: string;
   title: string;
@@ -6,7 +8,7 @@ export type BookingType = {
   dateTime: string;
 };
 
-export const bookingTypes: BookingType[] = [
+const seed: BookingType[] = [
   {
     id: "ux-30",
     title: "UX Design — 30 min",
@@ -29,3 +31,28 @@ export const bookingTypes: BookingType[] = [
     dateTime: "Mon, Mar 13, 14:00 – 14:45",
   },
 ];
+
+let current: BookingType[] = [...seed];
+const listeners = new Set<() => void>();
+
+export const bookingTypes: BookingType[] = seed;
+
+export function getBookingTypes(): BookingType[] {
+  return current;
+}
+
+export function subscribeBookingTypes(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+export function addBookingType(entry: BookingType): void {
+  current = [...current, entry];
+  listeners.forEach((l) => l());
+}
+
+export function useBookingTypes(): BookingType[] {
+  return useSyncExternalStore(subscribeBookingTypes, getBookingTypes, getBookingTypes);
+}
