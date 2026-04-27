@@ -33,6 +33,8 @@ export const FlowsLauncher = (): JSX.Element => {
     if (entry.comingSoon) return;
     if (typeof entry.setPurchased === "boolean") {
       setSmartSchedulerPurchased(entry.setPurchased);
+    } else if (entry.group === "before") {
+      setSmartSchedulerPurchased(false);
     }
     navigate(buildFlowHref(entry));
   };
