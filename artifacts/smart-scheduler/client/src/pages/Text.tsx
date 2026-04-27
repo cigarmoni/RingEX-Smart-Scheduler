@@ -32,7 +32,7 @@ import {
   PlusMd,
   SearchMd,
   ReplyMd,
-  TextReplyMd,
+  AiWriterAltMd,
 } from "@ringcentral/spring-icon";
 
 type Conversation = {
@@ -477,7 +477,7 @@ export const Text = (): JSX.Element => {
                     <PopoverTrigger asChild>
                       <span className="inline-flex">
                         <IconButton
-                          symbol={TextReplyMd as unknown as React.ComponentType}
+                          symbol={AiWriterAltMd as unknown as React.ComponentType}
                           variant="icon"
                           color="neutral"
                           size="medium"
