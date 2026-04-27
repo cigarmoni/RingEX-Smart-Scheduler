@@ -8,7 +8,7 @@ export type BookingType = {
   dateTime: string;
 };
 
-const seed: BookingType[] = [
+const SEED: BookingType[] = [
   {
     id: "ux-30",
     title: "UX Design — 30 min",
@@ -32,27 +32,65 @@ const seed: BookingType[] = [
   },
 ];
 
-let current: BookingType[] = [...seed];
+let _list: BookingType[] = [...SEED];
+let _favs = new Set<string>();
 const listeners = new Set<() => void>();
 
-export const bookingTypes: BookingType[] = seed;
+const emit = () => {
+  listeners.forEach((l) => l());
+};
 
 export function getBookingTypes(): BookingType[] {
-  return current;
+  return _list;
 }
 
-export function subscribeBookingTypes(listener: () => void): () => void {
+export function getFavouriteIds(): Set<string> {
+  return _favs;
+}
+
+export function addBookingType(bt: BookingType): void {
+  _list = [..._list, bt];
+  emit();
+}
+
+export function markFavourite(id: string): void {
+  if (!_favs.has(id)) {
+    _favs = new Set(_favs);
+    _favs.add(id);
+    emit();
+  }
+}
+
+export function subscribe(listener: () => void): () => void {
   listeners.add(listener);
   return () => {
     listeners.delete(listener);
   };
 }
 
-export function addBookingType(entry: BookingType): void {
-  current = [...current, entry];
-  listeners.forEach((l) => l());
-}
+export const subscribeBookingTypes = subscribe;
 
 export function useBookingTypes(): BookingType[] {
-  return useSyncExternalStore(subscribeBookingTypes, getBookingTypes, getBookingTypes);
+  return useSyncExternalStore(subscribe, getBookingTypes, getBookingTypes);
 }
+
+export function useFavouriteBookingTypes(): BookingType[] {
+  const list = useBookingTypes();
+  const favs = useSyncExternalStore(subscribe, getFavouriteIds, getFavouriteIds);
+  return list.filter((bt) => favs.has(bt.id));
+}
+
+export const bookingTypes: BookingType[] = new Proxy([] as BookingType[], {
+  get(_target, prop, receiver) {
+    return Reflect.get(_list, prop, receiver);
+  },
+  has(_target, prop) {
+    return Reflect.has(_list, prop);
+  },
+  ownKeys() {
+    return Reflect.ownKeys(_list);
+  },
+  getOwnPropertyDescriptor(_target, prop) {
+    return Reflect.getOwnPropertyDescriptor(_list, prop);
+  },
+}) as BookingType[];

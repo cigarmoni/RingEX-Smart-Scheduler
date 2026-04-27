@@ -1,13 +1,14 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { useLocation } from "wouter";
-import { Calendar, Clock, ClipboardList } from "lucide-react";
+import { Calendar, Clock, ClipboardList, MapPin, MoreHorizontal, Star, Users } from "lucide-react";
 import { AppShell, type NavLabel } from "@/components/AppShell";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
+import { OnboardingWizard } from "@/components/OnboardingWizard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MeetingContent } from "@/pages/Meeting";
 import { useFlowParam, useIsBookingPurchased } from "@/lib/flows";
 import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
+import { useFavouriteBookingTypes } from "@/lib/bookingTypes";
 
 type Section = "Bookings" | "Meeting";
 
@@ -15,22 +16,134 @@ const tabs = ["Home", "Booking types", "Bookings", "Analytics"];
 
 interface SmartSchedulerContentProps {
   showOnboarding: boolean;
+  showWizard: boolean;
   onStartSetup: () => void;
   onSkipSetup: () => void;
+  onWizardClose: () => void;
+  onWizardFinish: () => void;
   isPostPurchase: boolean;
   onFindOutMore: () => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
 }
+
+const HomeTabContent = (): JSX.Element => {
+  const favourites = useFavouriteBookingTypes();
+  return (
+    <div className="flex flex-1 flex-col gap-5">
+      <section className="flex flex-col gap-3">
+        <h3 className="text-[14px] font-semibold text-black" data-testid="heading-upcoming-bookings">
+          Upcoming bookings
+        </h3>
+        <Card className="rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none">
+          <CardContent className="flex flex-col items-center justify-center gap-2 p-8">
+            <div className="relative flex h-12 w-12 items-center justify-center">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-12 w-12 text-[#9e9fa4]"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M3 9h18" />
+                <path d="M8 3v4" />
+                <path d="M16 3v4" />
+              </svg>
+            </div>
+            <p className="text-[14px] text-[#56585e]" data-testid="text-no-upcoming-bookings">
+              Your upcoming bookings will appear here
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-[14px] font-semibold text-black" data-testid="heading-favorite-booking-types">
+            Your favorite booking types
+          </h3>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-9 rounded-[10px] border border-solid border-[#0040dd] bg-white px-4 text-[14px] font-semibold text-[#0040dd] hover:bg-[#eef2ff] hover:text-[#0040dd]"
+            data-testid="button-create-booking-type"
+          >
+            + Create booking type
+          </Button>
+        </div>
+        {favourites.length === 0 ? (
+          <Card className="rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none">
+            <CardContent className="flex flex-col items-center justify-center gap-2 p-6 text-center">
+              <p className="text-[14px] text-[#56585e]">
+                Booking types you favourite will appear here.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3">
+            {favourites.map((bt) => (
+              <Card
+                key={bt.id}
+                className="rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none"
+                data-testid={`card-favourite-${bt.id}`}
+              >
+                <CardContent className="flex flex-col gap-3 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-[#cdebd6]">
+                        <Users className="h-5 w-5 text-black" />
+                      </div>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[14px] font-semibold text-black">{bt.title}</span>
+                        <span className="text-[12px] text-[#56585e]">
+                          {bt.duration}, One-on-One
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-5 w-5 fill-[#fe8624] text-[#fe8624]" />
+                      <button
+                        type="button"
+                        aria-label="More options"
+                        className="flex h-8 w-8 items-center justify-center rounded-md text-[#56585e] hover:bg-[#f5f6f9]"
+                        data-testid={`button-more-${bt.id}`}
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 border-t border-solid border-[#dddfe5] pt-3 text-[12px] text-[#56585e]">
+                    <MapPin className="h-3.5 w-3.5" />
+                    <span className="font-medium text-black">Location</span>
+                    <span>·</span>
+                    <span>Video meeting</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};
 
 const SmartSchedulerContent = ({
   showOnboarding,
+  showWizard,
   onStartSetup,
   onSkipSetup,
+  onWizardClose,
+  onWizardFinish,
   isPostPurchase,
   onFindOutMore,
+  activeTab,
+  setActiveTab,
 }: SmartSchedulerContentProps): JSX.Element => {
-  const [activeTab, setActiveTab] = useState("Home");
   return (
-    <section className="flex min-w-0 flex-1 flex-col gap-4 p-3 sm:p-4">
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 p-3 sm:p-4">
         <header className="flex items-center justify-between">
           <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
             Bookings
@@ -39,7 +152,9 @@ const SmartSchedulerContent = ({
             <img className="h-4 w-4" alt="Settings MD" src="/figmaAssets/settingsmd.svg" />
           </Button>
         </header>
-        {showOnboarding ? (
+        {showWizard ? (
+          <OnboardingWizard onClose={onWizardClose} onFinish={onWizardFinish} />
+        ) : showOnboarding ? (
           <Card
             className="flex flex-1 rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none"
             data-testid="card-onboarding"
@@ -115,20 +230,24 @@ const SmartSchedulerContent = ({
               ))}
             </nav>
             {isPostPurchase ? (
-              <Card className="flex flex-1 rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none">
-                <CardContent
-                  className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center sm:p-8"
-                  data-testid={`empty-${activeTab.toLowerCase().replace(/\s+/g, "-")}`}
-                >
-                  <Calendar className="h-10 w-10 text-[#56585e]" />
-                  <h3 className="font-headline text-[length:var(--headline-font-size)] font-[number:var(--headline-font-weight)] leading-[var(--headline-line-height)] text-black">
-                    Nothing here yet
-                  </h3>
-                  <p className="max-w-[420px] font-main-text text-[length:var(--main-text-font-size)] text-[#56585e]">
-                    Your {activeTab.toLowerCase()} will show up here once you finish setting up Bookings.
-                  </p>
-                </CardContent>
-              </Card>
+              activeTab === "Home" ? (
+                <HomeTabContent />
+              ) : (
+                <Card className="flex flex-1 rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none">
+                  <CardContent
+                    className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center sm:p-8"
+                    data-testid={`empty-${activeTab.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    <Calendar className="h-10 w-10 text-[#56585e]" />
+                    <h3 className="font-headline text-[length:var(--headline-font-size)] font-[number:var(--headline-font-weight)] leading-[var(--headline-line-height)] text-black">
+                      Nothing here yet
+                    </h3>
+                    <p className="max-w-[420px] font-main-text text-[length:var(--main-text-font-size)] text-[#56585e]">
+                      Your {activeTab.toLowerCase()} will show up here once you finish setting up Bookings.
+                    </p>
+                  </CardContent>
+                </Card>
+              )
             ) : (
               <Card className="flex flex-1 rounded-xl border border-solid border-[#dddfe5] bg-white shadow-none">
                 <CardContent className="flex flex-1 flex-col items-center justify-center gap-6 p-6 sm:gap-8 sm:p-8">
@@ -167,15 +286,13 @@ const SmartSchedulerContent = ({
 export const Bookings = (): JSX.Element => {
   const [section, setSection] = useState<Section>("Bookings");
   const [bannerDismissed, setBannerDismissed] = useState(false);
-  const [onboardingDismissed, setOnboardingDismissed] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.sessionStorage.getItem("smartSchedulerOnboardingDismissed") === "1";
-  });
+  const [onboardingDismissed, setOnboardingDismissed] = useState<boolean>(false);
   const flow = useFlowParam();
-  const [, navigate] = useLocation();
   const isPurchased = useIsBookingPurchased();
   const [upsellOpen, setUpsellOpen] = useState(false);
   const [, setSmartSchedulerPurchased] = useSmartSchedulerPurchased();
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("Home");
 
   const isPostPurchaseSetup = flow === "after-booking-initial-setup";
 
@@ -186,13 +303,13 @@ export const Bookings = (): JSX.Element => {
     } else {
       setSection("Bookings");
     }
+    setOnboardingDismissed(false);
+    setWizardOpen(false);
+    setActiveTab("Home");
   }, [flow]);
 
   const dismissOnboarding = () => {
     setOnboardingDismissed(true);
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem("smartSchedulerOnboardingDismissed", "1");
-    }
   };
 
   const handleNavigate = (href: string): boolean => {
@@ -205,6 +322,12 @@ export const Bookings = (): JSX.Element => {
       return true;
     }
     return false;
+  };
+
+  const handleWizardFinish = () => {
+    dismissOnboarding();
+    setActiveTab("Home");
+    setWizardOpen(false);
   };
 
   const activeNav: NavLabel = section === "Meeting" ? "Meeting" : "More";
@@ -220,11 +343,16 @@ export const Bookings = (): JSX.Element => {
   } else {
     content = (
       <SmartSchedulerContent
-        showOnboarding={isPostPurchaseSetup && !onboardingDismissed}
+        showOnboarding={isPurchased && !onboardingDismissed}
+        showWizard={wizardOpen}
         isPostPurchase={isPurchased}
-        onStartSetup={() => navigate("/settings?flow=settings-calendars")}
+        onStartSetup={() => setWizardOpen(true)}
         onSkipSetup={dismissOnboarding}
+        onWizardClose={() => setWizardOpen(false)}
+        onWizardFinish={handleWizardFinish}
         onFindOutMore={() => setUpsellOpen(true)}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
       />
     );
   }

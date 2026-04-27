@@ -307,8 +307,8 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
               </nav>
             </aside>
 
-            <div className="relative flex min-w-0 flex-1 pb-20 md:pb-0">
-              <div className="flex min-w-0 flex-1 flex-col">
+            <div className="relative flex min-h-0 min-w-0 flex-1 pb-20 md:pb-0">
+              <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                 {children}
               </div>
               <AvaDrawer open={avaOpen} onClose={closeAva} />
