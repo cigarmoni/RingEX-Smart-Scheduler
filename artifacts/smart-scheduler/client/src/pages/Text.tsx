@@ -24,13 +24,17 @@ import {
 import { useBookingTypes, type BookingType } from "@/lib/bookingTypes";
 import { IconButton } from "@ringcentral/spring-ui";
 import {
-  CalendarMd,
   AiStarsMd,
   AttachMd,
   EmojiMd,
   ImageMd,
   MentionMd,
+  OverflowMd,
   SendMd,
+  PlusMd,
+  SearchMd,
+  ReplyMd,
+  TextReplyMd,
 } from "@ringcentral/spring-icon";
 
 type Conversation = {
@@ -144,11 +148,67 @@ const Avatar = ({
 const SAMPLE_IMAGE =
   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=60";
 
+type TextTemplate = {
+  id: string;
+  title: string;
+  preview: string;
+  body: string;
+};
+
+const personalTemplates: TextTemplate[] = [
+  {
+    id: "personal-initial-contact",
+    title: "Initial contact",
+    preview:
+      "Hi, I'm Jason from ABC clinic. Thanks for reaching out to us. I've sent an email to you to fill out the details.",
+    body:
+      "Hi, I'm Jason from ABC clinic. Thanks for reaching out to us. I've sent an email to you to fill out the details.",
+  },
+  {
+    id: "personal-follow-up",
+    title: "Follow up",
+    preview:
+      "Just checking in to see if you had a chance to review the appointment details I sent over.",
+    body:
+      "Hi, just checking in to see if you had a chance to review the appointment details I sent over. Let me know if you'd like to pick a different time.",
+  },
+  {
+    id: "personal-thanks",
+    title: "Thanks for visiting",
+    preview:
+      "Thanks for stopping by today — really appreciated the chance to meet. Reach out anytime.",
+    body:
+      "Thanks for stopping by today — really appreciated the chance to meet. Reach out anytime if you have questions.",
+  },
+];
+
+const companyTemplates: TextTemplate[] = [
+  {
+    id: "company-appointment-confirmation",
+    title: "Appointment confirmation",
+    preview:
+      "Your appointment with ABC clinic is confirmed. We look forward to seeing you.",
+    body:
+      "Your appointment with ABC clinic is confirmed. We look forward to seeing you. Reply STOP to opt out.",
+  },
+  {
+    id: "company-appointment-reminder",
+    title: "Appointment reminder",
+    preview:
+      "Friendly reminder of your upcoming appointment with ABC clinic. Reply C to confirm.",
+    body:
+      "Friendly reminder of your upcoming appointment with ABC clinic. Reply C to confirm or R to reschedule.",
+  },
+];
+
 export const Text = (): JSX.Element => {
   const [activeConvoId, setActiveConvoId] = useState<string>("uylp");
   const [composer, setComposer] = useState("");
   const [bookingIntroOpen, setBookingIntroOpen] = useState(false);
-  const [bookingPickerOpen, setBookingPickerOpen] = useState(false);
+  const [composerMoreOpen, setComposerMoreOpen] = useState(false);
+  const [templatePopoverOpen, setTemplatePopoverOpen] = useState(false);
+  const [templateTab, setTemplateTab] = useState<"personal" | "company">("personal");
+  const [templateSearch, setTemplateSearch] = useState("");
   const flow = useFlowParam();
   const isPurchased = useIsBookingPurchased();
   const bookingTypes = useBookingTypes();
@@ -170,13 +230,42 @@ export const Text = (): JSX.Element => {
       el.insertAdjacentHTML("beforeend", html);
     }
     setComposer(el.textContent ?? "");
-    setBookingPickerOpen(false);
+    setComposerMoreOpen(false);
     el.focus();
   };
+
+  const insertTemplate = (t: TextTemplate) => {
+    const el = composerRef.current;
+    if (!el) return;
+    const existing = (el.textContent ?? "").length > 0;
+    const safeBody = t.body
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    if (!existing) {
+      el.innerHTML = safeBody;
+    } else {
+      el.insertAdjacentHTML("beforeend", ` ${safeBody}`);
+    }
+    setComposer(el.textContent ?? "");
+    setTemplatePopoverOpen(false);
+    el.focus();
+  };
+
+  const allTemplates = templateTab === "personal" ? personalTemplates : companyTemplates;
+  const filteredTemplates = templateSearch.trim().length === 0
+    ? allTemplates
+    : allTemplates.filter((t) => {
+        const q = templateSearch.trim().toLowerCase();
+        return t.title.toLowerCase().includes(q) || t.body.toLowerCase().includes(q);
+      });
 
   useEffect(() => {
     setComposer("");
     if (composerRef.current) composerRef.current.innerHTML = "";
+    setTemplateSearch("");
+    setTemplatePopoverOpen(false);
+    setComposerMoreOpen(false);
   }, [flow]);
 
   const activeConvo = conversations.find((c) => c.id === activeConvoId);
@@ -384,15 +473,135 @@ export const Text = (): JSX.Element => {
                 suppressContentEditableWarning
               />
               <div className="mt-1 flex items-center justify-between">
-                <div className="flex items-center gap-0.5">
-                  <IconButton
-                    symbol={AiStarsMd as unknown as React.ComponentType}
-                    variant="icon"
-                    color="neutral"
-                    size="medium"
-                    aria-label="AI writing tools"
-                    data-testid="button-text-ai"
-                    TooltipProps={{ title: "AI writing tools" }}
+                {/* Composer action toolbar */}
+                <div className="flex items-center gap-0.5" data-testid="toolbar-text-composer-actions">
+                  <Popover open={templatePopoverOpen} onOpenChange={setTemplatePopoverOpen}>
+                    <PopoverTrigger asChild>
+                      <span className="inline-flex">
+                        <IconButton
+                          symbol={TextReplyMd as unknown as React.ComponentType}
+                          variant="icon"
+                          color="neutral"
+                          size="medium"
+                          aria-label="Text message templates"
+                          data-testid="button-text-template"
+                          TooltipProps={{ title: "Text message templates" }}
+                        />
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      side="top"
+                      align="start"
+                      sideOffset={8}
+                      className="w-[360px] rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-0 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                      data-testid="popover-text-templates"
+                    >
+                      <div className="flex flex-col py-4">
+                        <div className="flex items-center justify-between px-4">
+                          <p
+                            className="text-[17px] font-medium leading-[25px] tracking-[-0.2px] text-[var(--sui-colors-neutral-b0)]"
+                            data-testid="text-template-popover-title"
+                          >
+                            Text message templates
+                          </p>
+                          <IconButton
+                            symbol={PlusMd as unknown as React.ComponentType}
+                            variant="icon"
+                            color="neutral"
+                            size="medium"
+                            aria-label="Add template"
+                            data-testid="button-text-template-add"
+                            TooltipProps={{ title: "Add template" }}
+                          />
+                        </div>
+                        <div className="relative mt-2 flex w-full items-center border-b border-[rgba(0,0,0,0.1)]">
+                          {(["personal", "company"] as const).map((tab) => {
+                            const isActive = templateTab === tab;
+                            return (
+                              <button
+                                key={tab}
+                                type="button"
+                                onClick={() => setTemplateTab(tab)}
+                                className={`relative flex h-12 min-w-[100px] flex-1 items-center justify-center px-2 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2px] ${
+                                  isActive
+                                    ? "text-[var(--sui-colors-cobranding-f)]"
+                                    : "text-[var(--sui-colors-neutral-b2)]"
+                                }`}
+                                data-testid={`tab-text-template-${tab}`}
+                              >
+                                {tab === "personal" ? "Personal" : "Company"}
+                                {isActive && (
+                                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[var(--sui-colors-cobranding-f)]" />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <div className="px-4 pt-3">
+                          <div className="flex h-9 items-center gap-1 border-b border-[rgba(0,0,0,0.2)]">
+                            <SearchMd
+                              width={16}
+                              height={16}
+                              fill="currentColor"
+                              className="text-[var(--sui-colors-neutral-b2)]"
+                              aria-hidden
+                            />
+                            <input
+                              type="text"
+                              value={templateSearch}
+                              onChange={(e) => setTemplateSearch(e.target.value)}
+                              placeholder={`Search ${templateTab} templates`}
+                              className="h-9 flex-1 bg-transparent pl-1 text-[14px] leading-5 text-[var(--sui-colors-neutral-b0)] placeholder:text-[var(--sui-colors-neutral-b2)] focus:outline-none"
+                              data-testid="input-text-template-search"
+                              aria-label={`Search ${templateTab} templates`}
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-1 max-h-[260px] overflow-y-auto" data-testid="list-text-templates">
+                          {filteredTemplates.length === 0 ? (
+                            <div
+                              className="px-4 py-6 text-center text-[13px] text-[var(--sui-colors-neutral-b2)]"
+                              data-testid="text-template-empty"
+                            >
+                              No templates match "{templateSearch}".
+                            </div>
+                          ) : (
+                            filteredTemplates.map((t, i) => (
+                              <button
+                                key={t.id}
+                                type="button"
+                                onClick={() => insertTemplate(t)}
+                                className="group relative flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-[rgba(0,0,0,0.04)]"
+                                data-testid={`template-${t.id}`}
+                              >
+                                <div className="flex min-w-0 flex-1 flex-col items-start">
+                                  <p className="w-full truncate text-[15px] font-medium leading-5 text-[var(--sui-colors-neutral-b0)]">
+                                    {t.title}
+                                  </p>
+                                  <p className="w-full truncate text-[12px] leading-[18px] text-[var(--sui-colors-neutral-b2)]">
+                                    {t.preview}
+                                  </p>
+                                </div>
+                                <span
+                                  className="flex h-9 w-9 items-center justify-center text-[var(--sui-colors-neutral-b2)] opacity-0 group-hover:opacity-100"
+                                  aria-hidden
+                                >
+                                  <ReplyMd width={20} height={20} fill="currentColor" />
+                                </span>
+                                {i < filteredTemplates.length - 1 && (
+                                  <span className="pointer-events-none absolute bottom-0 left-3 right-3 h-px bg-[rgba(0,0,0,0.1)]" />
+                                )}
+                              </button>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <span
+                    aria-hidden
+                    className="mx-1 h-4 w-px bg-[#dddfe5]"
+                    data-testid="divider-text-composer"
                   />
                   <IconButton
                     symbol={AttachMd as unknown as React.ComponentType}
@@ -421,64 +630,105 @@ export const Text = (): JSX.Element => {
                     data-testid="button-text-image"
                     TooltipProps={{ title: "Insert image" }}
                   />
-                  <IconButton
-                    symbol={MentionMd as unknown as React.ComponentType}
-                    variant="icon"
-                    color="neutral"
-                    size="medium"
-                    aria-label="Mention"
-                    data-testid="button-text-mention"
-                    TooltipProps={{ title: "Mention" }}
-                  />
-                  <Popover open={bookingPickerOpen} onOpenChange={setBookingPickerOpen}>
+                  <Popover open={composerMoreOpen} onOpenChange={setComposerMoreOpen}>
                     <PopoverTrigger asChild>
                       <span className="inline-flex">
                         <IconButton
-                          symbol={CalendarMd as unknown as React.ComponentType}
+                          symbol={OverflowMd as unknown as React.ComponentType}
                           variant="icon"
                           color="neutral"
                           size="medium"
-                          onClick={(e: React.MouseEvent) => {
-                            if (!isPurchased) {
-                              e.preventDefault();
-                              setBookingIntroOpen(true);
-                            }
-                          }}
-                          aria-label="Insert booking link"
-                          data-testid="button-text-schedule"
-                          TooltipProps={{ title: "Insert booking link" }}
+                          aria-label="More actions"
+                          data-testid="button-text-composer-more"
+                          TooltipProps={{ title: "More actions" }}
                         />
                       </span>
                     </PopoverTrigger>
                     <PopoverContent
                       align="end"
                       side="top"
-                      className="w-72 rounded-lg p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                      sideOffset={8}
+                      className="w-72 rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                      data-testid="popover-text-more"
                     >
-                      <div className="px-2 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
-                        Share booking link
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
+                        data-testid="button-text-ai"
+                        aria-label="AI writing tools"
+                      >
+                        <AiStarsMd
+                          width={16}
+                          height={16}
+                          fill="currentColor"
+                          className="shrink-0 text-[#56585e]"
+                          aria-hidden
+                        />
+                        <span className="text-sm text-black">AI writing tools</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
+                        data-testid="button-text-mention"
+                        aria-label="Mention"
+                      >
+                        <MentionMd
+                          width={16}
+                          height={16}
+                          fill="currentColor"
+                          className="shrink-0 text-[#56585e]"
+                          aria-hidden
+                        />
+                        <span className="text-sm text-black">Mention</span>
+                      </button>
+                      <div className="my-1 h-px bg-[rgba(0,0,0,0.1)]" />
+                      <div className="px-2 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
+                        Insert booking link
                       </div>
-                      <div className="flex flex-col">
-                        {bookingTypes.map((bt) => (
-                          <button
-                            key={bt.id}
-                            type="button"
-                            onClick={() => handleInsertBookingLink(bt)}
-                            className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
-                            data-testid={`text-booking-type-${bt.id}`}
-                          >
-                            <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
-                            <div className="min-w-0 flex-1">
-                              <div className="truncate text-sm font-semibold text-black">
-                                {bt.title}
-                              </div>
-                              <div className="truncate text-xs text-[#56585e]">
-                                {bt.duration}
-                              </div>
+                      {!isPurchased ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setComposerMoreOpen(false);
+                            setBookingIntroOpen(true);
+                          }}
+                          className="flex w-full items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
+                          data-testid="button-text-schedule"
+                          aria-label="Insert booking link"
+                        >
+                          <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
+                          <div className="min-w-0 flex-1">
+                            <div className="truncate text-sm font-semibold text-black">
+                              Set up booking link
                             </div>
-                          </button>
-                        ))}
-                      </div>
+                            <div className="truncate text-xs text-[#56585e]">
+                              Lets clients book a time with you
+                            </div>
+                          </div>
+                        </button>
+                      ) : (
+                        <div className="flex flex-col">
+                          {bookingTypes.map((bt) => (
+                            <button
+                              key={bt.id}
+                              type="button"
+                              onClick={() => handleInsertBookingLink(bt)}
+                              className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
+                              data-testid={`text-booking-type-${bt.id}`}
+                            >
+                              <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
+                              <div className="min-w-0 flex-1">
+                                <div className="truncate text-sm font-semibold text-black">
+                                  {bt.title}
+                                </div>
+                                <div className="truncate text-xs text-[#56585e]">
+                                  {bt.duration}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </PopoverContent>
                   </Popover>
                 </div>
