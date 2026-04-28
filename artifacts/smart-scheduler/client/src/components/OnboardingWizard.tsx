@@ -74,7 +74,7 @@ interface StepperProps {
 }
 
 const Stepper = ({ current }: StepperProps): JSX.Element => {
-  const labels = ["Connect calendar", "Set availability", "Create new appointment type"];
+  const labels = ["Connect calendar", "Set availability", "Create booking type"];
   const stepStatus = (n: 1 | 2 | 3) => {
     if (n === 1) return current >= 2 ? "done" : "active";
     if (n === 2) {
