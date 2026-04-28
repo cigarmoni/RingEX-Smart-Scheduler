@@ -13,7 +13,20 @@ import {
   Upload,
   Video,
 } from "lucide-react";
-import { EditPenMd, GlobeMd, OverflowMd, ReportIssueMd, ShareMd, Xmd } from "@ringcentral/spring-icon";
+import {
+  CaretDownMd,
+  EditPenMd,
+  GlobeMd,
+  GoogleCalendarColoredMd,
+  ICalColoredMd,
+  LinkMd,
+  MicrosoftOutlookColoredMd,
+  OverflowMd,
+  ReportIssueMd,
+  SettingsMd,
+  ShareMd,
+  Xmd,
+} from "@ringcentral/spring-icon";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
 import { Button } from "@/components/ui/button";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
@@ -334,6 +347,11 @@ export const MeetingContent = ({
   const [shareRecipient, setShareRecipient] = useState("");
   const [shareFrom, setShareFrom] = useState("");
   const [meetingWindowOpen, setMeetingWindowOpen] = useState(false);
+  const [scheduleMeetingOpen, setScheduleMeetingOpen] = useState(false);
+  const [scheduleSettingsOpen, setScheduleSettingsOpen] = useState(false);
+  const [scheduleProviderMenuOpen, setScheduleProviderMenuOpen] = useState(false);
+  const [scheduleProvider, setScheduleProvider] = useState<"outlook" | "google" | "ical">("outlook");
+  const [scheduleBannerDismissed, setScheduleBannerDismissed] = useState(false);
   const { toast } = useToast();
   const flow = useFlowParam();
 
@@ -618,6 +636,7 @@ export const MeetingContent = ({
                   <div className="flex flex-col items-center gap-1.5">
                     <button
                       type="button"
+                      onClick={() => setScheduleMeetingOpen(true)}
                       className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-[#dddfe5] bg-white text-[#323439] hover:bg-[#f5f6f9]"
                       data-testid="button-schedule-meeting"
                     >
@@ -1407,6 +1426,206 @@ export const MeetingContent = ({
             >
               Send
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={scheduleMeetingOpen} onOpenChange={setScheduleMeetingOpen}>
+        <DialogContent
+          className="max-w-[480px] gap-5 rounded-xl bg-white p-6"
+          data-testid="dialog-schedule-meeting"
+        >
+          <DialogHeader>
+            <DialogTitle
+              className="font-headline text-[20px] font-semibold text-black"
+              data-testid="text-schedule-meeting-title"
+            >
+              Schedule meeting
+            </DialogTitle>
+          </DialogHeader>
+
+          <p
+            className="font-main-text text-[length:var(--main-text-font-size)] leading-[var(--main-text-line-height)] text-[#323439]"
+            data-testid="text-schedule-meeting-description"
+          >
+            Schedule a meeting in your calendar or create a link to share instantly.
+          </p>
+
+          {!scheduleBannerDismissed && (
+            <FeatureIntroBanner
+              data-testid="banner-schedule-meeting-intro"
+              tagLabel="Add-on"
+              title="Smart scheduler"
+              description="Let invitees pick a time that works for both of you. Create a booking link in seconds."
+              action={{
+                label: "Learn more",
+                testId: "link-schedule-meeting-banner-learn-more",
+                onClick: () => {
+                  setScheduleMeetingOpen(false);
+                  toast({
+                    title: "Smart scheduler",
+                    description: "Add Smart scheduler from the Bookings tab.",
+                  });
+                },
+              }}
+              onDismiss={() => setScheduleBannerDismissed(true)}
+              dismissTestId="button-schedule-meeting-banner-dismiss"
+            />
+          )}
+
+          <DialogFooter className="!justify-between gap-3 sm:!justify-between">
+            <Popover open={scheduleSettingsOpen} onOpenChange={setScheduleSettingsOpen}>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  className="flex items-center gap-1 font-subtitle text-[length:var(--subtitle-font-size)] text-[#0040dd] hover:underline"
+                  data-testid="button-schedule-meeting-settings"
+                >
+                  <span className="inline-flex h-4 w-4 items-center justify-center [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#0040dd]">
+                    <SettingsMd />
+                  </span>
+                  Settings
+                  <span className="inline-flex h-3 w-3 items-center justify-center [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-[#0040dd]">
+                    <CaretDownMd />
+                  </span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                sideOffset={6}
+                className="w-[220px] rounded-lg border border-[#dddfe5] bg-white p-1 shadow-lg"
+                data-testid="popover-schedule-meeting-settings"
+              >
+                <button
+                  type="button"
+                  onClick={() => setScheduleSettingsOpen(false)}
+                  className="flex w-full items-center rounded-md px-3 py-2 text-left font-main-text text-[length:var(--main-text-font-size)] text-black hover:bg-[#f5f6f9]"
+                  data-testid="menu-item-schedule-meeting-defaults"
+                >
+                  Meeting defaults
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScheduleSettingsOpen(false)}
+                  className="flex w-full items-center rounded-md px-3 py-2 text-left font-main-text text-[length:var(--main-text-font-size)] text-black hover:bg-[#f5f6f9]"
+                  data-testid="menu-item-schedule-meeting-calendar-integrations"
+                >
+                  Calendar integrations
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScheduleSettingsOpen(false)}
+                  className="flex w-full items-center rounded-md px-3 py-2 text-left font-main-text text-[length:var(--main-text-font-size)] text-black hover:bg-[#f5f6f9]"
+                  data-testid="menu-item-schedule-meeting-personal-link"
+                >
+                  Personal meeting link
+                </button>
+              </PopoverContent>
+            </Popover>
+
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setScheduleMeetingOpen(false);
+                  toast({
+                    title: "Meeting link copied",
+                    description: "Share it with anyone to schedule instantly.",
+                  });
+                }}
+                className="h-9 gap-1.5 rounded-[10px] border border-[#dddfe5] bg-white px-3 font-subtitle text-[length:var(--subtitle-font-size)] text-black hover:bg-[#f5f6f9]"
+                data-testid="button-schedule-meeting-create-link"
+              >
+                <span className="inline-flex h-4 w-4 items-center justify-center [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-[#323439]">
+                  <LinkMd />
+                </span>
+                Create link
+              </Button>
+
+              <div className="flex h-9 items-stretch overflow-hidden rounded-[10px] bg-[#0040dd]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setScheduleMeetingOpen(false);
+                    const label =
+                      scheduleProvider === "outlook"
+                        ? "Outlook Calendar"
+                        : scheduleProvider === "google"
+                          ? "Google Calendar"
+                          : "iCal";
+                    toast({
+                      title: `Opening ${label}`,
+                      description: "Your meeting draft will appear in your calendar.",
+                    });
+                  }}
+                  className="flex items-center gap-1.5 px-3 font-subtitle text-[length:var(--subtitle-font-size)] text-white hover:bg-[#0037be]"
+                  data-testid="button-schedule-meeting-use-calendar"
+                >
+                  <span className="inline-flex h-4 w-4 items-center justify-center [&_svg]:h-4 [&_svg]:w-4">
+                    {scheduleProvider === "outlook" ? (
+                      <MicrosoftOutlookColoredMd />
+                    ) : scheduleProvider === "google" ? (
+                      <GoogleCalendarColoredMd />
+                    ) : (
+                      <ICalColoredMd />
+                    )}
+                  </span>
+                  {scheduleProvider === "outlook"
+                    ? "Use Outlook Calendar"
+                    : scheduleProvider === "google"
+                      ? "Use Google Calendar"
+                      : "Use iCal"}
+                </button>
+                <span className="w-px bg-white/25" aria-hidden="true" />
+                <Popover
+                  open={scheduleProviderMenuOpen}
+                  onOpenChange={setScheduleProviderMenuOpen}
+                >
+                  <PopoverTrigger asChild>
+                    <button
+                      type="button"
+                      className="flex items-center justify-center px-2 text-white hover:bg-[#0037be]"
+                      aria-label="Choose calendar provider"
+                      data-testid="button-schedule-meeting-provider-menu"
+                    >
+                      <span className="inline-flex h-3 w-3 items-center justify-center [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-white">
+                        <CaretDownMd />
+                      </span>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    align="end"
+                    sideOffset={6}
+                    className="w-[220px] rounded-lg border border-[#dddfe5] bg-white p-1 shadow-lg"
+                    data-testid="popover-schedule-meeting-providers"
+                  >
+                    {(
+                      [
+                        { id: "outlook", label: "Outlook Calendar", Icon: MicrosoftOutlookColoredMd },
+                        { id: "google", label: "Google Calendar", Icon: GoogleCalendarColoredMd },
+                        { id: "ical", label: "iCal", Icon: ICalColoredMd },
+                      ] as const
+                    ).map(({ id, label, Icon }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => {
+                          setScheduleProvider(id);
+                          setScheduleProviderMenuOpen(false);
+                        }}
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left font-main-text text-[length:var(--main-text-font-size)] text-black hover:bg-[#f5f6f9]"
+                        data-testid={`menu-item-schedule-meeting-provider-${id}`}
+                      >
+                        <span className="inline-flex h-4 w-4 items-center justify-center [&_svg]:h-4 [&_svg]:w-4">
+                          <Icon />
+                        </span>
+                        {label}
+                      </button>
+                    ))}
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
