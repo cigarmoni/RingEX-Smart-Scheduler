@@ -224,7 +224,7 @@ export const Apps = (): JSX.Element => {
         <aside className="flex w-full shrink-0 flex-col border-b border-[#dddfe5] bg-white md:w-[280px] md:border-b-0 md:border-r">
           {/* Page header */}
           <div className="flex h-[60px] items-center px-4">
-            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
               Apps
             </h2>
           </div>
@@ -362,7 +362,7 @@ const WidgetsView = ({
   <>
     <header className="flex flex-wrap items-center gap-3 border-b border-[#dddfe5] px-6 py-4">
       <h1
-        className="mr-auto font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]"
+        className="mr-auto font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]"
         data-testid="text-apps-title"
       >
         Widgets
@@ -467,7 +467,7 @@ const WidgetCard = ({
 const ComingSoon = ({ title, testId }: { title: string; testId: string }): JSX.Element => (
   <>
     <header className="border-b border-[#dddfe5] px-6 py-4">
-      <h1 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+      <h1 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
         {title}
       </h1>
     </header>

@@ -201,7 +201,7 @@ export const PostCall = (): JSX.Element => {
         <div className="flex w-full shrink-0 flex-col border-b border-sui-neutral-b4 md:w-[400px] md:border-b-0 md:border-r">
           {/* Header */}
           <div className="flex h-[60px] items-center justify-between px-4">
-            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
               Phone
             </h2>
             <button

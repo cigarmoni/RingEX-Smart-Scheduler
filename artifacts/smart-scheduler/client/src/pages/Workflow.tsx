@@ -405,7 +405,7 @@ export const Workflow = (): JSX.Element => {
               <ArrowLeft className="h-5 w-5 text-black" />
             </Button>
             <h2
-              className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]"
+              className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]"
               data-testid="text-workflow-title"
             >
               Untitled workflow
@@ -465,7 +465,7 @@ export const Workflow = (): JSX.Element => {
                 </button>
               </div>
               <div className="flex items-center justify-between px-4 pb-2 pt-1">
-                <h3 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+                <h3 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
                   Add a step
                 </h3>
                 <button
@@ -648,7 +648,7 @@ export const Workflow = (): JSX.Element => {
                   <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#219e371a]">
                     <CalendarMd className="h-4 w-4 text-[#219e37]" />
                   </div>
-                  <h3 className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+                  <h3 className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
                     Send booking link
                   </h3>
                 </div>

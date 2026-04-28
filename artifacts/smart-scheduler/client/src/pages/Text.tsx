@@ -276,7 +276,7 @@ export const Text = (): JSX.Element => {
         <div className="flex w-full shrink-0 flex-col border-b border-[#dddfe5] md:w-[400px] md:border-b-0 md:border-r">
           {/* Page header */}
           <div className="flex items-center justify-between px-4 pt-4 pb-2">
-            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
               Text
             </h2>
             <button
@@ -377,7 +377,7 @@ export const Text = (): JSX.Element => {
           {/* App bar */}
           <div className="flex items-center justify-between border-b border-[#dddfe5] px-4 py-3">
             <div className="flex min-w-0 items-center gap-2">
-              <h3 className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+              <h3 className="truncate font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
                 {activeConvo?.name ?? "Conversation"}
               </h3>
               <button

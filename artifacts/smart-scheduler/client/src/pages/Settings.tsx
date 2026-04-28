@@ -92,7 +92,7 @@ export const Settings = (): JSX.Element => {
         {/* Left rail */}
         <aside className="flex w-full shrink-0 flex-col border-b border-[#dddfe5] bg-white md:w-[260px] md:border-b-0 md:border-r">
           <div className="px-4 pb-2 pt-4">
-            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]">
+            <h2 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]">
               Settings
             </h2>
           </div>
@@ -126,7 +126,7 @@ export const Settings = (): JSX.Element => {
         <section className="flex min-w-0 flex-1 flex-col overflow-y-auto">
           <header className="border-b border-[#dddfe5] px-6 py-4">
             <h1
-              className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-black [font-style:var(--title-font-style)]"
+              className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] tracking-[var(--title-letter-spacing)] text-[var(--sui-colors-neutral-b0)] [font-style:var(--title-font-style)]"
               data-testid="text-settings-title"
             >
               {activeCategory.label}
