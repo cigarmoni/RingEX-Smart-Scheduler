@@ -374,7 +374,7 @@ const WidgetsView = ({
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
           placeholder="Search widgets"
-          className="h-9 w-[260px] rounded-full border-[#dddfe5] bg-white pl-9 pr-3 shadow-none"
+          className="h-9 w-[260px] rounded-full border-0 bg-[#f5f6f9] pl-9 pr-3 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
           data-testid="input-search-widgets"
         />
       </div>

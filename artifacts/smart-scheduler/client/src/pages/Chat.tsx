@@ -573,8 +573,8 @@ export const Chat = (): JSX.Element => {
           )}
 
           {/* Composer */}
-          <div className="border-t border-[#dddfe5] bg-white px-4 py-3 sm:px-6">
-            <div className="rounded-lg border border-[#dddfe5] p-2">
+          <div className="bg-white px-4 py-3 sm:px-6">
+            <div className="rounded-lg p-2">
               <Input
                 value={composer}
                 onChange={(e) => setComposer(e.target.value)}
