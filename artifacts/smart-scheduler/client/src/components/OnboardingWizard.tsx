@@ -141,7 +141,7 @@ const CardChrome = ({ step, title, subtitle, children, onSkip }: CardChromeProps
       <p className="text-center text-[15px] leading-5 text-[#323439]">{subtitle}</p>
     </div>
     <Stepper current={step} />
-    <div className="w-full rounded-xl border border-solid border-[#dddfe5] bg-white p-4 sm:p-6">
+    <div className="w-full rounded-xl border border-solid border-[#dddfe5] bg-white p-4 sm:p-6 pt-[0px] pb-[0px]">
       {children}
     </div>
     <button
