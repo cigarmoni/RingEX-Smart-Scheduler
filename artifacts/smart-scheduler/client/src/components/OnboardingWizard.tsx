@@ -111,7 +111,7 @@ const Stepper = ({ current }: StepperProps): JSX.Element => {
                 aria-hidden="true"
               />
             </div>
-            <div className="mt-2 max-w-[120px] px-1 text-center text-[12px] font-medium leading-4 text-black">
+            <div className="mt-2 whitespace-nowrap px-1 text-center text-[12px] font-medium leading-4 text-black">
               {labels[n - 1]}
             </div>
           </div>
