@@ -326,7 +326,6 @@ export const MeetingContent = ({
   const [selectedPastId, setSelectedPastId] = useState<string | null>(null);
   const [pastSearch, setPastSearch] = useState("");
   const [postMeetingTab, setPostMeetingTab] = useState<PostMeetingSubTab>("Notes");
-  const [introOpen, setIntroOpen] = useState(false);
   const [featureIntroOpen, setFeatureIntroOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [shareBookingType, setShareBookingType] = useState("therapy-session-natalie");
@@ -1087,42 +1086,15 @@ export const MeetingContent = ({
                                   </button>
                                 )
                               ) : (
-                                <Popover
-                                  open={introOpen}
-                                  onOpenChange={setIntroOpen}
+                                <button
+                                  type="button"
+                                  onClick={() => setFeatureIntroOpen(true)}
+                                  className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
+                                  data-testid={`button-share-booking-link-${i}`}
                                 >
-                                  <PopoverTrigger asChild>
-                                    <button
-                                      type="button"
-                                      className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
-                                      data-testid={`button-share-booking-link-${i}`}
-                                    >
-                                      <Lightbulb className="h-3.5 w-3.5" />
-                                      Share booking link
-                                    </button>
-                                  </PopoverTrigger>
-                                  <PopoverContent
-                                    side="bottom"
-                                    align="start"
-                                    className="w-[280px] border-0 bg-transparent p-0 shadow-none"
-                                    data-testid="popover-booking-intro"
-                                  >
-                                    <FeatureIntroBanner
-                                      title="Send a booking link"
-                                      description="Share your availability with attendees so they can book a follow-up time that works."
-                                      action={{
-                                        label: "Find out more",
-                                        onClick: () => {
-                                          setIntroOpen(false);
-                                          setFeatureIntroOpen(true);
-                                        },
-                                        testId: "button-intro-find-out-more",
-                                      }}
-                                      onDismiss={() => setIntroOpen(false)}
-                                      dismissTestId="button-intro-dismiss"
-                                    />
-                                  </PopoverContent>
-                                </Popover>
+                                  <Lightbulb className="h-3.5 w-3.5" />
+                                  Share booking link
+                                </button>
                               ))}
                           </div>
                         </li>

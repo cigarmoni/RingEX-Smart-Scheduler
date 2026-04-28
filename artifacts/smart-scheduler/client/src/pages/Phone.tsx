@@ -39,13 +39,7 @@ import {
 import { useLocation } from "wouter";
 import { AppShell } from "@/components/AppShell";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
-import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useFlowParam } from "@/lib/flows";
 
 type IconCmp = ComponentType<SVGProps<SVGSVGElement>>;
@@ -215,7 +209,6 @@ export const PhonePage = (): JSX.Element => {
       return current;
     });
   }, [afterPurchase]);
-  const [showSuggestion, setShowSuggestion] = useState(false);
   const [upsellOpen, setUpsellOpen] = useState(false);
   const [muted, setMuted] = useState(false);
   const [dialedNumber, setDialedNumber] = useState("");
@@ -726,44 +719,18 @@ export const PhonePage = (): JSX.Element => {
                             <li>
                               Jason will send booking link to Christina.
                               <div className="mt-1">
-                                <Popover open={showSuggestion} onOpenChange={setShowSuggestion}>
-                                  <PopoverTrigger asChild>
-                                    <button
-                                      type="button"
-                                      className="inline-flex items-center justify-center gap-[var(--sui-spacing-1)] rounded-[var(--sui-radius-xs)] px-[var(--sui-spacing-1)] py-0.5 font-[family-name:var(--typography-font-family,'Inter',sans-serif)] text-[12px] font-medium leading-[17px] text-[var(--sui-colors-primary-f)] hover:bg-[var(--sui-colors-cobranding-t20)]"
-                                      data-testid="button-share-booking-link"
-                                      aria-label="Share booking link"
-                                    >
-                                      <span className="flex w-[12px] items-center justify-end">
-                                        <ShareBookingLinkIcon size={12} />
-                                      </span>
-                                      Share booking link
-                                    </button>
-                                  </PopoverTrigger>
-                                  <PopoverContent
-                                    side="bottom"
-                                    align="start"
-                                    sideOffset={8}
-                                    collisionPadding={8}
-                                    className="z-[110] w-[280px] border-0 bg-transparent p-0 shadow-none"
-                                    data-testid="popover-suggestion"
-                                  >
-                                    <FeatureIntroBanner
-                                      title="Send a booking link"
-                                      description="Let your customers choose a time based on your availability instead of coordinating schedules manually."
-                                      action={{
-                                        label: "Find out more",
-                                        onClick: () => {
-                                          setShowSuggestion(false);
-                                          setUpsellOpen(true);
-                                        },
-                                        testId: "button-suggestion-find-out-more",
-                                      }}
-                                      onDismiss={() => setShowSuggestion(false)}
-                                      dismissTestId="button-dismiss-suggestion"
-                                    />
-                                  </PopoverContent>
-                                </Popover>
+                                <button
+                                  type="button"
+                                  onClick={() => setUpsellOpen(true)}
+                                  className="inline-flex items-center justify-center gap-[var(--sui-spacing-1)] rounded-[var(--sui-radius-xs)] px-[var(--sui-spacing-1)] py-0.5 font-[family-name:var(--typography-font-family,'Inter',sans-serif)] text-[12px] font-medium leading-[17px] text-[var(--sui-colors-primary-f)] hover:bg-[var(--sui-colors-cobranding-t20)]"
+                                  data-testid="button-share-booking-link"
+                                  aria-label="Share booking link"
+                                >
+                                  <span className="flex w-[12px] items-center justify-end">
+                                    <ShareBookingLinkIcon size={12} />
+                                  </span>
+                                  Share booking link
+                                </button>
                               </div>
                             </li>
                           </ul>

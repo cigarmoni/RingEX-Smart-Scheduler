@@ -175,13 +175,37 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
   const { toast } = useToast();
   const [purchased, setPurchased] = useSmartSchedulerPurchased();
   const shouldAutoOpen = autoOpen && !purchased;
-  const [open, setOpen] = useState(shouldAutoOpen);
-  const [upsellOpen, setUpsellOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [upsellOpen, setUpsellOpen] = useState(shouldAutoOpen);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
-    if (shouldAutoOpen) setOpen(true);
+    if (shouldAutoOpen) setUpsellOpen(true);
   }, [shouldAutoOpen]);
+
+  if (!purchased) {
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => setUpsellOpen(true)}
+          className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
+          data-testid="button-share-booking-link"
+        >
+          <Lightbulb className="h-3 w-3" />
+          Share booking link
+        </button>
+        <AvaUpsellDialog
+          open={upsellOpen}
+          onOpenChange={setUpsellOpen}
+          onFreeTrial={() => {
+            setPurchased(true);
+            toast({ description: "Bookings free trial started." });
+          }}
+        />
+      </>
+    );
+  }
 
   const trigger = (
     <button
@@ -198,13 +222,12 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-        {purchased ? (
-          <PopoverContent
-            side="top"
-            align="start"
-            className="z-[70] w-[400px] rounded-[10px] p-0"
-            data-testid="popover-booking-link-compose"
-          >
+        <PopoverContent
+          side="top"
+          align="start"
+          className="z-[70] w-[400px] rounded-[10px] p-0"
+          data-testid="popover-booking-link-compose"
+        >
             <div className="flex items-center justify-between px-4 pt-4">
               <h4 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] text-black">
                 Share booking link
@@ -284,30 +307,6 @@ const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
               </button>
             </div>
           </PopoverContent>
-        ) : (
-          <PopoverContent
-            side="top"
-            align="start"
-            className="z-[70] w-80 border-0 bg-transparent p-0 shadow-none"
-            data-testid="popover-booking-link-intro"
-          >
-            <FeatureIntroBanner
-              title="Send a booking link"
-              description="Share a link with Andy Lau so they can book a follow-up time based on your availability — no back-and-forth required."
-              action={{
-                label: "Find out more",
-                onClick: () => {
-                  setOpen(false);
-                  setUpsellOpen(true);
-                },
-                testId: "button-booking-link-find-out-more",
-              }}
-              onDismiss={() => setOpen(false)}
-              dismissAriaLabel="Close"
-              dismissTestId="button-booking-link-close"
-            />
-          </PopoverContent>
-        )}
       </Popover>
       <AvaUpsellDialog
         open={upsellOpen}

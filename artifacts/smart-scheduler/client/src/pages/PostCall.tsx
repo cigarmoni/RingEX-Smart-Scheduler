@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { BookingFeatureDialog } from "@/components/BookingFeatureDialog";
-import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -671,6 +670,23 @@ const BookingLinkAction = ({
     toast({ description: "Booking link sent" });
   };
 
+  if (variant === "intro") {
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => setUpsellOpen(true)}
+          className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
+          data-testid="button-share-booking-link"
+        >
+          <Lightbulb className="h-3 w-3" />
+          Share booking link
+        </button>
+        <BookingFeatureDialog open={upsellOpen} onOpenChange={setUpsellOpen} />
+      </>
+    );
+  }
+
   return (
     <>
       <Popover open={open} onOpenChange={handleOpenChange}>
@@ -684,13 +700,12 @@ const BookingLinkAction = ({
             Share booking link
           </button>
         </PopoverTrigger>
-        {variant === "share" ? (
-          <PopoverContent
-            side="top"
-            align="start"
-            className="w-[360px] rounded-xl border border-sui-neutral-b4 bg-white p-4 shadow-lg"
-            data-testid="popover-share-booking-link"
-          >
+        <PopoverContent
+          side="top"
+          align="start"
+          className="w-[360px] rounded-xl border border-sui-neutral-b4 bg-white p-4 shadow-lg"
+          data-testid="popover-share-booking-link"
+        >
             <div className="flex flex-col gap-3">
               <div
                 className="font-headline text-[16px] font-semibold text-black"
@@ -887,29 +902,6 @@ const BookingLinkAction = ({
               </div>
             </div>
           </PopoverContent>
-        ) : (
-          <PopoverContent
-            side="top"
-            align="start"
-            className="w-80 border-0 bg-transparent p-0 shadow-none"
-            data-testid="popover-booking-link-intro"
-          >
-            <FeatureIntroBanner
-              title="Send a booking link"
-              description={`Share a link via message, SMS, or email so ${contactName} can book a time based on your availability — no back-and-forth required.`}
-              action={{
-                label: "Find out more",
-                onClick: () => {
-                  setOpen(false);
-                  setUpsellOpen(true);
-                },
-                testId: "button-booking-link-find-out-more",
-              }}
-              onDismiss={() => setOpen(false)}
-              dismissTestId="button-booking-link-dismiss"
-            />
-          </PopoverContent>
-        )}
       </Popover>
       <BookingFeatureDialog open={upsellOpen} onOpenChange={setUpsellOpen} />
     </>
