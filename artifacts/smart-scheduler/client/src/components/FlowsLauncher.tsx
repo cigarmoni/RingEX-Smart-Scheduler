@@ -98,8 +98,9 @@ export const FlowsLauncher = (): JSX.Element => {
     <div
       style={{
         position: "fixed",
-        bottom: 24,
+        top: "50%",
         right: 24,
+        transform: "translateY(-50%)",
         zIndex: 9999,
       }}
     >
@@ -115,8 +116,8 @@ export const FlowsLauncher = (): JSX.Element => {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          side="top"
-          align="end"
+          side="left"
+          align="center"
           sideOffset={8}
           className="z-[10000] w-56"
           data-testid="panel-flows"
