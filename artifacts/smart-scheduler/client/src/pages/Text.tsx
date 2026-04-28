@@ -339,9 +339,6 @@ export const Text = (): JSX.Element => {
                   }`}
                   data-testid={`row-text-conversation-${convo.id}`}
                 >
-                  {convo.hasIndicator && (
-                    <span className="absolute left-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-[#0040dd]" />
-                  )}
                   <Avatar
                     initials={convo.initials}
                     color={convo.color}
