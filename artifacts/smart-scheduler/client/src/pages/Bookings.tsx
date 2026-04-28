@@ -171,21 +171,21 @@ const SmartSchedulerContent = ({
               >
                 Set up your bookings in 3 steps
               </h3>
-              <ol className="flex w-full max-w-[520px] items-start justify-between gap-3 sm:gap-6">
+              <ol className="flex w-full flex-wrap items-start justify-center gap-x-10 gap-y-4 sm:gap-x-16">
                 {[
                   { Icon: Calendar, label: "Connect calendar", testId: "step-connect-calendar" },
                   { Icon: Clock, label: "Set availability", testId: "step-set-availability" },
-                  { Icon: ClipboardList, label: "Create new appointment type", testId: "step-create-appointment-type" },
+                  { Icon: ClipboardList, label: "Create booking type", testId: "step-create-appointment-type" },
                 ].map(({ Icon, label, testId }) => (
                   <li
                     key={label}
-                    className="flex flex-1 flex-col items-center gap-2 text-center"
+                    className="flex flex-col items-center gap-2 text-center"
                     data-testid={testId}
                   >
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0040dd1a] sm:h-14 sm:w-14">
                       <Icon className="h-5 w-5 text-[#0040dd] sm:h-6 sm:w-6" />
                     </div>
-                    <span className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] text-black [font-style:var(--subtitle-mini-font-style)]">
+                    <span className="whitespace-nowrap font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] text-black [font-style:var(--subtitle-mini-font-style)]">
                       {label}
                     </span>
                   </li>
