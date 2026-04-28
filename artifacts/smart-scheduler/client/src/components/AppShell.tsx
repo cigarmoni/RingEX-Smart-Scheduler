@@ -32,6 +32,7 @@ import { AvaDrawer } from "@/components/AvaDrawer";
 import { useAva } from "@/contexts/AvaContext";
 import { FlowsLauncher } from "@/components/FlowsLauncher";
 import { useFlowParam, useCurrentPhase, hrefForPhase } from "@/lib/flows";
+import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
 
 const topActions = [
   { alt: "Compact view MD", src: "/figmaAssets/compactviewmd.svg" },
@@ -115,6 +116,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
     navigate(phasedHref);
   };
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [smartSchedulerPurchased] = useSmartSchedulerPurchased();
   const isMoreItemActive = (href?: string) => !!href && href !== "/" && location === href;
   const moreMenuHrefs = [
     ...moreMenuItemsTop.map((i) => i.href),
@@ -293,7 +295,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                             <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                               {menuItem.label}
                             </span>
-                            {menuItem.hasIndicator && (
+                            {menuItem.hasIndicator && !smartSchedulerPurchased && (
                               <span className="ml-1 h-2 w-2 rounded-full bg-[#fe8624]" />
                             )}
                           </div>
@@ -436,7 +438,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                         <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                           {menuItem.label}
                         </span>
-                        {menuItem.hasIndicator && (
+                        {menuItem.hasIndicator && !smartSchedulerPurchased && (
                           <span className="ml-1 h-2 w-2 rounded-full bg-[#fe8624]" />
                         )}
                       </div>
