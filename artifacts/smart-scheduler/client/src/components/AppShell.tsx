@@ -295,7 +295,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                             <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                               {menuItem.label}
                             </span>
-                            {menuItem.hasIndicator && !smartSchedulerPurchased && (
+                            {menuItem.hasIndicator && !smartSchedulerPurchased && phase !== "after" && (
                               <span className="ml-1 h-2 w-2 rounded-full bg-[#fe8624]" />
                             )}
                           </div>
@@ -438,7 +438,7 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                         <span className={`font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] leading-[var(--subtitle-mini-line-height)] tracking-[var(--subtitle-mini-letter-spacing)] [font-style:var(--subtitle-mini-font-style)] ${active ? "font-semibold" : ""}`}>
                           {menuItem.label}
                         </span>
-                        {menuItem.hasIndicator && !smartSchedulerPurchased && (
+                        {menuItem.hasIndicator && !smartSchedulerPurchased && phase !== "after" && (
                           <span className="ml-1 h-2 w-2 rounded-full bg-[#fe8624]" />
                         )}
                       </div>
