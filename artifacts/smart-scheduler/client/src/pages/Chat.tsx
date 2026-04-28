@@ -585,10 +585,10 @@ export const Chat = (): JSX.Element => {
                 className="h-auto border-0 p-2 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                 data-testid="input-composer"
               />
-              <div className="mt-1 flex items-center justify-between">
+              <div className="mt-1 flex flex-col gap-2">
                 <button
                   type="button"
-                  className="flex items-center gap-1 rounded-md border border-[#dddfe5] px-2 py-1 text-xs text-[#56585e] hover:bg-[#f5f6f9]"
+                  className="flex w-fit items-center gap-1 rounded-md border border-[#dddfe5] px-2 py-1 text-xs text-[#56585e] hover:bg-[#f5f6f9]"
                   data-testid="button-draft-for-me"
                 >
                   <Wand2 className="h-3 w-3" />
