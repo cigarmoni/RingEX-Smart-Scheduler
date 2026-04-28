@@ -19,7 +19,6 @@ import {
   AtSign,
   Type,
   Image as ImageIcon,
-  Send,
   Wand2,
   ListTodo,
   Workflow,
@@ -34,6 +33,7 @@ import {
   ChevronRight,
   Globe,
 } from "lucide-react";
+import { SendFilledMd } from "@ringcentral/spring-icon";
 import { AppShell } from "@/components/AppShell";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { Input } from "@/components/ui/input";
@@ -594,7 +594,8 @@ export const Chat = (): JSX.Element => {
                   <Wand2 className="h-3 w-3" />
                   Draft for me
                 </button>
-                <div className="flex items-center gap-0.5 text-[#56585e]">
+                <div className="flex items-center justify-between text-[#56585e]">
+                  <div className="flex items-center gap-0.5">
                   <button type="button" className="rounded p-1.5 hover:bg-[#f5f6f9]" aria-label="Mention" data-testid="button-mention">
                     <AtSign className="h-4 w-4" />
                   </button>
@@ -703,13 +704,15 @@ export const Chat = (): JSX.Element => {
                       </div>
                     </PopoverContent>
                   </Popover>
+                  </div>
                   <button
                     type="button"
-                    className="ml-1 rounded p-1.5 text-[#0040dd] hover:bg-[#f5f6f9]"
+                    disabled={composer.trim().length === 0}
+                    className="rounded p-1.5 text-[#0040dd] hover:bg-[#f5f6f9] disabled:cursor-not-allowed disabled:text-[#a8a9ad] disabled:hover:bg-transparent [&_svg]:fill-current"
                     aria-label="Send"
                     data-testid="button-send"
                   >
-                    <Send className="h-4 w-4" />
+                    <SendFilledMd width={16} height={16} />
                   </button>
                 </div>
               </div>

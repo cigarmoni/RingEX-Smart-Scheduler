@@ -58,3 +58,12 @@ When fixing this for one icon, audit every other Spring icon usage in the same c
   - Temporarily flip the controlling state to its visible value, screenshot, then revert.
   - Or drive the click via tooling.
 - When the user says something looks wrong, that is ground truth. Investigate the live render rather than re-defending the spec.
+- The Replit dev preview overlays a dark help/feedback FAB at the bottom-right of the viewport. It can occlude any element that lives in the bottom-right corner of the rendered app (e.g. a Send icon at the right end of a composer toolbar). When confirming such elements, either resize the viewport, temporarily enlarge/recolor the element to verify position, or trust the DOM after a positioning sanity check — the FAB is not part of the deployed app.
+
+## Composer recipe (Chat + Text)
+
+- `Chat.tsx` composer (around line 580–720) lays out controls beneath the input as `flex flex-col gap-2`:
+  - Row 1: `Draft for me` button on its own row, sized `w-fit`.
+  - Row 2: `flex items-center justify-between` — left side is the icon cluster wrapped in `<div className="flex items-center gap-0.5">`; right side is the Send button as a sibling so `justify-between` anchors it to the right edge.
+- Send button uses `SendFilledMd` from `@ringcentral/spring-icon` (NOT lucide `Send`) for the proper filled paper-plane glyph. Apply `[&_svg]:fill-current` so the SVG path picks up `text-[color]`. Disabled state: `disabled={composer.trim().length === 0}` plus `disabled:text-[#a8a9ad] disabled:cursor-not-allowed disabled:hover:bg-transparent`.
+- `Text.tsx` composer toolbar uses `AiWriterAltMd` (lines + pencil + sparkle) for the text-templates / AI-compose IconButton — closest Spring match for Figma node 49-137602. The trailing icon is `CalendarMd` ("Share booking link"), which opens the `BookingFeatureDialog` when the user has not purchased Bookings, and the booking-types popover when they have.
