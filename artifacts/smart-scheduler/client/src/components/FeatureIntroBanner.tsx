@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { UpgradeMd, Xmd } from "@ringcentral/spring-icon";
+import { Xmd } from "@ringcentral/spring-icon";
 import { cn } from "@/lib/utils";
+import upsellChip from "@assets/upsell-chip-cropped.png";
 
 export interface FeatureIntroBannerAction {
   label: string;
@@ -47,24 +48,12 @@ export const FeatureIntroBanner = ({
       data-testid={rest["data-testid"]}
     >
       {/* Add-on chip — pinned to the banner's top-left corner */}
-      <div
-        className="absolute left-2 top-2 flex h-7 items-center gap-1 rounded-[32px] border-2 border-solid bg-white pl-[6px] pr-[8px] py-[6px]"
-        style={{ borderColor: "rgba(255,122,0,0.2)" }}
-        aria-label={tagLabel}
-      >
-        <span
-          className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[8.4px] text-white [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-current"
-          style={{
-            backgroundImage:
-              "linear-gradient(111.65deg, #ff670a 1.69%, #ff892c 31.18%, #ff9750 45.93%, #ff9876 50.85%, #ffa1b7 80.34%, #ffd1e3 100%)",
-          }}
-        >
-          <UpgradeMd />
-        </span>
-        <span className="text-[12px] font-medium leading-[1.2] text-[var(--sui-colors-neutral-static-b0,black)] whitespace-nowrap">
-          {tagLabel}
-        </span>
-      </div>
+      <img
+        src={upsellChip}
+        alt={tagLabel}
+        className="absolute left-2 top-2 block h-7 w-auto select-none"
+        draggable={false}
+      />
 
       {onDismiss && (
         <button
