@@ -37,7 +37,7 @@ export const FeatureIntroBanner = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-start gap-4 rounded-[20px] border border-solid border-transparent p-4 pt-11",
+        "relative flex w-full flex-col items-start gap-2 rounded-[20px] border border-solid border-transparent p-4",
         className,
       )}
       style={{
@@ -51,11 +51,11 @@ export const FeatureIntroBanner = ({
       }}
       data-testid={rest["data-testid"]}
     >
-      {/* Add-on chip — pinned to the banner's top-left corner */}
+      {/* Add-on chip — first flow child, sits inside the 16px padded area */}
       <img
         src={upsellChip}
         alt={tagLabel}
-        className="absolute left-2 top-2 block h-7 w-auto select-none"
+        className="block h-7 w-auto select-none"
         draggable={false}
       />
 
