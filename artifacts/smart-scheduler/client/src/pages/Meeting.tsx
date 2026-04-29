@@ -1550,7 +1550,7 @@ export const MeetingContent = ({
                 Create link
               </Button>
 
-              <div className="flex h-9 items-stretch overflow-hidden rounded-[10px] bg-[#0040dd]">
+              <div className="flex h-9 items-stretch overflow-hidden rounded-[10px] border border-[#0040dd] bg-white">
                 <button
                   type="button"
                   onClick={() => {
@@ -1566,7 +1566,7 @@ export const MeetingContent = ({
                       description: "Your meeting draft will appear in your calendar.",
                     });
                   }}
-                  className="flex items-center gap-1.5 px-3 font-subtitle text-[length:var(--subtitle-font-size)] text-white hover:bg-[#0037be]"
+                  className="flex items-center gap-1.5 px-3 font-subtitle text-[length:var(--subtitle-font-size)] text-[#0040dd] hover:bg-[#0040dd0d]"
                   data-testid="button-schedule-meeting-use-calendar"
                 >
                   <span className="inline-flex h-4 w-4 items-center justify-center [&_svg]:h-4 [&_svg]:w-4">
@@ -1584,7 +1584,7 @@ export const MeetingContent = ({
                       ? "Use Google Calendar"
                       : "Use iCal"}
                 </button>
-                <span className="w-px bg-white/25" aria-hidden="true" />
+                <span className="w-px bg-[#0040dd]/25" aria-hidden="true" />
                 <Popover
                   open={scheduleProviderMenuOpen}
                   onOpenChange={setScheduleProviderMenuOpen}
@@ -1592,11 +1592,11 @@ export const MeetingContent = ({
                   <PopoverTrigger asChild>
                     <button
                       type="button"
-                      className="flex items-center justify-center px-2 text-white hover:bg-[#0037be]"
+                      className="flex items-center justify-center px-2 text-[#0040dd] hover:bg-[#0040dd0d]"
                       aria-label="Choose calendar provider"
                       data-testid="button-schedule-meeting-provider-menu"
                     >
-                      <span className="inline-flex h-3 w-3 items-center justify-center [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-white">
+                      <span className="inline-flex h-3 w-3 items-center justify-center [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-[#0040dd]">
                         <CaretDownMd />
                       </span>
                     </button>
