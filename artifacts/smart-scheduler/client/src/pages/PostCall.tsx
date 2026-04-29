@@ -898,7 +898,6 @@ const BookingLinkAction = ({
             </div>
           </PopoverContent>
       </Popover>
-      <BookingFeatureDialog open={upsellOpen} onOpenChange={setUpsellOpen} />
     </>
   );
 };
