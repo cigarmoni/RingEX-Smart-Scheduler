@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bell, Calendar, Lightbulb } from "lucide-react";
+import { Bell, Calendar, CalendarPlus } from "lucide-react";
 
 export interface ScheduleLinkMenuProps {
   children: ReactNode;
@@ -49,7 +49,7 @@ export const ScheduleLinkMenu = ({
         <button
           type="button"
           className={
-            "inline cursor-pointer text-sui-cobranding underline decoration-dotted underline-offset-[3px] hover:decoration-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sui-cobranding/40 focus-visible:rounded-sm" +
+            "inline cursor-pointer text-sui-cobranding underline-offset-[3px] hover:underline hover:decoration-dotted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sui-cobranding/40 focus-visible:rounded-sm" +
             (className ? " " + className : "")
           }
           data-testid={`${testIdPrefix}-trigger`}
@@ -68,7 +68,7 @@ export const ScheduleLinkMenu = ({
           className="flex items-center gap-2 rounded-md px-2 py-1.5 font-main-text text-[length:var(--main-text-font-size)] text-[var(--sui-colors-neutral-b0)] focus:bg-[var(--sui-colors-neutral-b5)] focus:text-[var(--sui-colors-neutral-b0)]"
           data-testid={`${testIdPrefix}-item-schedule-meeting`}
         >
-          <Calendar className="h-4 w-4 text-[var(--sui-colors-neutral-b1)]" />
+          <CalendarPlus className="h-4 w-4 text-[var(--sui-colors-neutral-b1)]" />
           <span>Schedule a meeting</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -84,7 +84,7 @@ export const ScheduleLinkMenu = ({
           className="flex items-center gap-2 rounded-md px-2 py-1.5 font-main-text text-[length:var(--main-text-font-size)] text-[var(--sui-colors-neutral-b0)] focus:bg-[var(--sui-colors-neutral-b5)] focus:text-[var(--sui-colors-neutral-b0)]"
           data-testid={`${testIdPrefix}-item-share-booking`}
         >
-          <Lightbulb className="h-4 w-4 text-[var(--sui-colors-neutral-b1)]" />
+          <Calendar className="h-4 w-4 text-[var(--sui-colors-neutral-b1)]" />
           <span>Share a booking link</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
