@@ -66,7 +66,16 @@ function FeatureIntroBanner() {
 export default function ScheduleDialogBannerUnderTitle() {
   return (
     <div className="flex min-h-screen w-full items-start justify-center bg-black/30 p-8 font-sans antialiased">
-      <div className="flex w-full max-w-[560px] flex-col gap-5 rounded-xl bg-white p-6 shadow-2xl">
+      <div className="relative flex w-full max-w-[560px] flex-col gap-5 rounded-xl bg-white p-6 shadow-2xl">
+        {/* Close button — top right, Spring UI pattern */}
+        <button
+          type="button"
+          aria-label="Close"
+          className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full text-[#323439] transition-colors hover:bg-[#f5f6f9]"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
         {/* Title */}
         <h2 className="text-[20px] font-semibold text-black">
           Schedule meeting
