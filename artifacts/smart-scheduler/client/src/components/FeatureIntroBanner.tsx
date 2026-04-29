@@ -37,7 +37,7 @@ export const FeatureIntroBanner = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-start gap-4 rounded-[20px] border border-solid border-transparent p-4 pt-9",
+        "relative flex w-full flex-col items-start gap-4 rounded-[20px] border border-solid border-transparent p-4 pt-11",
         className,
       )}
       style={{
