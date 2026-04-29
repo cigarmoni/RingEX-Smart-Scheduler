@@ -54,14 +54,23 @@ export const FeatureIntroBanner = ({
       }}
       data-testid={rest["data-testid"]}
     >
-      {/* Add-on chip — pinned to the banner's top-left corner at its
-          previous size. */}
-      <img
-        src={upsellChip}
-        alt={tagLabel}
-        className="pointer-events-none absolute left-0 top-0 block h-7 w-auto select-none"
-        draggable={false}
-      />
+      {/* Add-on chip — pinned to the banner's top-left corner. The PNG
+          source (189x171) embeds a 73x28 pill at offset +16,+16 with a
+          large drop-shadow halo extending right and below. We render the
+          image at its natural size inside a 73x28 overflow-hidden window
+          and offset it so only the pill is visible. */}
+      <div
+        className="pointer-events-none absolute left-0 top-0 h-7 w-[73px] overflow-hidden"
+        aria-hidden="true"
+      >
+        <img
+          src={upsellChip}
+          alt={tagLabel}
+          className="block max-w-none select-none"
+          style={{ marginLeft: "-16px", marginTop: "-16px" }}
+          draggable={false}
+        />
+      </div>
 
       {onDismiss && (
         <button
