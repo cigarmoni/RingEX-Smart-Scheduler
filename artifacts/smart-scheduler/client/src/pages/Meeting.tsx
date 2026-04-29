@@ -1464,7 +1464,13 @@ export const MeetingContent = ({
               data-testid="banner-schedule-meeting-intro"
               tagLabel="Add-on"
               title="Smart scheduler"
-              description="Let invitees pick a time that works for both of you. Create a booking link in seconds."
+              description={
+                <>
+                  Let invitees pick a time that works for both of you. Create a
+                  booking link in seconds. Turn on{" "}
+                  <strong className="font-bold">Bookings</strong> today.
+                </>
+              }
               action={{
                 label: "Learn more",
                 testId: "link-schedule-meeting-banner-learn-more",
