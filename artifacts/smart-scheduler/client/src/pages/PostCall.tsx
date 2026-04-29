@@ -515,8 +515,15 @@ export const PostCall = (): JSX.Element => {
                       </h5>
                       <ul className="mt-1 list-disc space-y-1 pl-5">
                         <li>
-                          Sarah tried to find out the common time slot.
-                          <div className="mt-1 pl-1">
+                          <a
+                            className="font-medium text-[#0040dd] hover:underline"
+                            href="#"
+                            data-testid="link-task-assignee-sarah"
+                          >
+                            Sarah
+                          </a>{" "}
+                          tried to find out the common time slot.
+                          <div className="pt-1">
                             <BookingLinkAction contactName={active.name} variant={sharePopoverVariant ? "share" : "intro"} />
                           </div>
                         </li>
@@ -679,9 +686,24 @@ const BookingLinkAction = ({
     toast({ description: "Booking link sent" });
   };
 
+  const triggerClassName =
+    "inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10";
+
   if (variant === "intro") {
     return (
-      <BookingFeatureDialog open={open} onOpenChange={handleOpenChange} />
+      <>
+        <button
+          type="button"
+          onClick={() => handleOpenChange(true)}
+          className={triggerClassName}
+          data-testid="button-share-booking-link"
+          aria-label="Share booking link"
+        >
+          <Lightbulb className="h-3 w-3" />
+          Share booking link
+        </button>
+        <BookingFeatureDialog open={open} onOpenChange={handleOpenChange} />
+      </>
     );
   }
 
@@ -689,11 +711,15 @@ const BookingLinkAction = ({
     <>
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
-          <span
-            aria-hidden="true"
-            className="pointer-events-none invisible h-0 w-0"
-            data-testid="anchor-share-booking-link"
-          />
+          <button
+            type="button"
+            className={triggerClassName}
+            data-testid="button-share-booking-link"
+            aria-label="Share booking link"
+          >
+            <Lightbulb className="h-3 w-3" />
+            Share booking link
+          </button>
         </PopoverTrigger>
         <PopoverContent
           side="top"
