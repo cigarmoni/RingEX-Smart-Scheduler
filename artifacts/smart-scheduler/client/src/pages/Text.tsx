@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { BookingFeatureDialog } from "@/components/BookingFeatureDialog";
+import { UpgradeIndicator } from "@/components/UpgradeIndicator";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -25,7 +26,6 @@ import { useBookingTypes, type BookingType } from "@/lib/bookingTypes";
 import { IconButton } from "@ringcentral/spring-ui";
 import {
   AttachMd,
-  CalendarMd,
   EmojiMd,
   ImageMd,
   SendMd,
@@ -33,6 +33,7 @@ import {
   SearchMd,
   ReplyMd,
   AiWriterAltMd,
+  OverflowMd,
 } from "@ringcentral/spring-icon";
 
 type Conversation = {
@@ -204,6 +205,7 @@ export const Text = (): JSX.Element => {
   const [composer, setComposer] = useState("");
   const [bookingIntroOpen, setBookingIntroOpen] = useState(false);
   const [composerMoreOpen, setComposerMoreOpen] = useState(false);
+  const [bookingPickerOpen, setBookingPickerOpen] = useState(false);
   const [templatePopoverOpen, setTemplatePopoverOpen] = useState(false);
   const [templateTab, setTemplateTab] = useState<"personal" | "company">("personal");
   const [templateSearch, setTemplateSearch] = useState("");
@@ -228,7 +230,7 @@ export const Text = (): JSX.Element => {
       el.insertAdjacentHTML("beforeend", html);
     }
     setComposer(el.textContent ?? "");
-    setComposerMoreOpen(false);
+    setBookingPickerOpen(false);
     el.focus();
   };
 
@@ -264,6 +266,7 @@ export const Text = (): JSX.Element => {
     setTemplateSearch("");
     setTemplatePopoverOpen(false);
     setComposerMoreOpen(false);
+    setBookingPickerOpen(false);
   }, [flow]);
 
   const activeConvo = conversations.find((c) => c.id === activeConvoId);
@@ -625,68 +628,84 @@ export const Text = (): JSX.Element => {
                     data-testid="button-text-image"
                     TooltipProps={{ title: "Insert image" }}
                   />
-                  {!isPurchased ? (
-                    <span className="inline-flex">
-                      <IconButton
-                        symbol={CalendarMd as unknown as React.ComponentType}
-                        variant="icon"
-                        color="neutral"
-                        size="medium"
-                        aria-label="Share booking link"
-                        data-testid="button-text-schedule"
-                        TooltipProps={{ title: "Share booking link" }}
-                        onClick={() => setBookingIntroOpen(true)}
+                  <Popover open={composerMoreOpen} onOpenChange={setComposerMoreOpen}>
+                    <PopoverTrigger asChild>
+                      <span className="inline-flex">
+                        <IconButton
+                          symbol={OverflowMd as unknown as React.ComponentType}
+                          variant="icon"
+                          color="neutral"
+                          size="medium"
+                          aria-label="More"
+                          data-testid="button-text-composer-more"
+                          TooltipProps={{ title: "More" }}
+                        />
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="end"
+                      side="top"
+                      sideOffset={8}
+                      className="w-56 rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-1.5 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                      data-testid="popover-text-composer-more"
+                    >
+                      <ComposerMenuItem
+                        icon={<Calendar className="h-4 w-4" />}
+                        label="Share booking link"
+                        testId="menu-text-share-booking-link"
+                        trailing={!isPurchased ? <UpgradeIndicator /> : undefined}
+                        onClick={() => {
+                          setComposerMoreOpen(false);
+                          if (isPurchased) {
+                            setBookingPickerOpen(true);
+                          } else {
+                            setBookingIntroOpen(true);
+                          }
+                        }}
                       />
-                    </span>
-                  ) : (
-                    <Popover open={composerMoreOpen} onOpenChange={setComposerMoreOpen}>
-                      <PopoverTrigger asChild>
-                        <span className="inline-flex">
-                          <IconButton
-                            symbol={CalendarMd as unknown as React.ComponentType}
-                            variant="icon"
-                            color="neutral"
-                            size="medium"
-                            aria-label="Share booking link"
-                            data-testid="button-text-schedule"
-                            TooltipProps={{ title: "Share booking link" }}
-                          />
-                        </span>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        align="end"
-                        side="top"
-                        sideOffset={8}
-                        className="w-72 rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
-                        data-testid="popover-text-booking-link"
-                      >
-                        <div className="px-2 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
-                          Insert booking link
-                        </div>
-                        <div className="flex flex-col">
-                          {bookingTypes.map((bt) => (
-                            <button
-                              key={bt.id}
-                              type="button"
-                              onClick={() => handleInsertBookingLink(bt)}
-                              className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
-                              data-testid={`text-booking-type-${bt.id}`}
-                            >
-                              <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
-                              <div className="min-w-0 flex-1">
-                                <div className="truncate text-sm font-semibold text-black">
-                                  {bt.title}
-                                </div>
-                                <div className="truncate text-xs text-[#56585e]">
-                                  {bt.duration}
-                                </div>
+                    </PopoverContent>
+                  </Popover>
+                  <Popover open={bookingPickerOpen} onOpenChange={setBookingPickerOpen}>
+                    <PopoverTrigger asChild>
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none invisible h-0 w-0"
+                        data-testid="anchor-text-booking-picker"
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="end"
+                      side="top"
+                      sideOffset={8}
+                      className="w-72 rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-white p-2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                      data-testid="popover-text-booking-link"
+                    >
+                      <div className="px-2 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
+                        Insert booking link
+                      </div>
+                      <div className="flex flex-col">
+                        {bookingTypes.map((bt) => (
+                          <button
+                            key={bt.id}
+                            type="button"
+                            onClick={() => handleInsertBookingLink(bt)}
+                            className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
+                            data-testid={`text-booking-type-${bt.id}`}
+                          >
+                            <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
+                            <div className="min-w-0 flex-1">
+                              <div className="truncate text-sm font-semibold text-black">
+                                {bt.title}
                               </div>
-                            </button>
-                          ))}
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  )}
+                              <div className="truncate text-xs text-[#56585e]">
+                                {bt.duration}
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <IconButton
                   symbol={SendMd as unknown as React.ComponentType}
@@ -708,6 +727,35 @@ export const Text = (): JSX.Element => {
     </>
   );
 };
+
+type ComposerMenuItemProps = {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  testId?: string;
+  trailing?: React.ReactNode;
+};
+
+const ComposerMenuItem = ({
+  icon,
+  label,
+  onClick,
+  testId,
+  trailing,
+}: ComposerMenuItemProps) => (
+  <button
+    type="button"
+    onClick={onClick}
+    data-testid={testId}
+    className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-[#323439] hover:bg-[#f5f6f9]"
+  >
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center text-[#323439]">
+      {icon}
+    </span>
+    <span className="flex-1 truncate">{label}</span>
+    {trailing ? <span className="ml-auto flex shrink-0 items-center">{trailing}</span> : null}
+  </button>
+);
 
 const DaySeparator = ({ label }: { label: string }) => (
   <div className="text-center text-xs text-[#56585e]">{label}</div>
