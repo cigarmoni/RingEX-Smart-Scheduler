@@ -36,9 +36,14 @@ export const FeatureIntroBanner = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-start gap-4 rounded-[20px] border border-solid border-[#ffadad] bg-[var(--sui-colors-neutral-base,white)] p-4 pt-9",
+        "relative flex w-full flex-col items-start gap-4 rounded-[20px] border border-solid border-transparent p-4 pt-9",
         className,
       )}
+      style={{
+        background:
+          "linear-gradient(var(--sui-colors-neutral-base,#fff), var(--sui-colors-neutral-base,#fff)) padding-box, " +
+          "radial-gradient(140% 110% at 100% 0%, #FF5C00 0%, #FF8A56 18%, #FFADAD 48%, rgba(255,173,173,0.35) 100%) border-box",
+      }}
       data-testid={rest["data-testid"]}
     >
       {/* Add-on chip — pinned to the banner's top-left corner */}
