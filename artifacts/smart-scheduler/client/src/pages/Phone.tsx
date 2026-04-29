@@ -717,18 +717,23 @@ export const PhonePage = (): JSX.Element => {
                           <p className={`mt-2 text-sm font-semibold ${SUI_TEXT}`}>Tasks</p>
                           <ul className={`mt-1 list-disc space-y-1 pl-5 text-sm ${SUI_TEXT}`}>
                             <li>
-                              Jason will send booking link to Christina.
-                              <div className="mt-1">
+                              <a
+                                className="font-medium text-[#0040dd] hover:underline"
+                                href="#"
+                                data-testid="link-task-assignee-jason"
+                              >
+                                Jason
+                              </a>{" "}
+                              will send booking link to Christina.
+                              <div className="pt-1">
                                 <button
                                   type="button"
                                   onClick={() => setUpsellOpen(true)}
-                                  className="inline-flex items-center justify-center gap-[var(--sui-spacing-1)] rounded-[var(--sui-radius-xs)] px-[var(--sui-spacing-1)] py-0.5 font-[family-name:var(--typography-font-family,'Inter',sans-serif)] text-[12px] font-medium leading-[17px] text-[var(--sui-colors-primary-f)] hover:bg-[var(--sui-colors-cobranding-t20)]"
+                                  className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
                                   data-testid="button-share-booking-link"
                                   aria-label="Share booking link"
                                 >
-                                  <span className="flex w-[12px] items-center justify-end">
-                                    <ShareBookingLinkIcon size={12} />
-                                  </span>
+                                  <ShareBookingLinkIcon size={12} />
                                   Share booking link
                                 </button>
                               </div>
