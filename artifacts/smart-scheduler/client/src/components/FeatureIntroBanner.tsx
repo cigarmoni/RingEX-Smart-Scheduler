@@ -43,11 +43,14 @@ export const FeatureIntroBanner = ({
       style={{
         background:
           "linear-gradient(var(--sui-colors-neutral-base,#fff), var(--sui-colors-neutral-base,#fff)) padding-box, " +
-          "radial-gradient(140% 110% at 100% 0%, " +
+          "radial-gradient(120% 100% at 0% 110%, " +
+          "rgba(var(--s-ai-accent-2), 0.7) 0%, " +
+          "rgba(var(--s-ai-accent-2), 0) 75%) border-box, " +
+          "radial-gradient(170% 140% at 100% 0%, " +
           "rgb(var(--s-ai-accent-0)) 0%, " +
-          "rgb(var(--s-ai-accent-1)) 22%, " +
-          "rgb(var(--s-ai-accent-2)) 55%, " +
-          "rgba(var(--s-ai-accent-2), 0.25) 100%) border-box",
+          "rgb(var(--s-ai-accent-1)) 25%, " +
+          "rgb(var(--s-ai-accent-2)) 60%, " +
+          "rgba(var(--s-ai-accent-2), 0.55) 100%) border-box",
       }}
       data-testid={rest["data-testid"]}
     >
@@ -64,7 +67,7 @@ export const FeatureIntroBanner = ({
           type="button"
           onClick={onDismiss}
           aria-label={dismissAriaLabel}
-          className="absolute right-2 top-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
+          className="absolute right-4 top-4 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
           data-testid={dismissTestId}
         >
           <Xmd />
