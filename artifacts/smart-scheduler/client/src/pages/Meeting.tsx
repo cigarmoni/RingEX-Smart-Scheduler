@@ -1452,13 +1452,6 @@ export const MeetingContent = ({
             </DialogTitle>
           </DialogHeader>
 
-          <p
-            className="font-main-text text-[length:var(--main-text-font-size)] leading-[var(--main-text-line-height)] text-[#323439]"
-            data-testid="text-schedule-meeting-description"
-          >
-            Schedule a meeting in your calendar or create a link to share instantly.
-          </p>
-
           {!scheduleBannerDismissed && (
             <FeatureIntroBanner
               data-testid="banner-schedule-meeting-intro"
@@ -1486,6 +1479,13 @@ export const MeetingContent = ({
               dismissTestId="button-schedule-meeting-banner-dismiss"
             />
           )}
+
+          <p
+            className="font-main-text text-[length:var(--main-text-font-size)] leading-[var(--main-text-line-height)] text-[#323439]"
+            data-testid="text-schedule-meeting-description"
+          >
+            Schedule a meeting in your calendar or create a link to share instantly.
+          </p>
 
           <DialogFooter className="!justify-between gap-3 sm:!justify-between">
             <Popover open={scheduleSettingsOpen} onOpenChange={setScheduleSettingsOpen}>
