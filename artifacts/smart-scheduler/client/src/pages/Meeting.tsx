@@ -919,6 +919,7 @@ export const MeetingContent = ({
                                 to coordinate{" "}
                                 <ScheduleLinkMenu
                                   testIdPrefix={`schedule-link-${i}`}
+                                  showShareUpgradeIndicator={!bookingLinkPurchased}
                                   onShareBookingLink={() => {
                                     if (!bookingLinkPurchased) {
                                       setFeatureIntroOpen(true);

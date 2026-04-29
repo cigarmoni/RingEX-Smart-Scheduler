@@ -36,6 +36,7 @@ import {
 import { SendFilledMd } from "@ringcentral/spring-icon";
 import { AppShell } from "@/components/AppShell";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
+import { UpgradeIndicator } from "@/components/UpgradeIndicator";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -643,6 +644,7 @@ export const Chat = (): JSX.Element => {
                         icon={<Calendar className="h-4 w-4" />}
                         label="Share booking link"
                         testId="menu-share-booking-link"
+                        trailing={!isPurchased ? <UpgradeIndicator /> : undefined}
                         onClick={() => {
                           setMoreOpen(false);
                           if (isPurchased) {
@@ -769,11 +771,13 @@ const ComposerMenuItem = ({
   label,
   onClick,
   testId,
+  trailing,
 }: {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
   testId: string;
+  trailing?: React.ReactNode;
 }) => (
   <button
     type="button"
@@ -783,6 +787,9 @@ const ComposerMenuItem = ({
   >
     <span className="text-[#56585e]">{icon}</span>
     <span className="font-medium">{label}</span>
+    {trailing && (
+      <span className="ml-auto flex items-center">{trailing}</span>
+    )}
   </button>
 );
 

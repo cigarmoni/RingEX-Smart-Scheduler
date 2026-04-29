@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Bell, Calendar, CalendarPlus } from "lucide-react";
+import { UpgradeIndicator } from "@/components/UpgradeIndicator";
 
 export interface ScheduleLinkMenuProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ export interface ScheduleLinkMenuProps {
   onAddToReminders?: () => void;
   className?: string;
   testIdPrefix?: string;
+  showShareUpgradeIndicator?: boolean;
 }
 
 export const ScheduleLinkMenu = ({
@@ -24,6 +26,7 @@ export const ScheduleLinkMenu = ({
   onAddToReminders,
   className,
   testIdPrefix = "schedule-link",
+  showShareUpgradeIndicator = false,
 }: ScheduleLinkMenuProps) => {
   const { toast } = useToast();
 
@@ -86,6 +89,9 @@ export const ScheduleLinkMenu = ({
         >
           <Calendar className="h-4 w-4 text-[var(--sui-colors-neutral-b1)]" />
           <span>Share a booking link</span>
+          {showShareUpgradeIndicator && (
+            <UpgradeIndicator className="ml-auto" />
+          )}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
