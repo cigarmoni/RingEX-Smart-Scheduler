@@ -1463,12 +1463,12 @@ export const MeetingContent = ({
             <FeatureIntroBanner
               data-testid="banner-schedule-meeting-intro"
               tagLabel="Add-on"
-              title="Smart scheduler"
+              title="Let invitees book themselves"
               description={
                 <>
-                  Let invitees pick a time that works for both of you. Create a
-                  booking link in seconds. Turn on{" "}
-                  <strong className="font-bold">Bookings</strong> today.
+                  Turn on <strong className="font-bold">Bookings</strong> to
+                  share one link. Invitees see when you're free and grab a slot
+                  in seconds.
                 </>
               }
               action={{
