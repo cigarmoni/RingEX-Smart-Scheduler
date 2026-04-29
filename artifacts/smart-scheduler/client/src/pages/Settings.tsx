@@ -143,7 +143,7 @@ export const Settings = (): JSX.Element => {
                     description={
                       <>
                         Let customers book time with you based on your availability. Turn on{" "}
-                        <strong className="font-semibold">Bookings</strong> today.
+                        <strong className="font-bold">Bookings</strong> today.
                       </>
                     }
                     action={{

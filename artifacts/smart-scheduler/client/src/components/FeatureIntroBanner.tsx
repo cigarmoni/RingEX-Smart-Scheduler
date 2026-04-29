@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { UpgradeMd, Xmd } from "@ringcentral/spring-icon";
+import { Xmd } from "@ringcentral/spring-icon";
 import { cn } from "@/lib/utils";
+import bookingAddonChip from "@assets/booking-addon-chip.png";
 
 export interface FeatureIntroBannerAction {
   label: string;
@@ -44,19 +45,14 @@ export const FeatureIntroBanner = ({
       <div className="flex w-full flex-col items-start gap-2">
         {/* Header row: Add-on tag + close */}
         <div className="flex w-full items-center justify-between">
-          <div className="relative flex h-5 min-w-[24px] shrink-0 items-center justify-center gap-1 overflow-hidden rounded-[4px] pl-1 pr-1.5">
-            <div
-              className="absolute inset-0"
-              style={{ backgroundColor: "rgba(254, 134, 36, 0.1)" }}
+          <div className="relative h-10 w-[95px] shrink-0 overflow-hidden">
+            <img
+              src={bookingAddonChip}
+              alt={tagLabel}
+              className="block max-w-none object-none object-left-top"
+              style={{ width: "189px", height: "171px" }}
+              draggable={false}
             />
-            <div className="relative flex shrink-0 items-center gap-1 pb-px">
-              <span className="inline-flex h-3 w-3 items-center justify-center [&_svg]:h-3 [&_svg]:w-3 [&_svg]:fill-[#cc5200]">
-                <UpgradeMd />
-              </span>
-              <span className="text-[12px] font-semibold leading-[17px] text-[#cc5200] whitespace-nowrap">
-                {tagLabel}
-              </span>
-            </div>
           </div>
           {onDismiss && (
             <button
