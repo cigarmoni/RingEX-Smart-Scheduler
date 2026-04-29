@@ -30,6 +30,7 @@ import {
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
 import { Button } from "@/components/ui/button";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
+import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -910,30 +911,53 @@ export const MeetingContent = ({
                             className="mt-[0.55em] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[#323439]"
                           />
                           <div className="flex min-w-0 flex-1 flex-col gap-1">
-                            <span>
-                              <span className="font-semibold text-[#0040dd]">
-                                {item.assignee}
-                              </span>{" "}
-                              {item.text}
-                            </span>
+                            {item.assignee === "Dana" ? (
+                              <span>
+                                <span className="font-semibold text-[#0040dd]">
+                                  {item.assignee}
+                                </span>{" "}
+                                to coordinate{" "}
+                                <ScheduleLinkMenu
+                                  testIdPrefix={`schedule-link-${i}`}
+                                  onShareBookingLink={() => {
+                                    if (!bookingLinkPurchased) {
+                                      setFeatureIntroOpen(true);
+                                      return;
+                                    }
+                                    if (sharePopoverVariant) {
+                                      openSharePopover();
+                                    } else {
+                                      openShareDialog();
+                                    }
+                                  }}
+                                >
+                                  stakeholder review next Thursday
+                                </ScheduleLinkMenu>
+                                .
+                              </span>
+                            ) : (
+                              <span>
+                                <span className="font-semibold text-[#0040dd]">
+                                  {item.assignee}
+                                </span>{" "}
+                                {item.text}
+                              </span>
+                            )}
                             {item.assignee === "Dana" &&
-                              (bookingLinkPurchased ? (
-                                sharePopoverVariant ? (
-                                  <Popover
-                                    open={sharePopoverOpen}
-                                    onOpenChange={(o) => (o ? openSharePopover() : setSharePopoverOpen(false))}
-                                  >
-                                    <PopoverTrigger asChild>
-                                      <button
-                                        type="button"
-                                        className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
-                                        data-testid={`button-share-booking-link-${i}`}
-                                      >
-                                        <Lightbulb className="h-3.5 w-3.5" />
-                                        Share booking link
-                                      </button>
-                                    </PopoverTrigger>
-                                    <PopoverContent
+                              bookingLinkPurchased &&
+                              sharePopoverVariant && (
+                                <Popover
+                                  open={sharePopoverOpen}
+                                  onOpenChange={(o) => setSharePopoverOpen(o)}
+                                >
+                                  <PopoverTrigger asChild>
+                                    <span
+                                      aria-hidden="true"
+                                      className="pointer-events-none invisible h-0 w-0"
+                                      data-testid={`anchor-share-booking-link-${i}`}
+                                    />
+                                  </PopoverTrigger>
+                                  <PopoverContent
                                       side="bottom"
                                       align="start"
                                       className="w-[360px] rounded-xl border border-[#dddfe5] bg-white p-4 shadow-lg"
@@ -1096,30 +1120,9 @@ export const MeetingContent = ({
                                           </Button>
                                         </div>
                                       </div>
-                                    </PopoverContent>
-                                  </Popover>
-                                ) : (
-                                  <button
-                                    type="button"
-                                    onClick={openShareDialog}
-                                    className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
-                                    data-testid={`button-share-booking-link-${i}`}
-                                  >
-                                    <Lightbulb className="h-3.5 w-3.5" />
-                                    Share booking link
-                                  </button>
-                                )
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={() => setFeatureIntroOpen(true)}
-                                  className="inline-flex items-center gap-1 self-start font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-[#0040dd] hover:underline"
-                                  data-testid={`button-share-booking-link-${i}`}
-                                >
-                                  <Lightbulb className="h-3.5 w-3.5" />
-                                  Share booking link
-                                </button>
-                              ))}
+                                  </PopoverContent>
+                                </Popover>
+                              )}
                           </div>
                         </li>
                       ))}

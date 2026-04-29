@@ -37,7 +37,7 @@ export const FeatureIntroBanner = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-start gap-2 rounded-[20px] border border-solid border-transparent p-4",
+        "relative flex w-full flex-col items-start gap-2 rounded-[20px] border border-solid border-transparent px-4 pb-4 pt-12",
         className,
       )}
       style={{
@@ -54,20 +54,28 @@ export const FeatureIntroBanner = ({
       }}
       data-testid={rest["data-testid"]}
     >
-      {/* Add-on chip — first flow child, sits inside the 16px padded area */}
-      <img
-        src={upsellChip}
-        alt={tagLabel}
-        className="block h-7 w-auto select-none"
-        draggable={false}
-      />
+      {/* Add-on chip — pinned to the banner's top-left corner. Fixed-size
+          window crops the PNG's drop-shadow bleed so the visible pill renders
+          at its intended ~95x40 footprint. */}
+      <div
+        className="pointer-events-none absolute left-0 top-0 h-10 w-[95px] overflow-hidden"
+        aria-hidden="true"
+      >
+        <img
+          src={upsellChip}
+          alt={tagLabel}
+          className="block select-none"
+          style={{ width: "94.5px", height: "85.5px" }}
+          draggable={false}
+        />
+      </div>
 
       {onDismiss && (
         <button
           type="button"
           onClick={onDismiss}
           aria-label={dismissAriaLabel}
-          className="absolute right-4 top-4 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
+          className="absolute right-2 top-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
           data-testid={dismissTestId}
         >
           <Xmd />

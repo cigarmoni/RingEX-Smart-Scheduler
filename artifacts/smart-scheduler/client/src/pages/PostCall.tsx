@@ -639,12 +639,21 @@ const IconBtn = ({
 const BookingLinkAction = ({
   contactName,
   variant = "intro",
+  externalOpen,
+  onExternalOpenChange,
 }: {
   contactName: string;
   variant?: "intro" | "share";
+  externalOpen?: boolean;
+  onExternalOpenChange?: (next: boolean) => void;
 }) => {
-  const [open, setOpen] = useState(false);
-  const [upsellOpen, setUpsellOpen] = useState(false);
+  const isControlled = externalOpen !== undefined;
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = isControlled ? !!externalOpen : internalOpen;
+  const setOpen = (next: boolean) => {
+    if (isControlled) onExternalOpenChange?.(next);
+    else setInternalOpen(next);
+  };
   const { toast } = useToast();
   const [bookingType, setBookingType] = useState("therapy-session-natalie");
   const [sendVia, setSendVia] = useState("email");
@@ -672,18 +681,7 @@ const BookingLinkAction = ({
 
   if (variant === "intro") {
     return (
-      <>
-        <button
-          type="button"
-          onClick={() => setUpsellOpen(true)}
-          className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
-          data-testid="button-share-booking-link"
-        >
-          <Lightbulb className="h-3 w-3" />
-          Share booking link
-        </button>
-        <BookingFeatureDialog open={upsellOpen} onOpenChange={setUpsellOpen} />
-      </>
+      <BookingFeatureDialog open={open} onOpenChange={handleOpenChange} />
     );
   }
 
@@ -691,14 +689,11 @@ const BookingLinkAction = ({
     <>
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
-          <button
-            type="button"
-            className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
-            data-testid="button-share-booking-link"
-          >
-            <Lightbulb className="h-3 w-3" />
-            Share booking link
-          </button>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none invisible h-0 w-0"
+            data-testid="anchor-share-booking-link"
+          />
         </PopoverTrigger>
         <PopoverContent
           side="top"
