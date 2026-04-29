@@ -605,7 +605,12 @@ export const MeetingContent = ({
                     <FeatureIntroBanner
                       data-testid="banner-promo"
                       title="Add online booking to your business"
-                      description="Let customers book time with you based on your availability. Create booking types, share your link, and manage appointments in one place."
+                      description={
+                        <>
+                          Let customers book time with you based on your availability. Turn on{" "}
+                          <strong className="font-semibold">Bookings</strong> today.
+                        </>
+                      }
                       action={{
                         label: "Find out more",
                         onClick: () => setFeatureIntroOpen(true),
