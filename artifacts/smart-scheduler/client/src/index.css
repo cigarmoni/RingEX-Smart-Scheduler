@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Inter:var(--display-2-font-weight),var(--subtitle-font-weight),var(--title-font-weight),var(--headline-font-weight),var(--main-text-font-weight),var(--detail-bold-font-weight),var(--subtitle-mini-font-weight)");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 @tailwind components;
 @tailwind utilities;
