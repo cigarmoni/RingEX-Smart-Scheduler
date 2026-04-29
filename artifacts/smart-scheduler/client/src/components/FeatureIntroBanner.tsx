@@ -54,21 +54,14 @@ export const FeatureIntroBanner = ({
       }}
       data-testid={rest["data-testid"]}
     >
-      {/* Add-on chip — pinned to the banner's top-left corner. Fixed-size
-          window crops the PNG's drop-shadow bleed so the visible pill renders
-          at its intended ~95x40 footprint. */}
-      <div
-        className="pointer-events-none absolute left-0 top-0 h-10 w-[95px] overflow-hidden"
-        aria-hidden="true"
-      >
-        <img
-          src={upsellChip}
-          alt={tagLabel}
-          className="block select-none"
-          style={{ width: "94.5px", height: "85.5px" }}
-          draggable={false}
-        />
-      </div>
+      {/* Add-on chip — pinned to the banner's top-left corner at its
+          previous size. */}
+      <img
+        src={upsellChip}
+        alt={tagLabel}
+        className="pointer-events-none absolute left-0 top-0 block h-7 w-auto select-none"
+        draggable={false}
+      />
 
       {onDismiss && (
         <button

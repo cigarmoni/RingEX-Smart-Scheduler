@@ -49,7 +49,7 @@ export const ScheduleLinkMenu = ({
         <button
           type="button"
           className={
-            "inline cursor-pointer text-sui-cobranding underline-offset-[3px] hover:underline hover:decoration-dotted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sui-cobranding/40 focus-visible:rounded-sm" +
+            "inline cursor-pointer text-sui-cobranding underline-offset-[3px] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sui-cobranding/40 focus-visible:rounded-sm" +
             (className ? " " + className : "")
           }
           data-testid={`${testIdPrefix}-trigger`}
