@@ -37,7 +37,7 @@ export const FeatureIntroBanner = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-start gap-2 rounded-[20px] border border-solid border-transparent px-4 pb-4 pt-12",
+        "relative flex w-full flex-col items-start gap-2 rounded-[20px] border border-solid border-transparent px-4 pb-4 pt-14",
         className,
       )}
       style={{
@@ -60,7 +60,7 @@ export const FeatureIntroBanner = ({
           image at its natural size inside a 73x28 overflow-hidden window
           and offset it so only the pill is visible. */}
       <div
-        className="pointer-events-none absolute left-0 top-0 h-7 w-[73px] overflow-hidden"
+        className="pointer-events-none absolute left-4 top-4 h-7 w-[73px] overflow-hidden"
         aria-hidden="true"
       >
         <img
@@ -77,7 +77,7 @@ export const FeatureIntroBanner = ({
           type="button"
           onClick={onDismiss}
           aria-label={dismissAriaLabel}
-          className="absolute right-2 top-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
+          className="absolute right-4 top-4 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[var(--sui-colors-neutral-b1)] hover:bg-[var(--sui-colors-neutral-b5)] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current"
           data-testid={dismissTestId}
         >
           <Xmd />
