@@ -43,7 +43,11 @@ export const FeatureIntroBanner = ({
       style={{
         background:
           "linear-gradient(var(--sui-colors-neutral-base,#fff), var(--sui-colors-neutral-base,#fff)) padding-box, " +
-          "radial-gradient(140% 110% at 100% 0%, #FF5C00 0%, #FF8A56 18%, #FFADAD 48%, rgba(255,173,173,0.35) 100%) border-box",
+          "radial-gradient(140% 110% at 100% 0%, " +
+          "rgb(var(--s-ai-accent-0)) 0%, " +
+          "rgb(var(--s-ai-accent-1)) 22%, " +
+          "rgb(var(--s-ai-accent-2)) 55%, " +
+          "rgba(var(--s-ai-accent-2), 0.25) 100%) border-box",
       }}
       data-testid={rest["data-testid"]}
     >
