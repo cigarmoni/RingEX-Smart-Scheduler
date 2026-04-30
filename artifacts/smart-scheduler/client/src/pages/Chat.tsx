@@ -42,6 +42,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   Popover,
   PopoverContent,
+  PopoverAnchor,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
@@ -575,6 +576,7 @@ export const Chat = (): JSX.Element => {
 
           {/* Composer */}
           <div className="bg-white px-4 py-3 sm:px-6">
+            <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
             <div className="rounded-[10px] border border-[#dddfe5] bg-white p-2">
               <Input
                 value={composer}
@@ -592,6 +594,7 @@ export const Chat = (): JSX.Element => {
                   <Wand2 className="h-3 w-3" />
                   Draft for me
                 </button>
+                <PopoverAnchor asChild>
                 <div className="flex items-center justify-between text-[#56585e]">
                   <div className="flex items-center gap-0.5">
                   <button type="button" className="rounded p-1.5 hover:bg-[#f5f6f9]" aria-label="Mention" data-testid="button-mention">
@@ -668,41 +671,6 @@ export const Chat = (): JSX.Element => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
-                    <PopoverTrigger asChild>
-                      <span className="sr-only" aria-hidden="true" />
-                    </PopoverTrigger>
-                    <PopoverContent
-                      align="end"
-                      side="top"
-                      className="w-72 rounded-lg p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
-                    >
-                      <div className="px-2 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
-                        Share booking link
-                      </div>
-                      <div className="flex flex-col">
-                        {bookingTypes.map((bt) => (
-                          <button
-                            key={bt.id}
-                            type="button"
-                            onClick={() => handleShareBooking(bt)}
-                            className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
-                            data-testid={`booking-type-${bt.id}`}
-                          >
-                            <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
-                            <div className="min-w-0 flex-1">
-                              <div className="truncate text-sm font-semibold text-black">
-                                {bt.title}
-                              </div>
-                              <div className="truncate text-xs text-[#56585e]">
-                                {bt.duration}
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </PopoverContent>
-                  </Popover>
                   </div>
                   <button
                     type="button"
@@ -714,8 +682,42 @@ export const Chat = (): JSX.Element => {
                     <SendFilledMd width={16} height={16} />
                   </button>
                 </div>
+                </PopoverAnchor>
               </div>
             </div>
+            <PopoverContent
+              align="start"
+              side="top"
+              sideOffset={8}
+              alignOffset={-8}
+              className="w-72 rounded-lg p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+            >
+              <div className="px-2 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-[#56585e]">
+                Share booking link
+              </div>
+              <div className="flex flex-col">
+                {bookingTypes.map((bt) => (
+                  <button
+                    key={bt.id}
+                    type="button"
+                    onClick={() => handleShareBooking(bt)}
+                    className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
+                    data-testid={`booking-type-${bt.id}`}
+                  >
+                    <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-semibold text-black">
+                        {bt.title}
+                      </div>
+                      <div className="truncate text-xs text-[#56585e]">
+                        {bt.duration}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>

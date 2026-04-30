@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Settings,
   Search,
@@ -22,17 +22,14 @@ import {
   PhoneCall,
   Video,
   StickyNote,
-  Lightbulb,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { BookingFeatureDialog } from "@/components/BookingFeatureDialog";
+import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
+import { ShareBookingPopoverContent } from "@/components/ShareBookingPopoverContent";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { useFlowParam } from "@/lib/flows";
 
@@ -187,12 +184,30 @@ export const PostCall = (): JSX.Element => {
   const [filter, setFilter] = useState<"ALL" | "MISSED">("ALL");
   const [activeId, setActiveId] = useState<string>("christina");
   const [detailTab, setDetailTab] = useState<"NOTES" | "TRANSCRIPT">("NOTES");
+  const [featureIntroOpen, setFeatureIntroOpen] = useState(false);
+  const [sharePopoverOpen, setSharePopoverOpen] = useState(false);
 
   const visibleCalls = filter === "MISSED" ? pastCalls.filter((c) => c.direction === "missed") : pastCalls;
   const active = pastCalls.find((c) => c.id === activeId) ?? pastCalls[0];
 
   const notify = (msg: string) =>
     toast({ description: msg });
+
+  const justOpenedSharePopoverRef = useRef(false);
+
+  const handleShareBookingLink = () => {
+    if (sharePopoverVariant) {
+      justOpenedSharePopoverRef.current = true;
+      setSharePopoverOpen(true);
+    } else {
+      setFeatureIntroOpen(true);
+    }
+  };
+
+  const handleSendSharePopover = () => {
+    setSharePopoverOpen(false);
+    toast({ description: "Booking link sent" });
+  };
 
   return (
     <AppShell activeNav="Phone">
@@ -522,10 +537,58 @@ export const PostCall = (): JSX.Element => {
                           >
                             Sarah
                           </a>{" "}
-                          tried to find out the common time slot.
-                          <div className="pt-1">
-                            <BookingLinkAction contactName={active.name} variant={sharePopoverVariant ? "share" : "intro"} />
-                          </div>
+                          tried to find out{" "}
+                          {sharePopoverVariant ? (
+                            <Popover
+                              open={sharePopoverOpen}
+                              onOpenChange={setSharePopoverOpen}
+                            >
+                              <PopoverAnchor asChild>
+                                <span data-testid="anchor-share-booking-link">
+                                  <ScheduleLinkMenu
+                                    testIdPrefix="post-call-schedule-link"
+                                    showShareUpgradeIndicator={false}
+                                    onShareBookingLink={handleShareBookingLink}
+                                    preventCloseAutoFocus
+                                  >
+                                    a common time slot
+                                  </ScheduleLinkMenu>
+                                </span>
+                              </PopoverAnchor>
+                              <PopoverContent
+                                side="bottom"
+                                align="start"
+                                className="z-[200] w-[360px] rounded-xl border border-sui-neutral-b4 bg-white p-4 shadow-lg"
+                                data-testid="popover-share-booking-link"
+                                onPointerDownOutside={(event) => {
+                                  if (justOpenedSharePopoverRef.current) {
+                                    justOpenedSharePopoverRef.current = false;
+                                    event.preventDefault();
+                                  }
+                                }}
+                                onFocusOutside={(event) => {
+                                  if (justOpenedSharePopoverRef.current) {
+                                    event.preventDefault();
+                                  }
+                                }}
+                              >
+                                <ShareBookingPopoverContent
+                                  idPrefix="post-call-share"
+                                  onCancel={() => setSharePopoverOpen(false)}
+                                  onSend={handleSendSharePopover}
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          ) : (
+                            <ScheduleLinkMenu
+                              testIdPrefix="post-call-schedule-link"
+                              showShareUpgradeIndicator
+                              onShareBookingLink={handleShareBookingLink}
+                            >
+                              a common time slot
+                            </ScheduleLinkMenu>
+                          )}
+                          .
                         </li>
                       </ul>
                     </div>
@@ -548,6 +611,7 @@ export const PostCall = (): JSX.Element => {
           </div>
         </div>
       </div>
+      <BookingFeatureDialog open={featureIntroOpen} onOpenChange={setFeatureIntroOpen} />
     </AppShell>
   );
 };
@@ -642,288 +706,3 @@ const IconBtn = ({
     {children}
   </button>
 );
-
-const BookingLinkAction = ({
-  contactName,
-  variant = "intro",
-  externalOpen,
-  onExternalOpenChange,
-}: {
-  contactName: string;
-  variant?: "intro" | "share";
-  externalOpen?: boolean;
-  onExternalOpenChange?: (next: boolean) => void;
-}) => {
-  const isControlled = externalOpen !== undefined;
-  const [internalOpen, setInternalOpen] = useState(false);
-  const open = isControlled ? !!externalOpen : internalOpen;
-  const setOpen = (next: boolean) => {
-    if (isControlled) onExternalOpenChange?.(next);
-    else setInternalOpen(next);
-  };
-  const { toast } = useToast();
-  const [bookingType, setBookingType] = useState("therapy-session-natalie");
-  const [sendVia, setSendVia] = useState("email");
-  const [recipient, setRecipient] = useState("");
-  const [from, setFrom] = useState("");
-  const [message, setMessage] = useState("");
-
-  const resetShareForm = () => {
-    setBookingType("therapy-session-natalie");
-    setSendVia("email");
-    setRecipient("");
-    setFrom("");
-    setMessage("");
-  };
-
-  const handleOpenChange = (next: boolean) => {
-    if (next && variant === "share") resetShareForm();
-    setOpen(next);
-  };
-
-  const handleSend = () => {
-    setOpen(false);
-    toast({ description: "Booking link sent" });
-  };
-
-  const triggerClassName =
-    "inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10";
-
-  if (variant === "intro") {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={() => handleOpenChange(true)}
-          className={triggerClassName}
-          data-testid="button-share-booking-link"
-          aria-label="Share booking link"
-        >
-          <Lightbulb className="h-3 w-3" />
-          Share booking link
-        </button>
-        <BookingFeatureDialog open={open} onOpenChange={handleOpenChange} />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            className={triggerClassName}
-            data-testid="button-share-booking-link"
-            aria-label="Share booking link"
-          >
-            <Lightbulb className="h-3 w-3" />
-            Share booking link
-          </button>
-        </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          align="start"
-          className="w-[360px] rounded-xl border border-sui-neutral-b4 bg-white p-4 shadow-lg"
-          data-testid="popover-share-booking-link"
-        >
-            <div className="flex flex-col gap-3">
-              <div
-                className="font-headline text-[16px] font-semibold text-black"
-                data-testid="text-share-popover-title"
-              >
-                Share booking link
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="post-call-share-type"
-                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                >
-                  Booking type
-                </Label>
-                <Select value={bookingType} onValueChange={setBookingType}>
-                  <SelectTrigger
-                    id="post-call-share-type"
-                    className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                    data-testid="select-share-popover-type"
-                  >
-                    <SelectValue placeholder="Select a booking type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="therapy-session-natalie">Therapy session with Natalie</SelectItem>
-                    <SelectItem value="initial-consultation">Initial consultation</SelectItem>
-                    <SelectItem value="follow-up-15">15 min follow-up</SelectItem>
-                    <SelectItem value="discovery-call-30">30 min discovery call</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="post-call-share-via"
-                  className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                >
-                  Send via
-                </Label>
-                <Select value={sendVia} onValueChange={setSendVia}>
-                  <SelectTrigger
-                    id="post-call-share-via"
-                    className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                    data-testid="select-share-popover-via"
-                  >
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="email">Email</SelectItem>
-                    <SelectItem value="text">Text</SelectItem>
-                    <SelectItem value="chat">Chat</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              {sendVia === "text" && (
-                <>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-message"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      Text message
-                    </Label>
-                    <Textarea
-                      id="post-call-share-message"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Enter text message"
-                      className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="textarea-share-popover-message"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-to"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      To
-                    </Label>
-                    <Input
-                      id="post-call-share-to"
-                      value={recipient}
-                      onChange={(e) => setRecipient(e.target.value)}
-                      placeholder={`Send to ${contactName}`}
-                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="input-share-popover-to"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-from"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      From
-                    </Label>
-                    <Input
-                      id="post-call-share-from"
-                      value={from}
-                      onChange={(e) => setFrom(e.target.value)}
-                      placeholder="(555) 555-5555"
-                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="input-share-popover-from"
-                    />
-                  </div>
-                </>
-              )}
-              {sendVia === "chat" && (
-                <>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-conversation"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      Conversation
-                    </Label>
-                    <Input
-                      id="post-call-share-conversation"
-                      value={recipient}
-                      onChange={(e) => setRecipient(e.target.value)}
-                      placeholder="Select conversation"
-                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="input-share-popover-conversation"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-message"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      Message
-                    </Label>
-                    <Textarea
-                      id="post-call-share-message"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Enter message"
-                      className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="textarea-share-popover-message"
-                    />
-                  </div>
-                </>
-              )}
-              {sendVia === "email" && (
-                <>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-email"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      Email
-                    </Label>
-                    <Input
-                      id="post-call-share-email"
-                      value={recipient}
-                      onChange={(e) => setRecipient(e.target.value)}
-                      placeholder={`Send to ${contactName}`}
-                      className="h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="input-share-popover-email"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="post-call-share-message"
-                      className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black"
-                    >
-                      Message
-                    </Label>
-                    <Textarea
-                      id="post-call-share-message"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Enter message"
-                      className="min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black"
-                      data-testid="textarea-share-popover-message"
-                    />
-                  </div>
-                </>
-              )}
-              <div className="flex justify-end gap-2 pt-1">
-                <Button
-                  variant="outline"
-                  onClick={() => setOpen(false)}
-                  className="h-8 rounded-[10px] border border-sui-neutral-b4 bg-white px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black hover:bg-sui-neutral-b5"
-                  data-testid="button-share-popover-cancel"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleSend}
-                  disabled={recipient.trim().length === 0}
-                  className="h-8 rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-white hover:bg-sui-cobranding disabled:bg-sui-neutral-b4 disabled:text-white"
-                  data-testid="button-share-popover-send"
-                >
-                  Send
-                </Button>
-              </div>
-            </div>
-          </PopoverContent>
-      </Popover>
-    </>
-  );
-};

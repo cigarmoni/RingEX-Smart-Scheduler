@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ export interface ScheduleLinkMenuProps {
   className?: string;
   testIdPrefix?: string;
   showShareUpgradeIndicator?: boolean;
+  preventCloseAutoFocus?: boolean;
 }
 
 export const ScheduleLinkMenu = ({
@@ -27,10 +28,13 @@ export const ScheduleLinkMenu = ({
   className,
   testIdPrefix = "schedule-link",
   showShareUpgradeIndicator = false,
+  preventCloseAutoFocus = false,
 }: ScheduleLinkMenuProps) => {
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
   const handleScheduleMeeting = () => {
+    setOpen(false);
     if (onScheduleMeeting) {
       onScheduleMeeting();
       return;
@@ -39,6 +43,7 @@ export const ScheduleLinkMenu = ({
   };
 
   const handleAddToReminders = () => {
+    setOpen(false);
     if (onAddToReminders) {
       onAddToReminders();
       return;
@@ -46,8 +51,14 @@ export const ScheduleLinkMenu = ({
     toast({ description: "Added to reminders" });
   };
 
+  const handleShareBookingSelect = (event: Event) => {
+    event.preventDefault();
+    setOpen(false);
+    onShareBookingLink();
+  };
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen} modal={!preventCloseAutoFocus}>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
@@ -63,8 +74,11 @@ export const ScheduleLinkMenu = ({
       <DropdownMenuContent
         align="start"
         sideOffset={6}
-        className="w-[220px] rounded-xl border border-[var(--sui-colors-neutral-b4)] bg-white p-1 shadow-lg"
+        className="z-[200] w-[220px] rounded-xl border border-[var(--sui-colors-neutral-b4)] bg-white p-1 shadow-lg"
         data-testid={`${testIdPrefix}-menu`}
+        onCloseAutoFocus={
+          preventCloseAutoFocus ? (event) => event.preventDefault() : undefined
+        }
       >
         <DropdownMenuItem
           onSelect={handleScheduleMeeting}
@@ -83,7 +97,7 @@ export const ScheduleLinkMenu = ({
           <span>Add to reminders</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={onShareBookingLink}
+          onSelect={handleShareBookingSelect}
           className="flex items-center gap-2 rounded-md px-2 py-1.5 font-main-text text-[length:var(--main-text-font-size)] text-[var(--sui-colors-neutral-b0)] focus:bg-[var(--sui-colors-neutral-b5)] focus:text-[var(--sui-colors-neutral-b0)]"
           data-testid={`${testIdPrefix}-item-share-booking`}
         >

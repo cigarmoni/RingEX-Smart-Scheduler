@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentType, type SVGProps } from "react";
+import { useEffect, useRef, useState, type ComponentType, type SVGProps } from "react";
 import {
   MicrophoneMd as Mic,
   MicrophoneOffMd as MicOff,
@@ -39,7 +39,11 @@ import {
 import { useLocation } from "wouter";
 import { AppShell } from "@/components/AppShell";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
+import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
+import { ShareBookingPopoverContent } from "@/components/ShareBookingPopoverContent";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
+import { useToast } from "@/hooks/use-toast";
 import { useFlowParam } from "@/lib/flows";
 
 type IconCmp = ComponentType<SVGProps<SVGSVGElement>>;
@@ -54,21 +58,6 @@ const Icon = ({
   className?: string;
 }) => (
   <Cmp width={size} height={size} fill="currentColor" className={className} aria-hidden />
-);
-
-// Spring UI "Share booking link" icon — exact SVG from the Figma node 49:145099
-const ShareBookingLinkIcon = ({ size = 12, className = "" }: { size?: number; className?: string }) => (
-  <svg
-    width={size}
-    height={(size * 11.4) / 8.4}
-    viewBox="0 0 8.4 11.4"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    aria-hidden
-  >
-    <path d="M0.863635 6.76739C0.890483 6.80645 0.918261 6.84667 0.946687 6.88783C1.23951 7.31178 1.60239 7.83717 1.74 8.25C1.85332 8.58996 1.89815 8.91279 1.92624 9.11503C2.09609 10.3381 2.84225 11.4 4.2 11.4C5.55775 11.4 6.30391 10.3381 6.47376 9.11503C6.50185 8.91279 6.54668 8.58996 6.66 8.25C6.79761 7.83717 7.16049 7.31178 7.45331 6.88783C7.48166 6.84679 7.50958 6.80636 7.53636 6.76739C7.57535 6.71066 7.61238 6.65635 7.64658 6.60512L7.65 6.6L7.64523 6.60281L7.64871 6.59781C7.68795 6.54148 7.72584 6.48415 7.76235 6.42585C8.16642 5.78052 8.4 5.01754 8.4 4.2C8.4 1.8804 6.5196 0 4.2 0C1.8804 0 0 1.8804 0 4.2C0 5.01754 0.233585 5.78052 0.637657 6.42585C0.674158 6.48415 0.712051 6.54148 0.751288 6.59781L0.754775 6.60281L0.75 6.6L0.753415 6.60512C0.787629 6.65636 0.824653 6.71066 0.863635 6.76739ZM1.49252 6.08732C1.11899 5.55273 0.9 4.90329 0.9 4.2C0.9 2.37746 2.37746 0.9 4.2 0.9C6.02254 0.9 7.5 2.37746 7.5 4.2C7.5 4.90329 7.28101 5.55273 6.90748 6.08732L6.90116 6.10077C6.84776 6.18086 6.78559 6.27093 6.71388 6.37475L6.67666 6.42859C6.40942 6.81486 5.98539 7.42778 5.80619 7.96539C5.79109 8.01067 5.777 8.0556 5.76383 8.1H4.65V6.31378L5.82738 5.1364L5.19098 4.5L4.20368 5.4873L3.21639 4.5L2.57999 5.1364L3.75 6.3064V8.1H2.63617C2.623 8.0556 2.60891 8.01067 2.59382 7.9654C2.41461 7.42778 1.99058 6.81487 1.72335 6.42859L1.68722 6.37635C1.61504 6.27185 1.55253 6.18129 1.49885 6.10077L1.49252 6.08732ZM3.28585 10.1133C3.05841 9.86119 2.88638 9.47544 2.81891 9H5.58109C5.51362 9.47544 5.34159 9.86119 5.11415 10.1132C4.90313 10.3471 4.61797 10.5 4.2 10.5C3.78203 10.5 3.49686 10.3471 3.28585 10.1133Z" />
-  </svg>
 );
 
 type CallEntry = {
@@ -102,100 +91,11 @@ type ControlButton = {
 
 type PhoneView = "dialer" | "in-call" | "history";
 
-type BookingField = {
-  label: string;
-  value: string;
-  testId: string;
-};
-
-const bookingFields: BookingField[] = [
-  { label: "Select booking type", value: "Therapy session with Natalie", testId: "select-booking-type" },
-  { label: "Send via", value: "Text", testId: "select-send-via" },
-  { label: "To", value: "(650) 257-9326", testId: "select-booking-to" },
-  { label: "From", value: "(650) 257-9954", testId: "select-booking-from" },
-];
-
-const BookingsPanel = ({ onCancel }: { onCancel: () => void }): JSX.Element => {
-  return (
-    <div className="flex min-h-0 flex-1 flex-col" data-testid="panel-bookings">
-      <div className="flex items-center px-4 py-3">
-        <p className="text-sm font-semibold text-[var(--sui-colors-neutral-b0)]">
-          Share a booking link with Tim
-        </p>
-      </div>
-      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 pb-4">
-        <BookingSelect
-          label={bookingFields[0].label}
-          value={bookingFields[0].value}
-          testId={bookingFields[0].testId}
-        />
-        <div className="flex flex-col gap-1">
-          <label
-            className="text-[12px] font-medium leading-[17px] text-[var(--sui-colors-neutral-b0)]"
-            htmlFor="booking-additional-message"
-          >
-            Additional message
-          </label>
-          <textarea
-            id="booking-additional-message"
-            placeholder="Enter additional message"
-            className="min-h-[88px] w-full resize-none rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-[var(--sui-colors-neutral-base)] px-4 pb-[15px] pt-4 text-sm text-[var(--sui-colors-neutral-b0)] placeholder:text-[var(--sui-colors-neutral-b2)] focus:border-[var(--sui-colors-primary-b)] focus:outline-none"
-            data-testid="textarea-booking-message"
-          />
-        </div>
-        {bookingFields.slice(1).map((f) => (
-          <BookingSelect key={f.label} label={f.label} value={f.value} testId={f.testId} />
-        ))}
-      </div>
-      <div className="flex items-center justify-end gap-2 border-t border-[rgba(0,0,0,0.1)] bg-white p-4">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-[var(--sui-colors-neutral-base)] px-3 text-sm font-medium text-[var(--sui-colors-neutral-b0)] hover:bg-[var(--sui-colors-neutral-b5)]"
-          data-testid="button-booking-cancel"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] bg-[var(--sui-colors-primary-b)] px-3 text-sm font-medium text-white hover:opacity-90"
-          data-testid="button-booking-send"
-        >
-          Send
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const BookingSelect = ({
-  label,
-  value,
-  testId,
-}: {
-  label: string;
-  value: string;
-  testId: string;
-}): JSX.Element => (
-  <div className="flex flex-col gap-1">
-    <span className="text-[12px] font-medium leading-[17px] text-[var(--sui-colors-neutral-b0)]">
-      {label}
-    </span>
-    <button
-      type="button"
-      className="flex h-9 w-full items-center justify-between rounded-[10px] border border-[rgba(0,0,0,0.2)] bg-[var(--sui-colors-neutral-base)] pl-3 pr-2 text-left text-sm text-[var(--sui-colors-neutral-b0)] hover:border-[rgba(0,0,0,0.35)]"
-      data-testid={testId}
-    >
-      <span className="truncate">{value}</span>
-      <Icon as={ArrowDown2} size={16} className="text-[var(--sui-colors-neutral-b2)]" />
-    </button>
-  </div>
-);
-
 export const PhonePage = (): JSX.Element => {
   const [, setLocation] = useLocation();
   const flow = useFlowParam();
   const afterPurchase = flow === "after-call-share-link";
+  const { toast } = useToast();
   const [view, setView] = useState<PhoneView>("in-call");
   const [activeTab, setActiveTab] = useState("CALLS");
   const [activeCallId, setActiveCallId] = useState("christina");
@@ -210,8 +110,25 @@ export const PhonePage = (): JSX.Element => {
     });
   }, [afterPurchase]);
   const [upsellOpen, setUpsellOpen] = useState(false);
+  const [sharePopoverOpen, setSharePopoverOpen] = useState(false);
   const [muted, setMuted] = useState(false);
   const [dialedNumber, setDialedNumber] = useState("");
+
+  const justOpenedSharePopoverRef = useRef(false);
+
+  const handleShareBookingLink = () => {
+    if (afterPurchase) {
+      justOpenedSharePopoverRef.current = true;
+      setSharePopoverOpen(true);
+    } else {
+      setUpsellOpen(true);
+    }
+  };
+
+  const handleSendSharePopover = () => {
+    setSharePopoverOpen(false);
+    toast({ description: "Booking link sent" });
+  };
 
   const startCall = () => {
     setView("in-call");
@@ -724,19 +641,58 @@ export const PhonePage = (): JSX.Element => {
                               >
                                 Jason
                               </a>{" "}
-                              will send booking link to Christina.
-                              <div className="pt-1">
-                                <button
-                                  type="button"
-                                  onClick={() => setUpsellOpen(true)}
-                                  className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
-                                  data-testid="button-share-booking-link"
-                                  aria-label="Share booking link"
+                              will send{" "}
+                              {afterPurchase ? (
+                                <Popover
+                                  open={sharePopoverOpen}
+                                  onOpenChange={setSharePopoverOpen}
                                 >
-                                  <ShareBookingLinkIcon size={12} />
-                                  Share booking link
-                                </button>
-                              </div>
+                                  <PopoverAnchor asChild>
+                                    <span data-testid="anchor-share-booking-link">
+                                      <ScheduleLinkMenu
+                                        testIdPrefix="in-call-schedule-link"
+                                        showShareUpgradeIndicator={false}
+                                        onShareBookingLink={handleShareBookingLink}
+                                        preventCloseAutoFocus
+                                      >
+                                        booking link
+                                      </ScheduleLinkMenu>
+                                    </span>
+                                  </PopoverAnchor>
+                                  <PopoverContent
+                                    side="bottom"
+                                    align="start"
+                                    className="z-[200] w-[360px] rounded-xl border border-[var(--sui-colors-neutral-b4)] bg-white p-4 shadow-lg"
+                                    data-testid="popover-share-booking-link"
+                                    onPointerDownOutside={(event) => {
+                                      if (justOpenedSharePopoverRef.current) {
+                                        justOpenedSharePopoverRef.current = false;
+                                        event.preventDefault();
+                                      }
+                                    }}
+                                    onFocusOutside={(event) => {
+                                      if (justOpenedSharePopoverRef.current) {
+                                        event.preventDefault();
+                                      }
+                                    }}
+                                  >
+                                    <ShareBookingPopoverContent
+                                      idPrefix="in-call-share"
+                                      onCancel={() => setSharePopoverOpen(false)}
+                                      onSend={handleSendSharePopover}
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              ) : (
+                                <ScheduleLinkMenu
+                                  testIdPrefix="in-call-schedule-link"
+                                  showShareUpgradeIndicator
+                                  onShareBookingLink={handleShareBookingLink}
+                                >
+                                  booking link
+                                </ScheduleLinkMenu>
+                              )}{" "}
+                              to Christina.
                             </li>
                           </ul>
                         </div>
@@ -750,7 +706,20 @@ export const PhonePage = (): JSX.Element => {
                     <p>Contact details would appear here.</p>
                   </div>
                 ) : activeWidgetTab === "BOOKINGS" ? (
-                  <BookingsPanel onCancel={() => setActiveWidgetTab("NOTES")} />
+                  <div
+                    className="flex min-h-0 flex-1 flex-col"
+                    data-testid="panel-bookings"
+                  >
+                    <ShareBookingPopoverContent
+                      idPrefix="in-call-bookings-panel"
+                      stickyFooter
+                      onCancel={() => setActiveWidgetTab("NOTES")}
+                      onSend={() => {
+                        toast({ description: "Booking link sent" });
+                        setActiveWidgetTab("NOTES");
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className={`flex flex-1 items-center justify-center px-4 py-8 text-center text-sm ${SUI_MUTED}`}>
                     No messages yet.
