@@ -41,6 +41,7 @@ import {
   ArrowRightUpMd,
 } from "@ringcentral/spring-icon";
 import { AppShell } from "@/components/AppShell";
+import { UpgradeIndicator } from "@/components/UpgradeIndicator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -265,9 +266,11 @@ const stepSections: StepSection[] = [
 const StepItem = ({
   step,
   onClick,
+  showUpgradeIndicator = false,
 }: {
   step: StepRow;
   onClick?: () => void;
+  showUpgradeIndicator?: boolean;
 }) => (
   <button
     type="button"
@@ -295,6 +298,7 @@ const StepItem = ({
         </span>
       )}
     </div>
+    {showUpgradeIndicator && <UpgradeIndicator className="ml-2 shrink-0" />}
   </button>
 );
 
@@ -540,6 +544,9 @@ export const Workflow = (): JSX.Element => {
                                   key={step.id}
                                   step={step}
                                   onClick={() => handleStepClick(step.id)}
+                                  showUpgradeIndicator={
+                                    step.id === "send-booking" && !isPurchased
+                                  }
                                 />
                               ))}
                               {section.id === "integrations" && (
