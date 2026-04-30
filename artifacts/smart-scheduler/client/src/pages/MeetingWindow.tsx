@@ -5,7 +5,6 @@ import {
   Flag,
   Globe,
   Info,
-  Lightbulb,
   Mic,
   MicOff,
   MoreHorizontal,
@@ -31,7 +30,7 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
-import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
+import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
 import { SuiSnackbar } from "@/components/SuiSnackbar";
 import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
 
@@ -171,160 +170,6 @@ const ToolbarButton = ({
   );
 };
 
-const BookingLinkAction = ({ autoOpen = false }: { autoOpen?: boolean }) => {
-  const { toast } = useToast();
-  const [purchased, setPurchased] = useSmartSchedulerPurchased();
-  const shouldAutoOpen = autoOpen && !purchased;
-  const [open, setOpen] = useState(false);
-  const [upsellOpen, setUpsellOpen] = useState(shouldAutoOpen);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  useEffect(() => {
-    if (shouldAutoOpen) setUpsellOpen(true);
-  }, [shouldAutoOpen]);
-
-  if (!purchased) {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={() => setUpsellOpen(true)}
-          className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
-          data-testid="button-share-booking-link"
-        >
-          <Lightbulb className="h-3 w-3" />
-          Share booking link
-        </button>
-        <AvaUpsellDialog
-          open={upsellOpen}
-          onOpenChange={setUpsellOpen}
-          onFreeTrial={() => {
-            setPurchased(true);
-            toast({ description: "Bookings free trial started." });
-          }}
-        />
-      </>
-    );
-  }
-
-  const trigger = (
-    <button
-      type="button"
-      className="inline-flex h-5 items-center gap-1 rounded-[4px] px-1 font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-medium text-sui-cobranding hover:bg-sui-cobranding-t10"
-      data-testid="button-share-booking-link"
-    >
-      <Lightbulb className="h-3 w-3" />
-      Share booking link
-    </button>
-  );
-
-  return (
-    <>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-        <PopoverContent
-          side="top"
-          align="start"
-          className="z-[70] w-[400px] rounded-[10px] p-0"
-          data-testid="popover-booking-link-compose"
-        >
-            <div className="flex items-center justify-between px-4 pt-4">
-              <h4 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] text-black">
-                Share booking link
-              </h4>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close"
-                className="flex h-6 w-6 items-center justify-center rounded-full text-sui-neutral-b2 hover:bg-sui-neutral-b5"
-                data-testid="button-booking-compose-close"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-4 px-4 py-4">
-              <div className="flex flex-col gap-1">
-                <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
-                  Select booking type
-                </label>
-                <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base pl-2.5 pr-1.5">
-                  <span className="font-main-text text-[length:var(--main-text-font-size)] text-black">
-                    15-min follow-up with Andy Lau
-                  </span>
-                  <ChevronDown className="h-4 w-4 text-sui-neutral-b2" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
-                  Send via
-                </label>
-                <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base pl-2.5 pr-1.5">
-                  <span className="font-main-text text-[length:var(--main-text-font-size)] text-black">
-                    Meeting chat
-                  </span>
-                  <ChevronDown className="h-4 w-4 text-sui-neutral-b2" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
-                  Message
-                </label>
-                <div className="min-h-[48px] rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base px-4 pb-[15px] pt-4">
-                  <p className="font-main-text text-[length:var(--main-text-font-size)] text-black">
-                    Here's my booking link so you can choose a time that works
-                    for you:{" "}
-                    <span className="text-sui-cobranding">
-                      15-min follow-up with Andy Lau
-                    </span>
-                    .
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-2 rounded-b-[10px] border-t border-solid border-sui-neutral-b0-t10 bg-white px-4 py-3">
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-black hover:bg-sui-neutral-b5"
-                data-testid="button-booking-compose-cancel"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  setSnackbarOpen(true);
-                }}
-                className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-white hover:opacity-90"
-                data-testid="button-booking-compose-send"
-              >
-                Send
-              </button>
-            </div>
-          </PopoverContent>
-      </Popover>
-      <AvaUpsellDialog
-        open={upsellOpen}
-        onOpenChange={setUpsellOpen}
-        onFreeTrial={() => {
-          setPurchased(true);
-          toast({ description: "Bookings free trial started." });
-        }}
-      />
-      <SuiSnackbar
-        open={snackbarOpen}
-        onClose={() => setSnackbarOpen(false)}
-        message="Booking link sent to Meeting chat."
-      />
-    </>
-  );
-};
-
 interface MeetingWindowProps {
   onClose?: () => void;
 }
@@ -338,6 +183,29 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
   const search = useSearch();
   const autoOpenShareBooking =
     new URLSearchParams(search).get("flow") === "share-booking";
+
+  const { toast } = useToast();
+  const [purchased, setPurchased] = useSmartSchedulerPurchased();
+  const [shareOpen, setShareOpen] = useState(false);
+  const [upsellOpen, setUpsellOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  useEffect(() => {
+    if (!autoOpenShareBooking) return;
+    if (purchased) {
+      setShareOpen(true);
+    } else {
+      setUpsellOpen(true);
+    }
+  }, [autoOpenShareBooking, purchased]);
+
+  const handleShareBookingLink = () => {
+    if (purchased) {
+      setShareOpen(true);
+    } else {
+      setUpsellOpen(true);
+    }
+  };
 
   return (
     <div
@@ -471,11 +339,33 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
           </div>
 
           <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 py-4">
-            <FeatureIntroBanner
+            <div
+              className="flex items-start gap-2 rounded-[8px] border border-solid border-[#FFD9A8] px-3 py-2.5"
+              style={{
+                background:
+                  "linear-gradient(90deg, #FFF8EE 0%, #FFEAD0 100%)",
+              }}
               data-testid="banner-ai-notes"
-              title="AI is taking notes…"
-              description="The detail notes will be sent after the meeting."
-            />
+            >
+              <span
+                aria-hidden="true"
+                className="mt-[1px] inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-[8.4px]"
+                style={{
+                  background:
+                    "linear-gradient(111.65deg, #FF670A 1.69%, #FF892C 31.18%, #FF9750 45.93%, #FF9876 50.85%, #FFA1B7 80.34%, #FFD1E3 100%)",
+                }}
+              >
+                <Sparkles className="h-2.5 w-2.5 text-white" />
+              </span>
+              <div className="flex min-w-0 flex-col gap-0.5">
+                <p className="text-[13px] font-semibold leading-[18px] text-[#323439]">
+                  AI is taking notes…
+                </p>
+                <p className="text-[12px] leading-[16px] text-[#72757a]">
+                  The detail notes will be sent after the meeting.
+                </p>
+              </div>
+            </div>
 
             <section className="flex flex-col gap-1.5">
               <h3 className="text-[14px] font-semibold text-black">
@@ -543,10 +433,109 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                   <a className="font-medium text-[#0040dd] hover:underline" href="#">
                     Andy Lau
                   </a>{" "}
-                  to find a time slot for follow-up meeting next week.
-                  <div className="pt-1">
-                    <BookingLinkAction autoOpen={autoOpenShareBooking} />
-                  </div>
+                  to find a time slot for{" "}
+                  <ScheduleLinkMenu
+                    testIdPrefix="schedule-link-andy"
+                    showShareUpgradeIndicator={!purchased}
+                    onShareBookingLink={handleShareBookingLink}
+                  >
+                    a follow-up meeting next week
+                  </ScheduleLinkMenu>
+                  .
+                  <Popover open={shareOpen} onOpenChange={setShareOpen}>
+                    <PopoverTrigger asChild>
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none invisible inline-block h-0 w-0 align-baseline"
+                        data-testid="anchor-share-booking-link-andy"
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent
+                      side="top"
+                      align="start"
+                      className="z-[70] w-[400px] rounded-[10px] p-0"
+                      data-testid="popover-booking-link-compose"
+                    >
+                      <div className="flex items-center justify-between px-4 pt-4">
+                        <h4 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] text-black">
+                          Share booking link
+                        </h4>
+                        <button
+                          type="button"
+                          onClick={() => setShareOpen(false)}
+                          aria-label="Close"
+                          className="flex h-6 w-6 items-center justify-center rounded-full text-sui-neutral-b2 hover:bg-sui-neutral-b5"
+                          data-testid="button-booking-compose-close"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+
+                      <div className="flex flex-col gap-4 px-4 py-4">
+                        <div className="flex flex-col gap-1">
+                          <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
+                            Select booking type
+                          </label>
+                          <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base pl-2.5 pr-1.5">
+                            <span className="font-main-text text-[length:var(--main-text-font-size)] text-black">
+                              15-min follow-up with Andy Lau
+                            </span>
+                            <ChevronDown className="h-4 w-4 text-sui-neutral-b2" />
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                          <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
+                            Send via
+                          </label>
+                          <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base pl-2.5 pr-1.5">
+                            <span className="font-main-text text-[length:var(--main-text-font-size)] text-black">
+                              Meeting chat
+                            </span>
+                            <ChevronDown className="h-4 w-4 text-sui-neutral-b2" />
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                          <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
+                            Message
+                          </label>
+                          <div className="min-h-[48px] rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base px-4 pb-[15px] pt-4">
+                            <p className="font-main-text text-[length:var(--main-text-font-size)] text-black">
+                              Here's my booking link so you can choose a time
+                              that works for you:{" "}
+                              <span className="text-sui-cobranding">
+                                15-min follow-up with Andy Lau
+                              </span>
+                              .
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2 rounded-b-[10px] border-t border-solid border-sui-neutral-b0-t10 bg-white px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => setShareOpen(false)}
+                          className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-black hover:bg-sui-neutral-b5"
+                          data-testid="button-booking-compose-cancel"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShareOpen(false);
+                            setSnackbarOpen(true);
+                          }}
+                          className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-white hover:opacity-90"
+                          data-testid="button-booking-compose-send"
+                        >
+                          Send
+                        </button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </li>
               </ul>
             </section>
@@ -640,6 +629,20 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
           />
         </div>
       </footer>
+
+      <AvaUpsellDialog
+        open={upsellOpen}
+        onOpenChange={setUpsellOpen}
+        onFreeTrial={() => {
+          setPurchased(true);
+          toast({ description: "Bookings free trial started." });
+        }}
+      />
+      <SuiSnackbar
+        open={snackbarOpen}
+        onClose={() => setSnackbarOpen(false)}
+        message="Booking link sent to Meeting chat."
+      />
     </div>
   );
 };
