@@ -424,24 +424,27 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                   to reach out to two influencer agencies for proposals.
                 </li>
                 <li className="list-disc">
-                  <a className="font-medium text-[#0040dd] hover:underline" href="#">
-                    Andy Lau
-                  </a>{" "}
-                  to find a time slot for{" "}
-                  <ScheduleLinkMenu
-                    testIdPrefix="schedule-link-andy"
-                    showShareUpgradeIndicator={!purchased}
-                    onShareBookingLink={handleShareBookingLink}
-                  >
-                    a follow-up meeting next week
-                  </ScheduleLinkMenu>
-                  .
-                  {purchased && (
-                    <Popover open={shareOpen} onOpenChange={setShareOpen}>
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <a className="font-medium text-[#0040dd] hover:underline" href="#">
+                        Andy Lau
+                      </a>{" "}
+                      to find a time slot for{" "}
+                      <ScheduleLinkMenu
+                        testIdPrefix="schedule-link-andy"
+                        showShareUpgradeIndicator={!purchased}
+                        onShareBookingLink={handleShareBookingLink}
+                      >
+                        a follow-up meeting next week
+                      </ScheduleLinkMenu>
+                      .
+                    </span>
+                    {purchased && (
+                    <Popover open={shareOpen} onOpenChange={(o) => { if (o) setShareOpen(true); }}>
                       <PopoverTrigger asChild>
                         <span
                           aria-hidden="true"
-                          className="pointer-events-none invisible h-0 w-0"
+                          className="pointer-events-none block h-px w-px opacity-0"
                           data-testid="anchor-share-booking-link-andy"
                         />
                       </PopoverTrigger>
@@ -519,7 +522,8 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                       </div>
                       </PopoverContent>
                     </Popover>
-                  )}
+                    )}
+                  </div>
                 </li>
               </ul>
             </section>
