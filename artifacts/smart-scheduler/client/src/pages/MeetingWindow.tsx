@@ -440,7 +440,7 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                       .
                     </span>
                     {purchased && (
-                    <Popover open={shareOpen} onOpenChange={(o) => { if (o) setShareOpen(true); }}>
+                    <Popover open={shareOpen} onOpenChange={setShareOpen}>
                       <PopoverTrigger asChild>
                         <span
                           aria-hidden="true"

@@ -458,7 +458,7 @@ export const Text = (): JSX.Element => {
 
           {/* Composer */}
           <div className="bg-white px-4 py-3 sm:px-6">
-            <div className="rounded-lg p-2">
+            <div className="rounded-[10px] border border-[#dddfe5] bg-white p-2">
               <div
                 ref={composerRef}
                 contentEditable
