@@ -486,18 +486,6 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
 
                         <div className="flex flex-col gap-1">
                           <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
-                            Send via
-                          </label>
-                          <div className="flex h-8 items-center justify-between rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base pl-2.5 pr-1.5">
-                            <span className="font-main-text text-[length:var(--main-text-font-size)] text-black">
-                              Meeting chat
-                            </span>
-                            <ChevronDown className="h-4 w-4 text-sui-neutral-b2" />
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1">
-                          <label className="font-descriptor-mini text-[length:var(--descriptor-mini-font-size)] font-[number:var(--descriptor-mini-font-weight)] text-black">
                             Message
                           </label>
                           <div className="min-h-[48px] rounded-[10px] border border-solid border-sui-neutral-b0-t20 bg-sui-neutral-base px-4 pb-[15px] pt-4">
@@ -528,10 +516,10 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                             setShareOpen(false);
                             setSnackbarOpen(true);
                           }}
-                          className="flex h-8 min-w-[56px] items-center justify-center rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-white hover:opacity-90"
+                          className="flex h-8 items-center justify-center rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-[number:var(--subtitle-mini-font-weight)] text-white hover:opacity-90"
                           data-testid="button-booking-compose-send"
                         >
-                          Send
+                          Post in chat
                         </button>
                       </div>
                     </PopoverContent>
