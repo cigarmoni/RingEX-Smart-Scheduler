@@ -348,7 +348,7 @@ export const Chat = (): JSX.Element => {
               <Search className="h-4 w-4 text-[#56585e]" />
               <Input
                 placeholder="Search conversations"
-                className="h-auto flex-1 border-0 bg-transparent p-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="h-auto flex-1 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
                 data-testid="input-search-conversations"
               />
             </div>
@@ -580,7 +580,7 @@ export const Chat = (): JSX.Element => {
                 value={composer}
                 onChange={(e) => setComposer(e.target.value)}
                 placeholder="Type a message"
-                className="h-auto border-0 p-2 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="h-auto border-0 p-2 text-sm shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
                 data-testid="input-composer"
               />
               <div className="mt-1 flex flex-col gap-2">
