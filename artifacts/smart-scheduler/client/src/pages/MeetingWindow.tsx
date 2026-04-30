@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useSearch } from "wouter";
 import {
   ChevronDown,
@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
+import { FlowsLauncher } from "@/components/FlowsLauncher";
 import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
 import { SuiSnackbar } from "@/components/SuiSnackbar";
 import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
@@ -187,17 +188,10 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
   const { toast } = useToast();
   const [purchased, setPurchased] = useSmartSchedulerPurchased();
   const [shareOpen, setShareOpen] = useState(false);
-  const [upsellOpen, setUpsellOpen] = useState(false);
+  const [upsellOpen, setUpsellOpen] = useState(
+    () => autoOpenShareBooking && !purchased,
+  );
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  useEffect(() => {
-    if (!autoOpenShareBooking) return;
-    if (purchased) {
-      setShareOpen(true);
-    } else {
-      setUpsellOpen(true);
-    }
-  }, [autoOpenShareBooking, purchased]);
 
   const handleShareBookingLink = () => {
     if (purchased) {
@@ -442,20 +436,21 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                     a follow-up meeting next week
                   </ScheduleLinkMenu>
                   .
-                  <Popover open={shareOpen} onOpenChange={setShareOpen}>
-                    <PopoverTrigger asChild>
-                      <span
-                        aria-hidden="true"
-                        className="pointer-events-none invisible inline-block h-0 w-0 align-baseline"
-                        data-testid="anchor-share-booking-link-andy"
-                      />
-                    </PopoverTrigger>
-                    <PopoverContent
-                      side="top"
-                      align="start"
-                      className="z-[70] w-[400px] rounded-[10px] p-0"
-                      data-testid="popover-booking-link-compose"
-                    >
+                  {purchased && (
+                    <Popover open={shareOpen} onOpenChange={setShareOpen}>
+                      <PopoverTrigger asChild>
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none invisible h-0 w-0"
+                          data-testid="anchor-share-booking-link-andy"
+                        />
+                      </PopoverTrigger>
+                      <PopoverContent
+                        side="top"
+                        align="start"
+                        className="z-[70] w-[400px] rounded-[10px] p-0"
+                        data-testid="popover-booking-link-compose"
+                      >
                       <div className="flex items-center justify-between px-4 pt-4">
                         <h4 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] text-black">
                           Share booking link
@@ -522,8 +517,9 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                           Post in chat
                         </button>
                       </div>
-                    </PopoverContent>
-                  </Popover>
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </li>
               </ul>
             </section>
@@ -631,6 +627,7 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
         onClose={() => setSnackbarOpen(false)}
         message="Booking link sent to Meeting chat."
       />
+      <FlowsLauncher />
     </div>
   );
 };

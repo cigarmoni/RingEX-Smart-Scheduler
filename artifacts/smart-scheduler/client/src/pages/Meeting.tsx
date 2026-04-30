@@ -28,6 +28,7 @@ import {
   Xmd,
 } from "@ringcentral/spring-icon";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
+import { FlowsLauncher } from "@/components/FlowsLauncher";
 import { Button } from "@/components/ui/button";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
@@ -1645,6 +1646,7 @@ export const MeetingContent = ({
         </DialogContent>
       </Dialog>
     </section>
+    <FlowsLauncher />
     </>
   );
 };
