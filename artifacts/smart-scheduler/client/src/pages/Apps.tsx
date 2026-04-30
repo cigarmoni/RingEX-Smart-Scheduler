@@ -10,9 +10,11 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
+import { UpgradeIndicator } from "@/components/UpgradeIndicator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RingCentralIcon } from "@/components/BrandIcons";
+import { useIsBookingPurchased } from "@/lib/flows";
 
 type TabKey = "home" | "installed";
 
@@ -196,6 +198,7 @@ export const Apps = (): JSX.Element => {
   });
   const [query, setQuery] = useState("");
   const [bookingsIntroOpen, setBookingsIntroOpen] = useState(false);
+  const isPurchased = useIsBookingPurchased();
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -331,6 +334,7 @@ export const Apps = (): JSX.Element => {
               onQueryChange={setQuery}
               widgets={filtered}
               onAdd={handleAddWidget}
+              isPurchased={isPurchased}
             />
           ) : (
             <ComingSoon
@@ -353,11 +357,13 @@ const WidgetsView = ({
   onQueryChange,
   widgets,
   onAdd,
+  isPurchased,
 }: {
   query: string;
   onQueryChange: (v: string) => void;
   widgets: Widget[];
   onAdd: (id: string) => void;
+  isPurchased: boolean;
 }): JSX.Element => (
   <>
     <header className="flex flex-wrap items-center gap-3 border-b border-[#dddfe5] px-6 py-4">
@@ -420,7 +426,12 @@ const WidgetsView = ({
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {widgets.map((w) => (
-              <WidgetCard key={w.id} widget={w} onAdd={() => onAdd(w.id)} />
+              <WidgetCard
+                key={w.id}
+                widget={w}
+                onAdd={() => onAdd(w.id)}
+                showUpgradeIndicator={w.id === "bookings" && !isPurchased}
+              />
             ))}
           </div>
         )}
@@ -432,9 +443,11 @@ const WidgetsView = ({
 const WidgetCard = ({
   widget,
   onAdd,
+  showUpgradeIndicator = false,
 }: {
   widget: Widget;
   onAdd: () => void;
+  showUpgradeIndicator?: boolean;
 }): JSX.Element => (
   <article
     className="group relative flex flex-col gap-3 rounded-[10px] border border-[#dddfe5] bg-white p-5 transition-shadow hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
@@ -451,8 +464,13 @@ const WidgetCard = ({
     </button>
     <widget.Icon className="h-10 w-10" />
     <div className="flex flex-col gap-0.5">
-      <h3 className="font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tracking-[var(--subtitle-letter-spacing)] text-black [font-style:var(--subtitle-font-style)]">
-        {widget.name}
+      <h3 className="flex items-center gap-1.5 font-subtitle text-[length:var(--subtitle-font-size)] font-[number:var(--subtitle-font-weight)] leading-[var(--subtitle-line-height)] tracking-[var(--subtitle-letter-spacing)] text-black [font-style:var(--subtitle-font-style)]">
+        <span>{widget.name}</span>
+        {showUpgradeIndicator && (
+          <UpgradeIndicator
+            testId={`upgrade-indicator-widget-${widget.id}`}
+          />
+        )}
       </h3>
       <p className="text-[12px] leading-[15px] tracking-[0.2px] text-[#56585e]">
         {widget.vendorLabel}
