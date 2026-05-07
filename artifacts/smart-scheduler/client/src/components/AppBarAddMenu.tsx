@@ -87,10 +87,10 @@ export const AppBarAddMenu = ({
     event.preventDefault();
     setOpen(false);
     if (!isPurchased) {
-      setBookingIntroOpen(true);
+      window.setTimeout(() => setBookingIntroOpen(true), 50);
       return;
     }
-    setShareDialogOpen(true);
+    window.setTimeout(() => setShareDialogOpen(true), 50);
   };
 
   const noop = (event: Event) => {
