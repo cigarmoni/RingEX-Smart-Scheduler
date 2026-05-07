@@ -71,7 +71,7 @@ export const ShareBookingPopoverContent = ({
       </div>
 
       <Select
-        variant="outlined"
+        variant="outlined" fullWidth
         size="medium"
         label="Booking type"
         htmlFor={id("type")}
@@ -89,7 +89,7 @@ export const ShareBookingPopoverContent = ({
       </Select>
 
       <Select
-        variant="outlined"
+        variant="outlined" fullWidth
         size="medium"
         label="Send via"
         htmlFor={id("via")}
@@ -106,7 +106,7 @@ export const ShareBookingPopoverContent = ({
       {sendVia === "text" && (
         <>
           <Textarea
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="Text message"
             value={message}
@@ -117,7 +117,7 @@ export const ShareBookingPopoverContent = ({
             data-testid="textarea-share-popover-message"
           />
           <TextField
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="To"
             type="tel"
@@ -128,7 +128,7 @@ export const ShareBookingPopoverContent = ({
             data-testid="input-share-popover-to"
           />
           <TextField
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="From"
             type="tel"
@@ -144,7 +144,7 @@ export const ShareBookingPopoverContent = ({
       {sendVia === "chat" && (
         <>
           <TextField
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="Conversation"
             value={recipient}
@@ -154,7 +154,7 @@ export const ShareBookingPopoverContent = ({
             data-testid="input-share-popover-conversation"
           />
           <Textarea
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="Message"
             value={message}
@@ -170,7 +170,7 @@ export const ShareBookingPopoverContent = ({
       {sendVia === "email" && (
         <>
           <TextField
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="Email"
             type="email"
@@ -181,7 +181,7 @@ export const ShareBookingPopoverContent = ({
             data-testid="input-share-popover-email"
           />
           <Textarea
-            variant="outlined"
+            variant="outlined" fullWidth
             size="medium"
             label="Message"
             value={message}
