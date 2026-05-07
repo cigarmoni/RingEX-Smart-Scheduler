@@ -189,9 +189,9 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
 
   const handleShareBookingLink = () => {
     if (purchased) {
-      setShareOpen(true);
+      setTimeout(() => setShareOpen(true), 50);
     } else {
-      setUpsellOpen(true);
+      setTimeout(() => setUpsellOpen(true), 50);
     }
   };
 
