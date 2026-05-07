@@ -117,9 +117,9 @@ export const ShareBookingPopoverContent = ({
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="email">Email</SelectItem>
-            <SelectItem value="text">Text</SelectItem>
+            <SelectItem value="text">SMS</SelectItem>
             <SelectItem value="chat">Chat</SelectItem>
+            <SelectItem value="email">Email</SelectItem>
           </SelectContent>
         </Select>
       </div>
