@@ -33,11 +33,11 @@ import { useAva } from "@/contexts/AvaContext";
 import { FlowsLauncher } from "@/components/FlowsLauncher";
 import { useFlowParam, useCurrentPhase, hrefForPhase } from "@/lib/flows";
 import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
+import { AppBarAddMenu } from "@/components/AppBarAddMenu";
 
 const topActions = [
   { alt: "Compact view MD", src: "/figmaAssets/compactviewmd.svg" },
   { alt: "Dialpad MD", src: "/figmaAssets/dialpadmd.svg" },
-  { alt: "Plus MD", src: "/figmaAssets/plusmd.svg" },
 ];
 
 export type NavLabel =
@@ -221,12 +221,20 @@ export const AppShell = ({ activeNav, children, onNavigate }: AppShellProps): JS
                 </button>
               </div>
             </div>
-            <div className="ml-auto hidden items-center justify-end gap-1 pl-1.5 sm:flex sm:gap-2 sm:pr-2 md:pr-4">
-              {topActions.map((action) => (
-                <Button key={action.alt} variant="ghost" className="h-9 w-9 rounded-full p-0 hover:bg-white/10" aria-label={action.alt}>
-                  <img className="h-9 w-9" alt={action.alt} src={action.src} />
-                </Button>
-              ))}
+            <div className="ml-auto flex items-center justify-end gap-1.5 pl-1.5 sm:gap-1.5 sm:pr-2 md:pr-4">
+              <div className="hidden items-center gap-1.5 sm:flex">
+                {topActions.map((action) => (
+                  <button
+                    key={action.alt}
+                    type="button"
+                    aria-label={action.alt}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-[14px] bg-white p-0 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  >
+                    <img className="h-5 w-5" alt={action.alt} src={action.src} />
+                  </button>
+                ))}
+              </div>
+              <AppBarAddMenu />
             </div>
           </header>
           <div className="flex min-h-0 flex-1 items-stretch">

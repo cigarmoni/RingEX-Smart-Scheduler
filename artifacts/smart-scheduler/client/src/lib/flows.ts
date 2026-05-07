@@ -24,6 +24,7 @@ export const FLOWS: FlowEntry[] = [
   { id: "text", label: "Text", group: "before", route: "/text" },
   { id: "workflow", label: "Workflow", group: "before", route: "/workflows" },
   { id: "ava", label: "AVA", group: "before", route: "/", flow: "ava" },
+  { id: "global-add-menu", label: "Global add menu", group: "before", route: "/", flow: "global-add-menu" },
   { id: "settings-calendar", label: "Settings / Calendar", group: "before", route: "/settings", flow: "settings-calendars" },
   { id: "widget", label: "Widget", group: "before", route: "/apps" },
 
