@@ -37,6 +37,7 @@ export const FLOWS: FlowEntry[] = [
   { id: "after-text-booking-link", label: "Text", group: "after", route: "/text", flow: "after-text-booking-link" },
   { id: "after-workflow-send-link", label: "Workflow", group: "after", route: "/workflows", flow: "after-workflow-send-link" },
   { id: "after-ava-manage", label: "AVA", group: "after", route: "/", flow: "after-ava-manage" },
+  { id: "after-global-add-menu", label: "Global add menu", group: "after", route: "/", flow: "global-add-menu", setPurchased: true },
 ];
 
 export function useFlowParam(): string | null {
