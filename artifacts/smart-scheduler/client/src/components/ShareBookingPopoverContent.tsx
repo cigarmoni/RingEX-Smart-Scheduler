@@ -4,8 +4,8 @@ import {
   Option,
   TextField,
   Textarea,
+  Button,
 } from "@ringcentral/spring-ui";
-import { Button } from "@/components/ui/button";
 
 export interface ShareBookingPopoverContentProps {
   onCancel: () => void;
@@ -32,22 +32,25 @@ export const ShareBookingPopoverContent = ({
     <div
       className={
         stickyFooter
-          ? "flex justify-end gap-2 border-t border-sui-neutral-b4 bg-white px-4 py-3"
-          : "flex justify-end gap-2 pt-1"
+          ? "flex justify-end gap-2 border-t border-sui-neutral-b4 bg-white px-4 pt-4 pb-3"
+          : "flex justify-end gap-2 pt-4"
       }
     >
       <Button
-        variant="outline"
+        variant="outlined"
+        color="neutral"
+        size="medium"
         onClick={onCancel}
-        className="h-8 rounded-[10px] border border-sui-neutral-b4 bg-white px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black hover:bg-sui-neutral-b5"
         data-testid="button-share-popover-cancel"
       >
         Cancel
       </Button>
       <Button
+        variant="contained"
+        color="primary"
+        size="medium"
         onClick={onSend}
         disabled={recipient.trim().length === 0}
-        className="h-8 rounded-[10px] bg-sui-cobranding px-3 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-white hover:bg-sui-cobranding disabled:bg-sui-neutral-b4 disabled:text-white"
         data-testid="button-share-popover-send"
       >
         Send
