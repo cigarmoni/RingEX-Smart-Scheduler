@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useLocation, useSearch } from "wouter";
+import { useState } from "react";
+import { useLocation } from "wouter";
 import {
   ChevronDown,
   Flag,
@@ -181,30 +181,11 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
   const [activeTab, setActiveTab] = useState<"notes" | "transcript">("notes");
   const [muted, setMuted] = useState(false);
   const [videoOn, setVideoOn] = useState(false);
-  const search = useSearch();
-  const autoOpenShareBooking =
-    new URLSearchParams(search).get("flow") === "share-booking";
-
   const { toast } = useToast();
   const [purchased, setPurchased] = useSmartSchedulerPurchased();
-  const [shareOpen, setShareOpen] = useState(
-    () => autoOpenShareBooking && purchased,
-  );
-  const [upsellOpen, setUpsellOpen] = useState(
-    () => autoOpenShareBooking && !purchased,
-  );
+  const [shareOpen, setShareOpen] = useState(false);
+  const [upsellOpen, setUpsellOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  useEffect(() => {
-    if (!autoOpenShareBooking) return;
-    if (purchased) {
-      setShareOpen(true);
-      setUpsellOpen(false);
-    } else {
-      setUpsellOpen(true);
-      setShareOpen(false);
-    }
-  }, [autoOpenShareBooking, purchased]);
 
   const handleShareBookingLink = () => {
     if (purchased) {
