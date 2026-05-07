@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,10 +19,25 @@ export const ShareBookingDialog = ({
   onOpenChange,
   onSent,
 }: ShareBookingDialogProps): JSX.Element => {
+  useEffect(() => {
+    if (!open) return;
+    const id = window.setTimeout(() => {
+      if (document.body.style.pointerEvents === "none") {
+        document.body.style.pointerEvents = "";
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [open]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         data-testid="dialog-share-booking-global"
+        onOpenAutoFocus={(e) => {
+          if (document.body.style.pointerEvents === "none") {
+            document.body.style.pointerEvents = "";
+          }
+        }}
         className="w-[440px] max-w-[95vw] gap-0 overflow-hidden rounded-[14px] border-none bg-white p-4 sm:max-w-[440px]"
       >
         <VisuallyHidden>
