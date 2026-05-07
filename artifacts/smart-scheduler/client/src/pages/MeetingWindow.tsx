@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useSearch } from "wouter";
 import {
   ChevronDown,
@@ -187,11 +187,24 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
 
   const { toast } = useToast();
   const [purchased, setPurchased] = useSmartSchedulerPurchased();
-  const [shareOpen, setShareOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(
+    () => autoOpenShareBooking && purchased,
+  );
   const [upsellOpen, setUpsellOpen] = useState(
     () => autoOpenShareBooking && !purchased,
   );
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  useEffect(() => {
+    if (!autoOpenShareBooking) return;
+    if (purchased) {
+      setShareOpen(true);
+      setUpsellOpen(false);
+    } else {
+      setUpsellOpen(true);
+      setShareOpen(false);
+    }
+  }, [autoOpenShareBooking, purchased]);
 
   const handleShareBookingLink = () => {
     if (purchased) {
