@@ -447,6 +447,17 @@ export const MeetingWindow = (props: MeetingWindowProps = {}): JSX.Element => {
                         align="start"
                         className="z-[70] w-[400px] rounded-[10px] p-0"
                         data-testid="popover-booking-link-compose"
+                        onOpenAutoFocus={(e) => e.preventDefault()}
+                        onFocusOutside={(e) => e.preventDefault()}
+                        onPointerDownOutside={(e) => {
+                          const target = e.target as HTMLElement | null;
+                          if (
+                            target?.closest("[data-testid='schedule-link-andy-trigger']") ||
+                            target?.closest("[data-testid='schedule-link-andy-menu']")
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
                       >
                       <div className="flex items-center justify-between px-4 pt-4">
                         <h4 className="font-title text-[length:var(--title-font-size)] font-[number:var(--title-font-weight)] text-black">
