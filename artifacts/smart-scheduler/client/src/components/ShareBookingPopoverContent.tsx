@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import {
   Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Option,
+  TextField,
+  Textarea,
+} from "@ringcentral/spring-ui";
+import { Button } from "@/components/ui/button";
 
 export interface ShareBookingPopoverContentProps {
   onCancel: () => void;
@@ -17,13 +13,6 @@ export interface ShareBookingPopoverContentProps {
   idPrefix?: string;
   stickyFooter?: boolean;
 }
-
-const labelClass =
-  "font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] font-semibold text-black";
-const fieldClass =
-  "h-9 rounded-md border border-sui-neutral-b4 bg-white px-3 font-main-text text-[length:var(--main-text-font-size)] text-black";
-const textareaClass =
-  "min-h-[64px] rounded-md border border-sui-neutral-b4 bg-white p-2 font-main-text text-[length:var(--main-text-font-size)] text-black";
 
 export const ShareBookingPopoverContent = ({
   onCancel,
@@ -81,155 +70,129 @@ export const ShareBookingPopoverContent = ({
         Share booking link
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor={id("type")} className={labelClass}>
-          Booking type
-        </Label>
-        <Select value={bookingType} onValueChange={setBookingType}>
-          <SelectTrigger
-            id={id("type")}
-            className={fieldClass}
-            data-testid="select-share-popover-type"
-          >
-            <SelectValue placeholder="Select a booking type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="therapy-session-natalie">
-              Therapy session with Natalie
-            </SelectItem>
-            <SelectItem value="initial-consultation">Initial consultation</SelectItem>
-            <SelectItem value="follow-up-15">15 min follow-up</SelectItem>
-            <SelectItem value="discovery-call-30">30 min discovery call</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <Select
+        variant="outlined"
+        size="medium"
+        label="Booking type"
+        htmlFor={id("type")}
+        value={bookingType}
+        onChange={(e) => setBookingType(e.target.value)}
+        inputProps={{ id: id("type") }}
+        data-testid="select-share-popover-type"
+      >
+        <Option value="therapy-session-natalie">
+          Therapy session with Natalie
+        </Option>
+        <Option value="initial-consultation">Initial consultation</Option>
+        <Option value="follow-up-15">15 min follow-up</Option>
+        <Option value="discovery-call-30">30 min discovery call</Option>
+      </Select>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor={id("via")} className={labelClass}>
-          Send via
-        </Label>
-        <Select value={sendVia} onValueChange={setSendVia}>
-          <SelectTrigger
-            id={id("via")}
-            className={fieldClass}
-            data-testid="select-share-popover-via"
-          >
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="text">SMS</SelectItem>
-            <SelectItem value="chat">Chat</SelectItem>
-            <SelectItem value="email">Email</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <Select
+        variant="outlined"
+        size="medium"
+        label="Send via"
+        htmlFor={id("via")}
+        value={sendVia}
+        onChange={(e) => setSendVia(e.target.value)}
+        inputProps={{ id: id("via") }}
+        data-testid="select-share-popover-via"
+      >
+        <Option value="text">SMS</Option>
+        <Option value="chat">Chat</Option>
+        <Option value="email">Email</Option>
+      </Select>
 
       {sendVia === "text" && (
         <>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("message")} className={labelClass}>
-              Text message
-            </Label>
-            <Textarea
-              id={id("message")}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter text message"
-              className={textareaClass}
-              data-testid="textarea-share-popover-message"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("to")} className={labelClass}>
-              To
-            </Label>
-            <Input
-              id={id("to")}
-              value={recipient}
-              onChange={(e) => setRecipient(e.target.value)}
-              placeholder="(555) 555-5555"
-              className={fieldClass}
-              data-testid="input-share-popover-to"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("from")} className={labelClass}>
-              From
-            </Label>
-            <Input
-              id={id("from")}
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-              placeholder="(555) 555-5555"
-              className={fieldClass}
-              data-testid="input-share-popover-from"
-            />
-          </div>
+          <Textarea
+            variant="outlined"
+            size="medium"
+            label="Text message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Enter text message"
+            minRows={2}
+            inputProps={{ id: id("message") }}
+            data-testid="textarea-share-popover-message"
+          />
+          <TextField
+            variant="outlined"
+            size="medium"
+            label="To"
+            type="tel"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="(555) 555-5555"
+            inputProps={{ id: id("to") }}
+            data-testid="input-share-popover-to"
+          />
+          <TextField
+            variant="outlined"
+            size="medium"
+            label="From"
+            type="tel"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+            placeholder="(555) 555-5555"
+            inputProps={{ id: id("from") }}
+            data-testid="input-share-popover-from"
+          />
         </>
       )}
 
       {sendVia === "chat" && (
         <>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("conversation")} className={labelClass}>
-              Conversation
-            </Label>
-            <Input
-              id={id("conversation")}
-              value={recipient}
-              onChange={(e) => setRecipient(e.target.value)}
-              placeholder="Select conversation"
-              className={fieldClass}
-              data-testid="input-share-popover-conversation"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("message")} className={labelClass}>
-              Message
-            </Label>
-            <Textarea
-              id={id("message")}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter message"
-              className={textareaClass}
-              data-testid="textarea-share-popover-message"
-            />
-          </div>
+          <TextField
+            variant="outlined"
+            size="medium"
+            label="Conversation"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="Select conversation"
+            inputProps={{ id: id("conversation") }}
+            data-testid="input-share-popover-conversation"
+          />
+          <Textarea
+            variant="outlined"
+            size="medium"
+            label="Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Enter message"
+            minRows={2}
+            inputProps={{ id: id("message") }}
+            data-testid="textarea-share-popover-message"
+          />
         </>
       )}
 
       {sendVia === "email" && (
         <>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("email")} className={labelClass}>
-              Email
-            </Label>
-            <Input
-              id={id("email")}
-              value={recipient}
-              onChange={(e) => setRecipient(e.target.value)}
-              placeholder="name@example.com"
-              className={fieldClass}
-              data-testid="input-share-popover-email"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={id("message")} className={labelClass}>
-              Message
-            </Label>
-            <Textarea
-              id={id("message")}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter message"
-              className={textareaClass}
-              data-testid="textarea-share-popover-message"
-            />
-          </div>
+          <TextField
+            variant="outlined"
+            size="medium"
+            label="Email"
+            type="email"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="name@example.com"
+            inputProps={{ id: id("email") }}
+            data-testid="input-share-popover-email"
+          />
+          <Textarea
+            variant="outlined"
+            size="medium"
+            label="Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Enter message"
+            minRows={2}
+            inputProps={{ id: id("message") }}
+            data-testid="textarea-share-popover-message"
+          />
         </>
       )}
-
     </div>
   );
 
