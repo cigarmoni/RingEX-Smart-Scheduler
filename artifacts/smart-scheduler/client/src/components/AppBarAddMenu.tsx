@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "wouter";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CaretRightMd, PlusMd } from "@ringcentral/spring-icon";
 import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
 import { BookingFeatureDialog } from "@/components/BookingFeatureDialog";
+import { ShareBookingDialog } from "@/components/ShareBookingDialog";
 import { UpgradeIndicator } from "@/components/UpgradeIndicator";
-import { useCurrentPhase, useFlowParam, hrefForPhase } from "@/lib/flows";
+import { useFlowParam } from "@/lib/flows";
+import { useToast } from "@/hooks/use-toast";
 
 const itemRowClass =
   "group flex min-h-10 w-full cursor-default select-none items-center px-3 py-2.5 text-left text-black outline-none data-[highlighted]:bg-[#f5f6f9] data-[state=open]:bg-[#f5f6f9]";
@@ -73,10 +74,10 @@ export const AppBarAddMenu = ({
 }: AppBarAddMenuProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [bookingIntroOpen, setBookingIntroOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [isPurchased] = useSmartSchedulerPurchased();
-  const [, navigate] = useLocation();
-  const phase = useCurrentPhase();
   const flow = useFlowParam();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (flow === "global-add-menu") setOpen(true);
@@ -89,7 +90,7 @@ export const AppBarAddMenu = ({
       setBookingIntroOpen(true);
       return;
     }
-    navigate(hrefForPhase("/", phase));
+    setShareDialogOpen(true);
   };
 
   const noop = (event: Event) => {
@@ -205,6 +206,12 @@ export const AppBarAddMenu = ({
       <BookingFeatureDialog
         open={bookingIntroOpen}
         onOpenChange={setBookingIntroOpen}
+      />
+
+      <ShareBookingDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
+        onSent={() => toast({ description: "Booking link sent" })}
       />
     </>
   );
