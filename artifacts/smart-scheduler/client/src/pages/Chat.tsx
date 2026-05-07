@@ -704,7 +704,7 @@ export const Chat = (): JSX.Element => {
                     className="flex items-start gap-2 rounded-md px-2 py-2 text-left hover:bg-[#f5f6f9]"
                     data-testid={`booking-type-${bt.id}`}
                   >
-                    <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#0040dd]" />
+                    <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#72757a]" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-semibold text-black">
                         {bt.title}
