@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFlowParam } from "@/lib/flows";
+import { useSmartSchedulerPurchased } from "@/lib/smartScheduler";
 import {
   Settings as SettingsIcon,
   MessageSquare,
@@ -15,10 +16,11 @@ import {
   Sparkles,
   Lock,
   Keyboard,
-  X,
+  Copy,
 } from "lucide-react";
+import MicrosoftColoredMd from "@ringcentral/spring-icon/MicrosoftColoredMd";
+import { Button, Select, Option } from "@ringcentral/spring-ui";
 import {
-  ExchangeIcon,
   GoogleIcon,
   AppleCalendarIcon,
   RingCentralIcon,
@@ -26,16 +28,8 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { AvaUpsellDialog } from "@/components/AvaUpsellDialog";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { SuiSnackbar } from "@/components/SuiSnackbar";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 type CategoryKey =
   | "general"
@@ -70,21 +64,73 @@ const categories: { key: CategoryKey; label: string; Icon: typeof SettingsIcon }
   { key: "shortcuts", label: "Keyboard shortcuts", Icon: Keyboard },
 ];
 
+const DEFAULT_BOOKING_LINK = "https://bookings.ringcentral.com/natalie-brown/30min";
+
 export const Settings = (): JSX.Element => {
   const [active, setActive] = useState<CategoryKey>("calendars");
   const [showPromo, setShowPromo] = useState(true);
   const [featureIntroOpen, setFeatureIntroOpen] = useState(false);
   const [defaultContact, setDefaultContact] = useState("ringcentral");
+  const [defaultBookingCalendar, setDefaultBookingCalendar] = useState("microsoft");
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: "",
+  });
   const flow = useFlowParam();
+  const [smartSchedulerPurchased] = useSmartSchedulerPurchased();
 
   useEffect(() => {
-    if (flow === "settings-calendars") {
+    if (flow === "settings-calendars" || flow === "after-settings-calendar") {
       setActive("calendars");
-      setShowPromo(true);
+      if (flow === "settings-calendars") {
+        setShowPromo(true);
+      }
     }
   }, [flow]);
 
-  const activeCategory = categories.find((c) => c.key === active)!;
+  const activeCategory =
+    categories.find((c) => c.key === active) ?? categories[0];
+
+  const contactOptions: Record<string, { label: string; icon: React.ReactNode }> = {
+    ringcentral: { label: "RingCentral", icon: <RingCentralIcon className="h-4 w-4" /> },
+    google: { label: "Google", icon: <GoogleIcon className="h-4 w-4" /> },
+    microsoft: { label: "Microsoft", icon: <MicrosoftColoredMd className="h-4 w-4" /> },
+    apple: { label: "Apple", icon: <AppleCalendarIcon className="h-4 w-4" /> },
+  };
+  const bookingCalendarOptions: Record<string, { label: string; icon: React.ReactNode }> = {
+    microsoft: { label: "Microsoft 365", icon: <MicrosoftColoredMd className="h-4 w-4" /> },
+    google: { label: "Google", icon: <GoogleIcon className="h-4 w-4" /> },
+    apple: { label: "Apple", icon: <AppleCalendarIcon className="h-4 w-4" /> },
+  };
+  const renderOptionValue = (
+    map: Record<string, { label: string; icon: React.ReactNode }>,
+    value: unknown,
+  ): React.ReactNode => {
+    const entry = map[value as string];
+    if (!entry) return null;
+    return (
+      <span className="flex items-center gap-2">
+        {entry.icon}
+        {entry.label}
+      </span>
+    );
+  };
+
+  const accountActionButton = (
+    label: string,
+    icon: React.ReactNode,
+    testId: string,
+  ) => (
+    <Button
+      variant="outlined"
+      color="secondary"
+      size="medium"
+      startIcon={icon}
+      data-testid={testId}
+    >
+      {label}
+    </Button>
+  );
 
   return (
     <AppShell>
@@ -136,7 +182,7 @@ export const Settings = (): JSX.Element => {
           <div className="flex-1 px-4 py-6 sm:px-6">
             {active === "calendars" ? (
               <div className="mx-auto flex max-w-3xl flex-col gap-6">
-                {showPromo && (
+                {!smartSchedulerPurchased && showPromo && (
                   <FeatureIntroBanner
                     data-testid="card-promo"
                     title="Add online booking to your business"
@@ -174,16 +220,11 @@ export const Settings = (): JSX.Element => {
                   <Row
                     label="Exchange account connection"
                     description="Connect your Microsoft Exchange account to access your calendars and contacts"
-                    action={
-                      <Button
-                        variant="outline"
-                        className="h-9 gap-2 rounded-[10px] border-[#dddfe5] bg-white px-4 text-black hover:bg-[#f5f6f9]"
-                        data-testid="button-connect-exchange"
-                      >
-                        <ExchangeIcon className="h-5 w-5" />
-                        <span className="text-[#0040dd]">Connect Exchange</span>
-                      </Button>
-                    }
+                    action={accountActionButton(
+                      "Connect Exchange",
+                      <MicrosoftColoredMd className="h-5 w-5" />,
+                      "button-connect-exchange",
+                    )}
                   />
                 </Section>
 
@@ -191,16 +232,11 @@ export const Settings = (): JSX.Element => {
                   <Row
                     label="Account connection"
                     description="Connect your Google account to access your Drive, calendars, and contacts."
-                    action={
-                      <Button
-                        variant="outline"
-                        className="h-9 gap-2 rounded-[10px] border-[#dddfe5] bg-white px-4 text-black hover:bg-[#f5f6f9]"
-                        data-testid="button-connect-google"
-                      >
-                        <GoogleIcon className="h-5 w-5" />
-                        <span className="text-[#0040dd]">Connect Google</span>
-                      </Button>
-                    }
+                    action={accountActionButton(
+                      "Connect Google",
+                      <GoogleIcon className="h-5 w-5" />,
+                      "button-connect-google",
+                    )}
                   />
                 </Section>
 
@@ -208,57 +244,146 @@ export const Settings = (): JSX.Element => {
                   <Row
                     label="Calendar"
                     description="Connect your Calendar account to access your calendars"
-                    action={
-                      <Button
-                        variant="outline"
-                        className="h-9 gap-2 rounded-[10px] border-[#dddfe5] bg-white px-4 text-black hover:bg-[#f5f6f9]"
-                        data-testid="button-connect-apple"
-                      >
-                        <AppleCalendarIcon className="h-5 w-5" />
-                        <span className="text-[#0040dd]">Connect with Calendar</span>
-                      </Button>
-                    }
+                    action={accountActionButton(
+                      "Connect with Calendar",
+                      <AppleCalendarIcon className="h-5 w-5" />,
+                      "button-connect-apple",
+                    )}
                   />
                 </Section>
+
+                {smartSchedulerPurchased && (
+                  <Section title="Bookings">
+                    <Row
+                      label="Default calendar used for Bookings"
+                      description="Choose which connected calendar Bookings uses to check availability and create events."
+                      action={
+                        <Select
+                          size="medium"
+                          variant="outlined"
+                          value={defaultBookingCalendar}
+                          onChange={(e) =>
+                            setDefaultBookingCalendar(
+                              (e.target as HTMLInputElement).value,
+                            )
+                          }
+                          renderValue={(val) =>
+                            renderOptionValue(bookingCalendarOptions, val)
+                          }
+                          selectorProps={{
+                            "data-testid": "select-default-booking-calendar",
+                          } as React.ComponentProps<"div">}
+                          className="w-[220px]"
+                        >
+                          <Option value="microsoft">
+                            <span className="flex items-center gap-2">
+                              <MicrosoftColoredMd className="h-4 w-4" />
+                              Microsoft 365
+                            </span>
+                          </Option>
+                          <Option value="google">
+                            <span className="flex items-center gap-2">
+                              <GoogleIcon className="h-4 w-4" />
+                              Google
+                            </span>
+                          </Option>
+                          <Option value="apple">
+                            <span className="flex items-center gap-2">
+                              <AppleCalendarIcon className="h-4 w-4" />
+                              Apple
+                            </span>
+                          </Option>
+                        </Select>
+                      }
+                    />
+                    <Separator className="bg-[#dddfe5]" />
+                    <Row
+                      label="Default booking link"
+                      description={
+                        <div className="flex flex-col gap-1">
+                          <span className="font-mono text-[13px] text-[#56585e] break-all">
+                            {DEFAULT_BOOKING_LINK}
+                          </span>
+                          <a
+                            href="#"
+                            onClick={(e) => e.preventDefault()}
+                            className="font-main-text text-[length:var(--main-text-font-size)] text-[#0040dd] hover:underline w-fit"
+                            data-testid="link-manage-bookings"
+                          >
+                            Manage bookings
+                          </a>
+                        </div>
+                      }
+                      action={
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          size="medium"
+                          startIcon={<Copy className="h-4 w-4" />}
+                          data-testid="button-copy-booking-link"
+                          onClick={() => {
+                            navigator.clipboard
+                              ?.writeText(DEFAULT_BOOKING_LINK)
+                              .catch(() => {});
+                            setSnackbar({
+                              open: true,
+                              message: "Link copied to clipboard",
+                            });
+                          }}
+                        >
+                          Copy
+                        </Button>
+                      }
+                    />
+                  </Section>
+                )}
 
                 <Section title="Contacts">
                   <Row
                     label="Default  new contact to"
                     description="Set your default contact source for creating a new contact"
                     action={
-                      <Select value={defaultContact} onValueChange={setDefaultContact}>
-                        <SelectTrigger
-                          className="h-9 w-[200px] rounded-[10px] border-[#dddfe5]"
-                          data-testid="select-default-contact"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="ringcentral">
-                            <span className="flex items-center gap-2">
-                              <RingCentralIcon className="h-4 w-4" />
-                              RingCentral
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="google">
-                            <span className="flex items-center gap-2">
-                              <GoogleIcon className="h-4 w-4" />
-                              Google
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="microsoft">
-                            <span className="flex items-center gap-2">
-                              <ExchangeIcon className="h-4 w-4" />
-                              Microsoft
-                            </span>
-                          </SelectItem>
-                          <SelectItem value="apple">
-                            <span className="flex items-center gap-2">
-                              <AppleCalendarIcon className="h-4 w-4" />
-                              Apple
-                            </span>
-                          </SelectItem>
-                        </SelectContent>
+                      <Select
+                        size="medium"
+                        variant="outlined"
+                        value={defaultContact}
+                        onChange={(e) =>
+                          setDefaultContact(
+                            (e.target as HTMLInputElement).value,
+                          )
+                        }
+                        renderValue={(val) =>
+                          renderOptionValue(contactOptions, val)
+                        }
+                        selectorProps={{
+                          "data-testid": "select-default-contact",
+                        } as React.ComponentProps<"div">}
+                        className="w-[220px]"
+                      >
+                        <Option value="ringcentral">
+                          <span className="flex items-center gap-2">
+                            <RingCentralIcon className="h-4 w-4" />
+                            RingCentral
+                          </span>
+                        </Option>
+                        <Option value="google">
+                          <span className="flex items-center gap-2">
+                            <GoogleIcon className="h-4 w-4" />
+                            Google
+                          </span>
+                        </Option>
+                        <Option value="microsoft">
+                          <span className="flex items-center gap-2">
+                            <MicrosoftColoredMd className="h-4 w-4" />
+                            Microsoft
+                          </span>
+                        </Option>
+                        <Option value="apple">
+                          <span className="flex items-center gap-2">
+                            <AppleCalendarIcon className="h-4 w-4" />
+                            Apple
+                          </span>
+                        </Option>
                       </Select>
                     }
                   />
@@ -284,6 +409,11 @@ export const Settings = (): JSX.Element => {
       <AvaUpsellDialog
         open={featureIntroOpen}
         onOpenChange={setFeatureIntroOpen}
+      />
+      <SuiSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
       />
     </AppShell>
   );
@@ -314,7 +444,7 @@ const Row = ({
 }: {
   icon?: React.ReactNode;
   label: string;
-  description?: string;
+  description?: React.ReactNode;
   action: React.ReactNode;
 }): JSX.Element => (
   <div className="flex items-center justify-between gap-4 px-4 py-3">

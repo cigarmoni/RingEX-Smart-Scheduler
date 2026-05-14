@@ -40,6 +40,7 @@ export const FLOWS: FlowEntry[] = [
   { id: "after-workflow-send-link", label: "Workflow", group: "after", route: "/workflows", flow: "after-workflow-send-link" },
   { id: "after-ava-manage", label: "AVA", group: "after", route: "/", flow: "after-ava-manage" },
   { id: "after-global-add-menu", label: "Global add menu", group: "after", route: "/", flow: "global-add-menu", setPurchased: true },
+  { id: "after-settings-calendar", label: "Settings / Calendar", group: "after", route: "/settings", flow: "after-settings-calendar", setPurchased: true },
 ];
 
 export function useFlowParam(): string | null {
@@ -87,7 +88,7 @@ const ROUTE_PHASE_FLOW: Record<string, Partial<Record<FlowGroup, string>>> = {
   "/phone/post-call": { before: "post-call" },
   "/text": { before: "text", after: "after-text-booking-link" },
   "/workflows": { before: "workflow", after: "after-workflow-send-link" },
-  "/settings": { before: "settings-calendar", after: "settings-calendar" },
+  "/settings": { before: "settings-calendar", after: "after-settings-calendar" },
   "/meeting-window": { before: "in-meeting", after: "after-meeting-share-link" },
   "/meeting": { before: "meeting-tab", after: "after-meeting-tab" },
 };
