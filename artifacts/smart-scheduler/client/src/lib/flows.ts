@@ -17,6 +17,7 @@ export interface FlowEntry {
 export const FLOWS: FlowEntry[] = [
   { id: "booking-tab", label: "Booking tab", group: "before", route: "/" },
   { id: "chat", label: "Chat", group: "before", route: "/chat" },
+  { id: "meeting-tab", label: "Meeting tab", group: "before", route: "/meeting" },
   { id: "in-meeting", label: "In meeting", group: "before", route: "/", flow: "in-meeting" },
   { id: "post-meeting", label: "Post meeting", group: "before", route: "/", flow: "post-meeting" },
   { id: "in-call", label: "In call", group: "before", route: "/phone", flow: "in-call" },
@@ -30,6 +31,7 @@ export const FLOWS: FlowEntry[] = [
 
   { id: "after-booking-initial-setup", label: "Booking tab", group: "after", route: "/", flow: "after-booking-initial-setup" },
   { id: "after-chat-booking-link", label: "Chat", group: "after", route: "/chat", flow: "after-chat-booking-link" },
+  { id: "after-meeting-tab", label: "Meeting tab", group: "after", route: "/meeting", flow: "after-meeting-tab", setPurchased: true },
   { id: "after-meeting-share-link", label: "In meeting", group: "after", route: "/meeting-window", flow: "share-booking", setPurchased: true },
   { id: "after-post-meeting-share-link", label: "Post meeting", group: "after", route: "/meeting", flow: "after-post-meeting-share-link", setPurchased: true },
   { id: "after-call-share-link", label: "In call", group: "after", route: "/phone", flow: "after-call-share-link" },
@@ -87,6 +89,7 @@ const ROUTE_PHASE_FLOW: Record<string, Partial<Record<FlowGroup, string>>> = {
   "/workflows": { before: "workflow", after: "after-workflow-send-link" },
   "/settings": { before: "settings-calendar", after: "settings-calendar" },
   "/meeting-window": { after: "after-meeting-share-link" },
+  "/meeting": { before: "meeting-tab", after: "after-meeting-tab" },
 };
 
 export function hrefForPhase(href: string, phase: FlowGroup | null): string {

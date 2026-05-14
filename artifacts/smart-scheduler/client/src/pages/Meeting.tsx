@@ -32,7 +32,9 @@ import { FlowsLauncher } from "@/components/FlowsLauncher";
 import { Button } from "@/components/ui/button";
 import { FeatureIntroBanner } from "@/components/FeatureIntroBanner";
 import { ScheduleLinkMenu } from "@/components/ScheduleLinkMenu";
+import { ShareBookingDialog } from "@/components/ShareBookingDialog";
 import { ShareBookingPopoverContent } from "@/components/ShareBookingPopoverContent";
+import { UpgradeIndicator } from "@/components/UpgradeIndicator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -352,10 +354,11 @@ export const MeetingContent = ({
   const [shareFrom, setShareFrom] = useState("");
   const [meetingWindowOpen, setMeetingWindowOpen] = useState(false);
   const [scheduleMeetingOpen, setScheduleMeetingOpen] = useState(false);
+  const [scheduleDropdownOpen, setScheduleDropdownOpen] = useState(false);
+  const [shareBookingDialogOpen, setShareBookingDialogOpen] = useState(false);
   const [scheduleSettingsOpen, setScheduleSettingsOpen] = useState(false);
   const [scheduleProviderMenuOpen, setScheduleProviderMenuOpen] = useState(false);
   const [scheduleProvider, setScheduleProvider] = useState<"outlook" | "google" | "ical">("outlook");
-  const [scheduleBannerDismissed, setScheduleBannerDismissed] = useState(false);
   const { toast } = useToast();
   const flow = useFlowParam();
 
@@ -385,7 +388,9 @@ export const MeetingContent = ({
   }, [flow]);
 
   const bookingLinkPurchased =
-    flow === "after-meeting-share-link" || flow === "after-post-meeting-share-link";
+    flow === "after-meeting-share-link" ||
+    flow === "after-post-meeting-share-link" ||
+    flow === "after-meeting-tab";
   const sharePopoverVariant = flow === "after-post-meeting-share-link";
   const [sharePopoverOpen, setSharePopoverOpen] = useState(false);
   const justOpenedSharePopoverRef = useRef(false);
@@ -640,19 +645,61 @@ export const MeetingContent = ({
                       <ChevronDown className="h-3 w-3" />
                     </span>
                   </div>
-                  <div className="flex flex-col items-center gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => setScheduleMeetingOpen(true)}
-                      className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-[#dddfe5] bg-white text-[#323439] hover:bg-[#f5f6f9]"
-                      data-testid="button-schedule-meeting"
+                  <Popover open={scheduleDropdownOpen} onOpenChange={setScheduleDropdownOpen}>
+                    <PopoverTrigger asChild>
+                      <div className="flex cursor-pointer flex-col items-center gap-1.5" data-testid="schedule-dropdown-trigger">
+                        <button
+                          type="button"
+                          className="flex h-14 w-14 items-center justify-center rounded-xl border border-solid border-[#dddfe5] bg-white text-[#323439] hover:bg-[#f5f6f9]"
+                          data-testid="button-schedule-meeting"
+                        >
+                          <Calendar className="h-6 w-6" />
+                        </button>
+                        <span className="flex items-center gap-0.5 font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black">
+                          Schedule
+                          <ChevronDown className="h-3 w-3" />
+                        </span>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="center"
+                      sideOffset={6}
+                      className="w-[240px] rounded-[10px] border border-solid border-[#00000033] bg-white p-1 shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
+                      data-testid="popover-schedule-dropdown"
                     >
-                      <Calendar className="h-6 w-6" />
-                    </button>
-                    <span className="font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black">
-                      Schedule
-                    </span>
-                  </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setScheduleDropdownOpen(false);
+                          setScheduleMeetingOpen(true);
+                        }}
+                        className="flex w-full items-center rounded-md px-3 py-2.5 text-left font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black hover:bg-[#f5f6f9]"
+                        data-testid="menu-item-schedule-a-meeting"
+                      >
+                        Schedule a meeting
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setScheduleDropdownOpen(false);
+                          if (bookingLinkPurchased) {
+                            window.setTimeout(() => setShareBookingDialogOpen(true), 50);
+                          } else {
+                            window.setTimeout(() => setFeatureIntroOpen(true), 50);
+                          }
+                        }}
+                        className="flex w-full items-center rounded-md px-3 py-2.5 text-left font-subtitle-mini text-[length:var(--subtitle-mini-font-size)] text-black hover:bg-[#f5f6f9]"
+                        data-testid="menu-item-share-booking-link"
+                      >
+                        <span className="flex-1">Share a booking link</span>
+                        {!bookingLinkPurchased && (
+                          <span className="ml-2 flex shrink-0 items-center">
+                            <UpgradeIndicator testId="menu-item-share-booking-link-upgrade" />
+                          </span>
+                        )}
+                      </button>
+                    </PopoverContent>
+                  </Popover>
                   <div className="flex flex-col items-center gap-1.5">
                     <button
                       type="button"
@@ -1100,6 +1147,12 @@ export const MeetingContent = ({
         onOpenChange={setFeatureIntroOpen}
       />
 
+      <ShareBookingDialog
+        open={shareBookingDialogOpen}
+        onOpenChange={setShareBookingDialogOpen}
+        onSent={() => toast({ description: "Booking link sent" })}
+      />
+
       <Dialog open={shareOpen} onOpenChange={setShareOpen}>
         <DialogContent
           className="max-w-[440px] gap-4 rounded-xl bg-white p-6"
@@ -1312,34 +1365,6 @@ export const MeetingContent = ({
               Schedule meeting
             </DialogTitle>
           </DialogHeader>
-
-          {!scheduleBannerDismissed && (
-            <FeatureIntroBanner
-              data-testid="banner-schedule-meeting-intro"
-              tagLabel="Add-on"
-              title="Let invitees book themselves"
-              description={
-                <>
-                  Turn on <strong className="font-bold">Bookings</strong> to
-                  share one link. Invitees see when you're free and grab a slot
-                  in seconds.
-                </>
-              }
-              action={{
-                label: "Learn more",
-                testId: "link-schedule-meeting-banner-learn-more",
-                onClick: () => {
-                  setScheduleMeetingOpen(false);
-                  toast({
-                    title: "Smart scheduler",
-                    description: "Add Smart scheduler from the Bookings tab.",
-                  });
-                },
-              }}
-              onDismiss={() => setScheduleBannerDismissed(true)}
-              dismissTestId="button-schedule-meeting-banner-dismiss"
-            />
-          )}
 
           <p
             className="font-main-text text-[length:var(--main-text-font-size)] leading-[var(--main-text-line-height)] text-[#323439]"
