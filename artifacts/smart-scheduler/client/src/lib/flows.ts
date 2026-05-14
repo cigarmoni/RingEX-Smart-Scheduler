@@ -18,7 +18,7 @@ export const FLOWS: FlowEntry[] = [
   { id: "booking-tab", label: "Booking tab", group: "before", route: "/" },
   { id: "chat", label: "Chat", group: "before", route: "/chat" },
   { id: "meeting-tab", label: "Meeting tab", group: "before", route: "/meeting" },
-  { id: "in-meeting", label: "In meeting", group: "before", route: "/", flow: "in-meeting" },
+  { id: "in-meeting", label: "In meeting", group: "before", route: "/meeting-window", flow: "in-meeting" },
   { id: "post-meeting", label: "Post meeting", group: "before", route: "/", flow: "post-meeting" },
   { id: "in-call", label: "In call", group: "before", route: "/phone", flow: "in-call" },
   { id: "post-call", label: "Post call", group: "before", route: "/phone/post-call" },
@@ -88,7 +88,7 @@ const ROUTE_PHASE_FLOW: Record<string, Partial<Record<FlowGroup, string>>> = {
   "/text": { before: "text", after: "after-text-booking-link" },
   "/workflows": { before: "workflow", after: "after-workflow-send-link" },
   "/settings": { before: "settings-calendar", after: "settings-calendar" },
-  "/meeting-window": { after: "after-meeting-share-link" },
+  "/meeting-window": { before: "in-meeting", after: "after-meeting-share-link" },
   "/meeting": { before: "meeting-tab", after: "after-meeting-tab" },
 };
 

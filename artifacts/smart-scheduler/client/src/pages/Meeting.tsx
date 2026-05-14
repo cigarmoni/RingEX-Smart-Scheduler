@@ -607,7 +607,7 @@ export const MeetingContent = ({
             {activeTab === "UPCOMING" ? (
               <>
                 {/* Promo banner */}
-                {!bannerDismissed && (
+                {!bannerDismissed && !bookingLinkPurchased && (
                   <div className="px-4 pt-4">
                     <FeatureIntroBanner
                       data-testid="banner-promo"
